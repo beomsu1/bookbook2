@@ -1,23 +1,21 @@
-package org.bs.rental.mapper.member;
+package org.bs.rental.service;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
 import org.bs.rental.dto.member.MemberUpdateDTO;
 import org.bs.rental.util.page.PageRequestDTO;
+import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
-@Mapper
-public interface MemberMapper {
+@Transactional
+public interface MemberService {
 
     // List
-    List<MemberListDTO> memberList(PageRequestDTO pageRequsetDTO);
-
-    // Total
-    int total(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<MemberListDTO> memberList(PageRequestDTO pageRequsetDTO);
 
     // Create
     int memberCreate(MemberCreateDTO memberCreateDTO);
@@ -30,14 +28,5 @@ public interface MemberMapper {
 
     // Delete
     int memberDelete(@Param("id") String id);
-
-    // id 중복 검사
-    boolean isIdExists(@Param("id") String id);
-
-    // email 중복 검사
-    boolean isEmailExists(@Param("email") String email);
-
-    // nickname 중복 검사
-    boolean isNicknameExists(@Param("nickname") String nickname);
-
+    
 }

@@ -4,12 +4,14 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
+import org.bs.rental.dto.member.MemberListDTO;
 import org.bs.rental.dto.member.MemberUpdateDTO;
 import org.bs.rental.mapper.member.MemberMapper;
+import org.bs.rental.util.page.PageRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +32,54 @@ public class MemberMapperTests {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    // Member List Mapper Test
     @Test
-    @DisplayName("회원 생성 테스트")
-    // @Transactional
+    @DisplayName("회원 리스트 매퍼 테스트")
+    @Transactional
+    public void memberListMapperTest(){
+
+        // Given
+        log.info("Member List Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder()
+        .type("i")
+        .keyword("beomsu")
+        .build();
+
+        // When
+        List<MemberListDTO> list = memberMapper.memberList(pageRequestDTO);
+
+        // Then
+        log.info("List: " + list);
+
+        log.info("Member List Mapper Test Complete");
+        
+    }
+
+    // Member Total Mapper Test
+    @Test
+    @DisplayName("회원 토탈 매퍼 테스트")
+    @Transactional
+    public void memberTotalMapperTest(){
+
+        // Given
+        log.info("Member Total Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        // When
+        int result = memberMapper.total(pageRequestDTO);
+
+        // Then
+        log.info("result: " + result);
+
+        log.info("Member Total Mapper Test Complete");
+    }
+
+    // Member Create Mapper Test
+    @Test
+    @DisplayName("회원 생성 매퍼 테스트")
+    @Transactional
     public void memberCreateMapperTest() {
 
         // Given
@@ -88,9 +135,9 @@ public class MemberMapperTests {
         log.info("Member Create Mapper Test Complete");
     }
 
-    // Member Read One
+    // Member Read One Mapper Test
     @Test
-    @DisplayName("회원 정보 조회 테스트")
+    @DisplayName("회원 정보 조회 매퍼 테스트")
     @Transactional
     public void memberReadOneMapperTest() {
 
@@ -103,13 +150,14 @@ public class MemberMapperTests {
 
         // Then
         log.info(memberDTO.toString());
+
         log.info("Member Read One Mapper Test Complete");
     }
 
-    // Member Update
+    // Member Update Mapper Test
     @Test
-    @DisplayName("회원 정보 수정 테스트")
-    // @Transactional
+    @DisplayName("회원 정보 수정 매퍼 테스트")
+    @Transactional
     public void memberUpdateMapperTest() {
         // Given
         log.info("Member Update Mapper Test Start");
@@ -123,7 +171,7 @@ public class MemberMapperTests {
         // 객체 생성
         MemberUpdateDTO memberUpdateDTO = MemberUpdateDTO.builder()
                 .id(id)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .email(email)
                 .emailAuth(emailAuth)
                 .phoneNumber(phoneNumber)
@@ -131,9 +179,6 @@ public class MemberMapperTests {
                 .build();
 
         // When
-
-        // id로 조회 후 변경
-        MemberDTO memberDTO = memberMapper.memberReadOne(memberUpdateDTO.getId());
 
         // 중복 검사
         if (memberMapper.isEmailExists(memberUpdateDTO.getEmail())) {
@@ -144,25 +189,42 @@ public class MemberMapperTests {
             throw new DuplicateKeyException("중복된 닉네임입니다.");
         }
 
-        memberDTO.update(
-                memberUpdateDTO.getPassword(),
-                memberUpdateDTO.getEmail(),
-                memberUpdateDTO.isEmailAuth(),
-                memberUpdateDTO.getPhoneNumber(),
-                memberUpdateDTO.getNickname());
+        memberMapper.memberUpdate(memberUpdateDTO);
 
         // Then
         assertAll(
-                () -> assertEquals(id, memberDTO.getId()),
-                () -> assertEquals(password, memberDTO.getPassword()),
-                () -> assertEquals(email, memberDTO.getEmail()),
-                () -> assertEquals(emailAuth, memberDTO.isEmailAuth()),
-                () -> assertEquals(phoneNumber, memberDTO.getPhoneNumber()),
-                () -> assertEquals(nickname, memberDTO.getNickname()));
+                () -> assertEquals(id, memberUpdateDTO.getId()),
+                () -> assertEquals(email, memberUpdateDTO.getEmail()),
+                () -> assertEquals(emailAuth, memberUpdateDTO.isEmailAuth()),
+                () -> assertEquals(phoneNumber, memberUpdateDTO.getPhoneNumber()),
+                () -> assertEquals(nickname, memberUpdateDTO.getNickname()));
 
-        log.info(memberDTO.toString());
+        log.info(memberUpdateDTO.toString());
 
         log.info("Member Update Mapper Test Complete");
+    }
+
+    // Member Delete Mapper Test
+    @Test
+    @DisplayName("회원 탈퇴 매퍼 테스트")
+    @Transactional
+    public void memberDeleteMapperTest(){
+
+        // Given
+        log.info("Member Delete Mapper Test Start");
+        String id = "beomsu1221";
+
+        // When
+        int result = memberMapper.memberDelete(id);
+
+        // Then
+        if(result == 1){
+            log.info("회원 탈퇴가 정상적으로 되었습니다.");
+        } else {
+            log.info("회원 탈퇴가 정상적으로 되지 않았습니다.");
+        }
+
+        log.info("Member Delete Mapper Test Complete");
     }
 
 }

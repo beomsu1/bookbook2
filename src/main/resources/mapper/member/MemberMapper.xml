@@ -5,11 +5,85 @@
 <mapper namespace="org.bs.rental.mapper.member.MemberMapper">
 
 <!-- Member List -->
+<select id="memberList" resultType="org.bs.rental.dto.member.MemberListDTO">
+    select
+        m.id,
+        m.email,
+        m.phone_number,
+        m.nickname,
+        m.birthDate,
+        m.accountDate
+    from
+        member m
+    where
+        accountDate > 0
+        <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "i"'>
+                        m.id like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "e"'>
+                        m.email like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "n"'>
+                        m.nickname like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "p"'>
+                        m.phone_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "b"'>
+                        m.birthDate like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "a"'>
+                        m.accountDate &gt;= #{keyword}
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+    order by
+        m.accountDate desc
+    limit #{skip}, #{size}
+</select>
+
+<!-- Member Total -->
+<select id="total">
+    select count(*)
+    from
+    (select m.accountDate 
+        from member m
+    where m.accountDate > 0
+        <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "i"'>
+                        m.id like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "e"'>
+                        m.email like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "n"'>
+                        m.nickname like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "p"'>
+                        m.phone_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "b"'>
+                        m.birthDate like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "a"'>
+                        m.accountDate &gt;= #{keyword}
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+    limit #{countEnd}) member
+</select>
 
 <!-- Member Create -->
 <insert id="memberCreate" parameterType="org.bs.rental.dto.member.MemberCreateDTO">
-    INSERT INTO member (id, password, email, email_auth, phone_number, nickname, birthDate)
-    VALUES (#{id}, #{password}, #{email}, #{emailAuth}, #{phoneNumber}, #{nickname}, #{birthDate})
+    insert into member (id, password, email, email_auth, phone_number, nickname, birthDate)
+    values (#{id}, #{password}, #{email}, #{emailAuth}, #{phoneNumber}, #{nickname}, #{birthDate})
 </insert>
 
 <!-- Member Read One -->
@@ -18,8 +92,22 @@ select * from member where id = #{id}
 </select>
 
 <!-- Member Update -->
+<update id="memberUpdate" parameterType="org.bs.rental.dto.member.MemberUpdateDTO">
+    update member
+    set 
+        password = #{password},
+        email = #{email},
+        email_auth = #{emailAuth},
+        phone_number = #{phoneNumber},
+        nickname = #{nickname}
+    where
+        id = #{id}
+</update>
 
 <!-- Member Delete -->
+<delete id="memberDelete">
+delete from member where id = #{id}
+</delete>
 
 
 <!-- id 중복 검사 -->
