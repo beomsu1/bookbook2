@@ -1,7 +1,5 @@
 package org.bs.rental.service;
 
-import java.util.List;
-
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
