@@ -30,6 +30,11 @@ public class CustomSecurityConfig {
 
         });
 
+        // csrf 토큰 비활성화
+        http.csrf(config -> {
+            config.disable();
+        });
+
         return http.build();
     }
 

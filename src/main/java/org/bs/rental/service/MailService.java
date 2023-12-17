@@ -1,14 +1,12 @@
 package org.bs.rental.service;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.springframework.transaction.annotation.Transactional;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 
 @Transactional
-public interface EmailService {
+public interface MailService {
 
     // 랜덤 코드 생성
     String createdCode();
@@ -25,7 +23,4 @@ public interface EmailService {
     // 코드 검증
     Boolean verifyEmailCode(String email, String code);
 
-    // 고유 회원ID 생성
-    String makeMemberId(String email) throws NoSuchAlgorithmException;
-    
 }
