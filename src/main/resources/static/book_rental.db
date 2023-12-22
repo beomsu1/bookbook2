@@ -1,0 +1,40 @@
+-- member
+CREATE TABLE member (
+    id VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    email_auth BOOLEAN NOT NULL DEFAULT FALSE,
+    phone_number VARCHAR(20),
+    nickname VARCHAR(50) NOT NULL UNIQUE,
+    birthDate DATE,
+    accountDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    role VARCHAR(50) DEFAULT 'USER'
+);
+
+-- book
+CREATE TABLE book (
+    book_number INT auto_increment PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author VARCHAR(100),
+    isbn VARCHAR(13) UNIQUE,
+    publication_date DATE,
+    publisher VARCHAR(100),
+    language VARCHAR(50),
+    total_pages INT,
+    thumbnail_url VARCHAR(255),
+    description TEXT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- loan
+CREATE TABLE loan (
+    id INT PRIMARY KEY,
+    book_id INT,
+    member_id VARCHAR(255),
+    start_date DATETIME DEFAULT CURRENT_TIMESTAMP, 
+    due_date DATETIME,
+    return_date DATETIME,
+    status VARCHAR(20) DEFAULT 'AVAILABLE', -- AVAILABLE, CHECKED_OUT
+    FOREIGN KEY (book_id) REFERENCES book(id),
+    FOREIGN KEY (member_id) REFERENCES member(id)
+);

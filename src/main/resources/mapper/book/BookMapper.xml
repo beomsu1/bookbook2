@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.book.BookMapper">
+
+    <!-- Book List -->
+    <select id="bookList" resultType="org.bs.rental.dto.book.BookListDTO">
+        select
+            b.id,
+            b.title,
+            b.author,
+            b.publication_date,
+            b.publisher,
+            b.language,
+            b.total_pages,
+            b.thumbnail_url,
+            COALESCE(l.status, 'AVAILABLE') AS bookStatus
+        from book b
+        left join loan l ON b.id = l.book_id
+        order by b.id desc
+        limit #{skip}, #{size}
+    </select>
+
+    <!-- Book Total -->
+    <select id="bookTotal">
+        select COUNT(*)
+        from book
+    </select>
+
+    <!-- Book Create -->
+    <insert id="bookCreate" parameterType="org.bs.rental.dto.book.BookCreateDTO">
+        insert into book (
+            title, author, isbn, publication_date, publisher, language, total_pages, thumbnail_url, description)
+        values (
+            #{title}, #{author}, #{isbn}, #{publicationDate},
+            #{publisher}, #{language}, #{totalPages},
+            <choose>
+                <when test="thumbnailUrl == null">
+                    '기본_썸네일_URL'
+                </when>
+                <otherwise>
+                    #{thumbnailUrl}
+                </otherwise>
+            </choose>,
+            #{description}
+        )
+    </insert>
+
+    <!-- Book Read -->
+    <select id="bookRead" resultType="org.bs.rental.dto.book.BookDTO">
+        select * from book
+        where book_number = #{bookNumber}
+    </select>
+
+    <!-- Book Update -->
+    <update id="bookUpdate" parameterType="org.bs.rental.dto.book.BookUpdateDTO">
+        update book
+        set title = #{title},
+            author = #{author},
+            isbn = #{isbn},
+            publication_date = #{publicationDate},
+            publisher = #{publisher},
+            language = #{language},
+            total_pages = #{totalPages},
+            thumbnail_url = #{thumbnailUrl},
+            description = #{description}
+        where book_number = #{bookNumber}
+    </update>
+
+    <!-- Book Delete -->
+    <delete id="bookDelete">
+        delete from book
+        where book_number = #{bookNumber}
+    </delete>
+
+</mapper>
