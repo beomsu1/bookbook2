@@ -8,7 +8,7 @@
     <!-- Book List -->
     <select id="bookList" resultType="org.bs.rental.dto.book.BookListDTO">
         select
-            b.id,
+            b.book_number,
             b.title,
             b.author,
             b.publication_date,
@@ -16,17 +16,70 @@
             b.language,
             b.total_pages,
             b.thumbnail_url,
-            COALESCE(l.status, 'AVAILABLE') AS bookStatus
+            l.status as bookStatus
         from book b
-        left join loan l ON b.id = l.book_id
-        order by b.id desc
+        left join loan l on b.book_number = l.book_number
+        where b.book_number > 0
+        <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "n"'>
+                        b.book_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "t"'>
+                        b.title like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "a"'>
+                        b.author like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "p"'>
+                        b.publisher like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "l"'>
+                        b.language like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "s"'>
+                       l.status like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+        order by b.book_number desc
         limit #{skip}, #{size}
     </select>
 
     <!-- Book Total -->
     <select id="bookTotal">
         select COUNT(*)
-        from book
+        from
+        (select b.book_number
+            from book b
+            where b.book_number > 0
+                    <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "n"'>
+                        b.book_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "t"'>
+                        b.title like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "a"'>
+                        b.author like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "p"'>
+                        b.publisher like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "l"'>
+                        b.language like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "s"'>
+                       l.status like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+            limit #{countEnd}) book
     </select>
 
     <!-- Book Create -->

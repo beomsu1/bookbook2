@@ -3,11 +3,14 @@ package org.bs.rental.mapper;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
+import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.mapper.book.BookMapper;
+import org.bs.rental.util.page.PageRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +33,17 @@ public class BookMapperTests {
     public void bookListMapperTest(){
 
         // Given
+        log.info("Book List Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
+       List<BookListDTO> list = bookMapper.bookList(pageRequestDTO);
 
         // Then
+        log.info("list: " + list.toString());
+
+        log.info("Book List Mapper Test Complete");
     }
 
     // Book Total Mapper Test
@@ -43,16 +53,23 @@ public class BookMapperTests {
     public void bookTotalMapperTest(){
 
         // Given
+        log.info("Book Total Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
+        int reuslt = bookMapper.bookTotal(pageRequestDTO);
 
         // Then
+        log.info("result: " + reuslt);
+
+        log.info("Book Total Mapper Test Complete");
     }
 
     // Book Create Mapper Test
     @Test
     @DisplayName("책 등록 매퍼 테스트")
-    @Transactional
+    // @Transactional
     public void bookCreateMapperTest(){
 
         // Given
@@ -61,7 +78,7 @@ public class BookMapperTests {
         BookCreateDTO bookCreateDTO = BookCreateDTO.builder()
         .title("book1")
         .author("beomsu")
-        .isbn("123-321123")
+        .isbn("AHHGBZ-12")
         .publicationDate(LocalDate.of(2023, 12, 23))
         .publisher("blue")
         .language("한국어")

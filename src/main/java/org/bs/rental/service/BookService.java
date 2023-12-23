@@ -1,22 +1,16 @@
-package org.bs.rental.mapper.book;
+package org.bs.rental.service;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.util.page.PageRequestDTO;
+import org.bs.rental.util.page.PageResponseDTO;
 
-@Mapper
-public interface BookMapper {
+public interface BookService {
 
     // List
-    List<BookListDTO> bookList(PageRequestDTO pageRequestDTO);
-
-    // Total
-    int bookTotal(PageRequestDTO pageRequestDTO);
+    PageResponseDTO<BookListDTO> bookList(PageRequestDTO pageRequestDTO);
 
     // Book Create
     int bookCreate(BookCreateDTO bookCreateDTO);
@@ -29,5 +23,5 @@ public interface BookMapper {
 
     // Book Delete
     int bookDelete(Long bookNumber);
-    
+
 }
