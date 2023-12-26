@@ -6,7 +6,9 @@ import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
+import org.springframework.transaction.annotation.Transactional;
 
+@Transactional
 public interface BookService {
 
     // List
