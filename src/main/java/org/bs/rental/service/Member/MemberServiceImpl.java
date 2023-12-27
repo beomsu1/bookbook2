@@ -1,4 +1,4 @@
-package org.bs.rental.service.impl;
+package org.bs.rental.service.Member;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
 import org.bs.rental.dto.member.MemberUpdateDTO;
 import org.bs.rental.mapper.member.MemberMapper;
-import org.bs.rental.service.MemberService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.dao.DuplicateKeyException;

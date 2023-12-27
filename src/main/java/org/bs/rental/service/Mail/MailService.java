@@ -1,4 +1,4 @@
-package org.bs.rental.service;
+package org.bs.rental.service.Mail;
 
 import org.springframework.transaction.annotation.Transactional;
 

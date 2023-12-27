@@ -1,5 +1,7 @@
-package org.bs.rental.service;
+package org.bs.rental.service.Book;
 
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Update;
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
@@ -25,5 +27,11 @@ public interface BookService {
 
     // Book Delete
     int bookDelete(Long bookNumber);
+
+    // Status To Available
+    int bookStatusToAvailable(@Param("bookNumber") Long bookNumber);
+
+    // Status To Borrow
+    int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
 
 }

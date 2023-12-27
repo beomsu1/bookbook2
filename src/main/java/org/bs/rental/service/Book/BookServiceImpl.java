@@ -1,4 +1,4 @@
-package org.bs.rental.service.impl;
+package org.bs.rental.service.Book;
 
 import java.util.List;
 
@@ -7,7 +7,6 @@ import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.mapper.book.BookMapper;
-import org.bs.rental.service.BookService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.stereotype.Service;
@@ -71,6 +70,20 @@ public class BookServiceImpl implements BookService{
         log.info("Book Delete Service Imple Start");
 
         return bookMapper.bookDelete(bookNumber);
+    }
+
+    // Book Status To Available
+    @Override
+    public int bookStatusToAvailable(Long bookNumber) {
+
+        return bookMapper.bookStatusToAvailable(bookNumber);
+    }
+
+    // Book Status To Borrow
+    @Override
+    public int bookStatusToBorrowed(Long bookNumber) {
+
+        return bookMapper.bookStatusToBorrowed(bookNumber);
     }
     
 }

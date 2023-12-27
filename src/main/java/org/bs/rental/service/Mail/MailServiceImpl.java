@@ -1,8 +1,7 @@
-package org.bs.rental.service.impl;
+package org.bs.rental.service.Mail;
 
 import java.util.Random;
 
-import org.bs.rental.service.MailService;
 import org.bs.rental.util.redis.RedisUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;

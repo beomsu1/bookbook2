@@ -1,4 +1,4 @@
-package org.bs.rental.service;
+package org.bs.rental.service.Member;
 
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
