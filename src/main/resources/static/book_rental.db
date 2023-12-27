@@ -13,7 +13,7 @@ CREATE TABLE member (
 
 -- book
 CREATE TABLE book (
-    book_number INT auto_increment PRIMARY KEY,
+    book_number BIGINT auto_increment PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     author VARCHAR(100),
     isbn VARCHAR(13) UNIQUE,
@@ -23,18 +23,19 @@ CREATE TABLE book (
     total_pages INT,
     thumbnail_url VARCHAR(255),
     description TEXT,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    status VARCHAR(20) DEFAULT '대출 가능'
 );
 
 -- loan
 CREATE TABLE loan (
-    id INT PRIMARY KEY,
-    book_id INT,
+    lno BIGINT auto_increment PRIMARY key ,
+    book_number BIGINT,
     member_id VARCHAR(255),
     start_date DATETIME DEFAULT CURRENT_TIMESTAMP, 
     due_date DATETIME,
     return_date DATETIME,
-    status VARCHAR(20) DEFAULT 'AVAILABLE', -- AVAILABLE, CHECKED_OUT
-    FOREIGN KEY (book_id) REFERENCES book(id),
+    status VARCHAR(20) DEFAULT '대출 중', -- 반납 완료, 대출 중
+    FOREIGN KEY (book_number) REFERENCES book(book_number) ON DELETE CASCADE,
     FOREIGN KEY (member_id) REFERENCES member(id)
 );

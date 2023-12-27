@@ -16,9 +16,8 @@
             b.language,
             b.total_pages,
             b.thumbnail_url,
-            l.status as bookStatus
+            b.status
         from book b
-        left join loan l on b.book_number = l.book_number
         where b.book_number > 0
         <if test="keyword != null and types != null">
             <trim prefix="AND (" prefixOverrides="OR" suffix=")">
@@ -39,7 +38,7 @@
                         b.language like concat('%', #{keyword}, '%')
                     </if>
                     <if test='type == "s"'>
-                       l.status like concat('%', #{keyword}, '%')
+                       b.status like concat('%', #{keyword}, '%')
                     </if>
                 </foreach>
             </trim>

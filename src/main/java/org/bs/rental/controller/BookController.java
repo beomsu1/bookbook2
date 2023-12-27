@@ -4,7 +4,7 @@ import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
-import org.bs.rental.service.BookService;
+import org.bs.rental.service.Book.BookService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.stereotype.Controller;

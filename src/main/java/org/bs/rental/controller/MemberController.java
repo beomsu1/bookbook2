@@ -4,7 +4,7 @@ import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
 import org.bs.rental.dto.member.MemberUpdateDTO;
-import org.bs.rental.service.MemberService;
+import org.bs.rental.service.Member.MemberService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.security.core.Authentication;

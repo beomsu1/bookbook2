@@ -165,4 +165,45 @@ public class BookMapperTests {
         log.info("Book Delete Mapper Test Complete");
     }
     
+    // Book Status to Available
+    @Test
+    @DisplayName("대출 가능으로 상태 변경 매퍼 테스트")
+    @Transactional
+    public void bookStatusToAvailableMapperTest(){
+
+        // Given
+        log.info("Book Status To Available Mapper Test Start");
+
+        Long bookNumber = 1L;
+
+        // When
+        int result = bookMapper.bookStatusToAvailable(bookNumber);
+
+        // Then
+        assertEquals(1, result);
+
+        log.info("Book Status To Available Mapper Test Complete");
+
+    }
+
+    // Book Status To Borrow
+    @Test
+    @DisplayName("대출 중으로 상태 변경 매퍼 테스트")
+    @Transactional
+    public void bookStatusToBorrowedMapperTest(){
+
+        // Given
+        log.info("Book Status To Borrowed Mapper Test Start");
+
+        Long bookNumber = 1L;
+
+        // When
+        int result = bookMapper.bookStatusToBorrowed(bookNumber);
+
+        // Then
+        assertEquals(1, result);
+
+        log.info("Book Status To Borrowed Mapper Test Complete");
+    }
+    
 }

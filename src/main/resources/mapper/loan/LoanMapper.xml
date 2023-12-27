@@ -1,0 +1,70 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.loan.LoanMapper">
+
+    <!-- Loan List -->
+    <select id="loanList" resultType="org.bs.rental.dto.loan.LoanDTO">
+        select
+            l.lno,
+            l.book_number,
+            l.member_iD,
+            l.start_date,
+            l.due_date,
+            l.return_date,
+            l.status
+        from loan l
+        where l.lno > 0
+        <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "n"'>
+                        l.book_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "m"'>
+                        l.member_id like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+        order by l.lno desc
+        limit #{skip}, #{size}
+    </select>
+
+    <!-- Book Total -->
+    <select id="loanTotal">
+        select COUNT(*)
+        from
+        (select l.lno
+            from loan l
+            where l.lno > 0
+        <if test="keyword != null and types != null">
+            <trim prefix="AND (" prefixOverrides="OR" suffix=")">
+                <foreach collection="types" item="type" separator=" OR ">
+                    <if test='type == "n"'>
+                        l.book_number like concat('%', #{keyword}, '%')
+                    </if>
+                    <if test='type == "m"'>
+                        l.member_id like concat('%', #{keyword}, '%')
+                    </if>
+                </foreach>
+            </trim>
+        </if>
+            limit #{countEnd}) book
+    </select>
+
+    <!-- Book Boroow -->
+    <insert id="bookBorrow" parameterType="org.bs.rental.dto.loan.BookBorrowDTO">
+        insert INTO loan (book_number, member_id, due_date)
+        values (#{bookNumber}, #{memberId}, #{dueDate});
+    </insert>
+
+    <!-- Book Return -->
+    <update id="bookReturn" parameterType="org.bs.rental.dto.loan.BookReturnDTO">
+        update loan
+        set status = '반납 완료', return_date = CURRENT_TIMESTAMP
+        where book_number = #{bookNumber}
+    </update>
+
+
+</mapper>

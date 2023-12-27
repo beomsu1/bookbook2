@@ -23,5 +23,6 @@ public class BookDTO {
     private int total_pages;
     private String thumbnail_url;
     private String description;
+    private String status;
 
 }

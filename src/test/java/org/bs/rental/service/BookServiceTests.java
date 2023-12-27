@@ -1,7 +1,6 @@
 package org.bs.rental.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.same;
 
 import java.time.LocalDate;
 
@@ -9,7 +8,7 @@ import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
-import org.bs.rental.mapper.book.BookMapper;
+import org.bs.rental.service.Book.BookService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.junit.jupiter.api.DisplayName;
@@ -146,5 +145,45 @@ public class BookServiceTests {
         assertEquals(1, result);
 
         log.info("Book Delete Service Test Complete");
+    }
+
+    // Book Status To Available Service
+    @Test
+    @DisplayName("대출 가능으로 상태 변경 서비스 테스트")
+    @Transactional
+    public void bookStatusToAvailableServiceTest(){
+
+        // Given
+        log.info("Book Stauts To Available Service Test Start");
+
+        Long bookNumber = 1L;
+
+        // When
+        int result = bookService.bookStatusToAvailable(bookNumber);
+
+        // Then
+        assertEquals(1,result);
+
+        log.info("Book Status To Available Service Test Complete");
+    }
+
+    // Book Status To Borrow Service
+    @Test
+    @DisplayName("대출 중으로 상태 변경 서비스 테스트")
+    @Transactional
+    public void bookStatusToBorrowedServiceTest(){
+
+        // Given
+        log.info("Book Status To Borrowed Service Test Start");
+
+        Long bookNumber = 1L;
+
+        // When
+        int result = bookService.bookStatusToBorrowed(bookNumber);
+
+        // Then
+        assertEquals(1,result);
+
+        log.info("Book Status To Borrowed Service Test Complete");
     }
 }

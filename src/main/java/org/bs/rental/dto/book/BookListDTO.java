@@ -15,6 +15,6 @@ public class BookListDTO {
     private String language;
     private int total_pages;
     private String thumbnail_url;
-    private String bookStatus; // 대출 상태
+    private String status;
     
 }
