@@ -1,7 +1,8 @@
 package org.bs.rental.service.Book;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Update;
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
@@ -33,5 +34,8 @@ public interface BookService {
 
     // Status To Borrow
     int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
+
+    // 전체 도서 가져오기
+    void booksCreate(List<BookDTO> books);
 
 }
