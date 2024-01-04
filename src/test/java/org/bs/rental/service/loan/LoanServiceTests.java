@@ -1,4 +1,4 @@
-package org.bs.rental.service;
+package org.bs.rental.service.loan;
 
 import org.bs.rental.dto.loan.BookBorrowDTO;
 import org.bs.rental.dto.loan.BookReturnDTO;

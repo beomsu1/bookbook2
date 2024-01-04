@@ -1,4 +1,4 @@
-package org.bs.rental.service;
+package org.bs.rental.service.member;
 
 import java.time.LocalDate;
 

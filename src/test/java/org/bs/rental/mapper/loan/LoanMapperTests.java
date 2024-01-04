@@ -1,4 +1,4 @@
-package org.bs.rental.mapper;
+package org.bs.rental.mapper.loan;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package org.bs.rental.service;
+package org.bs.rental.service.mail;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 

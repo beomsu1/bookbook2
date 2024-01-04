@@ -1,4 +1,4 @@
-package org.bs.rental.mapper;
+package org.bs.rental.mapper.book;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -9,7 +9,6 @@ import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
-import org.bs.rental.mapper.book.BookMapper;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -132,7 +131,6 @@ public class BookMapperTests {
         .publisher("lbs")
         .language("한국어")
         .totalPages(221)
-        .thumbnailUrl("https://www.naver.com")
         .description("book")
         .build();
 

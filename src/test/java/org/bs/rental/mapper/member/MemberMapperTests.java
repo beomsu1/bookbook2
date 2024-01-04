@@ -1,4 +1,4 @@
-package org.bs.rental.mapper;
+package org.bs.rental.mapper.member;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
