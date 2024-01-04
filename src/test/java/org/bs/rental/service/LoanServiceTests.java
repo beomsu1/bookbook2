@@ -1,7 +1,5 @@
 package org.bs.rental.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.bs.rental.dto.loan.BookBorrowDTO;
 import org.bs.rental.dto.loan.BookReturnDTO;
 import org.bs.rental.dto.loan.LoanDTO;

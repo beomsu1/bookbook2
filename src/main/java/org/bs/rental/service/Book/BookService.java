@@ -35,7 +35,4 @@ public interface BookService {
     // Status To Borrow
     int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
 
-    // 전체 도서 가져오기
-    void booksCreate(List<BookDTO> books);
-
 }

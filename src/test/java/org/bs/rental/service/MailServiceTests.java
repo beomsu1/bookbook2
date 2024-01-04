@@ -2,8 +2,6 @@ package org.bs.rental.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.security.NoSuchAlgorithmException;
-
 import org.bs.rental.service.Mail.MailService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

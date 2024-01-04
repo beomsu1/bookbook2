@@ -1,16 +1,12 @@
 package org.bs.rental.controller;
 
-import java.util.List;
-
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.service.Book.BookService;
-import org.bs.rental.util.naver.NaverBookAPIUtil;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -30,8 +25,6 @@ import lombok.extern.log4j.Log4j2;
 public class BookController {
 
     private final BookService bookService;
-
-    private final NaverBookAPIUtil naverBookAPIUtil;
 
     // Book List
     @GetMapping("list")
@@ -110,19 +103,6 @@ public class BookController {
         bookService.bookDelete(bookNumber);
 
         return "redirect:/book/list";
-    }
-
-    @GetMapping("save-all")
-    public ResponseEntity<String> saveAllBooksToDatabase(@RequestParam String query,
-            @RequestParam(defaultValue = "10") int pageSize) {
-
-        // 1. 네이버 도서 API로 도서 정보 검색
-        List<BookDTO> naverBooks = naverBookAPIUtil.searchAllBooks(query, pageSize);
-
-        // 2. DB에 저장
-        bookService.booksCreate(naverBooks);
-
-        return ResponseEntity.ok("All books saved to database successfully");
     }
 
 }

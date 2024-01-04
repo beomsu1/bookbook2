@@ -85,27 +85,5 @@ public class BookServiceImpl implements BookService{
 
         return bookMapper.bookStatusToBorrowed(bookNumber);
     }
-
-    // 전체 도서 가져오기
-    @Override
-    public void booksCreate(List<BookDTO> books) {
-
-        for(BookDTO book : books){
-
-            BookCreateDTO bookCreateDTO = BookCreateDTO.builder()
-            .title(book.getTitle())
-            .author(book.getAuthor())
-            .isbn(book.getIsbn())
-            .publicationDate(book.getPublication_date())
-            .publisher(book.getPublisher())
-            .language(book.getLanguage())
-            .totalPages(book.getTotal_pages())
-            .thumbnailUrl(book.getThumbnail_url())
-            .description(book.getDescription())
-            .build();
-
-            bookCreate(bookCreateDTO);
-        }
-    }
     
 }

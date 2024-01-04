@@ -71,9 +71,10 @@ public class NaverBookAPIUtil {
         return allBooks;
     }
 
-    public void saveAllBooksToDatabase(String query, int pageSize) {
-        List<BookDTO> allBooks = searchAllBooks(query, pageSize);
-        bookService.booksCreate(allBooks);
-    }
+    // public void saveAllBooksToDatabase(String query, int pageSize) {
+    //     List<BookDTO> allBooks = searchAllBooks(query, pageSize);
+    //     bookService.booksCreate(allBooks);
+    // }
+    
 }
     
