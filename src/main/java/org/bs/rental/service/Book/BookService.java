@@ -18,13 +18,13 @@ public interface BookService {
     PageResponseDTO<BookListDTO> bookList(PageRequestDTO pageRequestDTO);
 
     // Book Create
-    int bookCreate(BookCreateDTO bookCreateDTO);
+    void bookCreate(BookCreateDTO bookCreateDTO);
 
     // Book Read
     BookDTO bookRead(Long bookNumber);
 
     // Book Update
-    int bookUpdate(BookUpdateDTO bookUpdateDTO);
+    void bookUpdate(BookUpdateDTO bookUpdateDTO);
 
     // Book Delete
     int bookDelete(Long bookNumber);

@@ -50,6 +50,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// thumbnail
+	implementation 'net.coobird:thumbnailator:0.4.19'
+
 	// ogal
 	implementation 'ognl:ognl:3.2.19'
 

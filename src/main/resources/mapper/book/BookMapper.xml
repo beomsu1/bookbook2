@@ -84,20 +84,13 @@
     <!-- Book Create -->
     <insert id="bookCreate" parameterType="org.bs.rental.dto.book.BookCreateDTO">
         insert into book (
-            title, author, isbn, publication_date, publisher, language, total_pages, thumbnail_url, description)
+            title, author, isbn, publication_date, publisher, language, total_pages, description)
         values (
             #{title}, #{author}, #{isbn}, #{publicationDate},
-            #{publisher}, #{language}, #{totalPages},
-            <choose>
-                <when test="thumbnailUrl == null">
-                    '기본_썸네일_URL'
-                </when>
-                <otherwise>
-                    #{thumbnailUrl}
-                </otherwise>
-            </choose>,
-            #{description}
-        )
+            #{publisher}, #{language}, #{totalPages},#{description})
+        <selectKey resultType="long" keyProperty="bookNumber" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
     </insert>
 
     <!-- Book Read -->
@@ -116,7 +109,6 @@
             publisher = #{publisher},
             language = #{language},
             total_pages = #{totalPages},
-            thumbnail_url = #{thumbnailUrl},
             description = #{description}
         where book_number = #{bookNumber}
     </update>

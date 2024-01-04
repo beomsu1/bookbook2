@@ -1,11 +1,16 @@
 package org.bs.rental.service.Book;
 
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
+import org.bs.rental.dto.book.BookImageDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.mapper.book.BookImageMapper;
 import org.bs.rental.mapper.book.BookMapper;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
@@ -17,9 +22,11 @@ import lombok.extern.log4j.Log4j2;
 @Service
 @Log4j2
 @RequiredArgsConstructor
-public class BookServiceImpl implements BookService{
+public class BookServiceImpl implements BookService {
 
     private final BookMapper bookMapper;
+
+    private final BookImageMapper bookImageMapper;
 
     // List
     @Override
@@ -31,18 +38,43 @@ public class BookServiceImpl implements BookService{
         List<BookListDTO> list = bookMapper.bookList(pageRequestDTO);
 
         return PageResponseDTO.<BookListDTO>builder()
-        .total(total)
-        .list(list)
-        .build();
+                .total(total)
+                .list(list)
+                .build();
     }
 
     // Book Create
     @Override
-    public int bookCreate(BookCreateDTO bookCreateDTO) {
+    public void bookCreate(BookCreateDTO bookCreateDTO) {
 
         log.info("Book Create Service Impl Start");
 
-        return bookMapper.bookCreate(bookCreateDTO);
+        List<String> fnames = bookCreateDTO.getFnames();
+
+        // 게시물 등록
+        int count = bookMapper.bookCreate(bookCreateDTO);
+
+        if (count > 0 && bookCreateDTO.getFnames() != null && !bookCreateDTO.getFnames().isEmpty()) {
+
+            Long bookNumber = bookCreateDTO.getBookNumber();
+
+            AtomicInteger index = new AtomicInteger();
+
+            List<Map<String, String>> list = fnames.stream().map(str -> {
+
+                String uuid = str.substring(0, 36);
+
+                String fname = str.substring(37);
+
+                // 맵들을 리스트로 묶기
+                return Map.of("uuid", uuid, "fname", fname, "bookNumber", "" + bookNumber, "ord",
+                        "" + index.getAndIncrement());
+            }).collect(Collectors.toList());
+
+            // 파일 등록
+            bookImageMapper.insertImage(list);
+
+        }
     }
 
     // Book Read
@@ -56,11 +88,40 @@ public class BookServiceImpl implements BookService{
 
     // Book Update
     @Override
-    public int bookUpdate(BookUpdateDTO bookUpdateDTO) {
+    public void bookUpdate(BookUpdateDTO bookUpdateDTO) {
 
         log.info("Book Update Service Impl Start");
 
-        return bookMapper.bookUpdate(bookUpdateDTO);
+        // 수정 업데이트
+        int count = bookMapper.bookUpdate(bookUpdateDTO);
+
+        // 기존파일 삭제
+        bookImageMapper.deleteImage(bookUpdateDTO.getBookNumber());
+
+        List<String> fnames = bookUpdateDTO.getFnames();
+
+        if (count > 0 && bookUpdateDTO.getFnames() != null && !bookUpdateDTO.getFnames().isEmpty()) {
+
+            Long bookNumber = bookUpdateDTO.getBookNumber();
+
+            AtomicInteger index = new AtomicInteger();
+
+            List<Map<String, String>> list = fnames.stream().map(str -> {
+
+                String uuid = str.substring(0, 36);
+
+                String fname = str.substring(37);
+
+                // 맵들을 리스트로 묶기
+                return Map.of("uuid", uuid, "fname", fname, "bookNumber", "" + bookNumber, "ord",
+                        "" + index.getAndIncrement());
+            }).collect(Collectors.toList());
+
+            // 파일 등록
+            bookImageMapper.insertImage(list);
+
+        }
+
     }
 
     // Book Delete
@@ -85,5 +146,5 @@ public class BookServiceImpl implements BookService{
 
         return bookMapper.bookStatusToBorrowed(bookNumber);
     }
-    
+
 }

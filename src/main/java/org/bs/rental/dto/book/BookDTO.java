@@ -1,6 +1,7 @@
 package org.bs.rental.dto.book;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +22,7 @@ public class BookDTO {
     private String publisher;
     private String language;
     private int total_pages;
-    private String thumbnail_url;
     private String description;
     private String status;
-
+    private List<String> fnames;
 }
