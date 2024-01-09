@@ -1,5 +1,8 @@
 package org.bs.rental.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
@@ -92,6 +95,7 @@ public class MemberController {
 
         log.info("POST | Member Create Controller");
 
+
         memberService.memberCreate(memberCreateDTO);
 
         return "redirect:/member/login";
@@ -139,7 +143,7 @@ public class MemberController {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("remember-me")) {
-                    cookie.setMaxAge(0); 
+                    cookie.setMaxAge(0);
                     response.addCookie(cookie);
                     break;
                 }

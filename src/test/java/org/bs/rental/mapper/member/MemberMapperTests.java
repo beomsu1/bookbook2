@@ -91,7 +91,7 @@ public class MemberMapperTests {
         boolean emailAuth = true;
         String nickname = "범수";
         String phoneNumber = "010-7777-7777";
-        LocalDate birthDate = LocalDate.of(1998, 12, 21);
+        String birthDate = ("1998-12-21");
 
         // 객체 생성
         MemberCreateDTO memberCreateDTO = MemberCreateDTO.builder()

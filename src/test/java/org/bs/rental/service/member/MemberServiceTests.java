@@ -1,7 +1,5 @@
 package org.bs.rental.service.member;
 
-import java.time.LocalDate;
-
 import org.bs.rental.dto.member.MemberCreateDTO;
 import org.bs.rental.dto.member.MemberDTO;
 import org.bs.rental.dto.member.MemberListDTO;
@@ -61,7 +59,7 @@ public class MemberServiceTests {
         .emailAuth(true)
         .phoneNumber("010-1234-1234")
         .nickname("master")
-        .birthDate(LocalDate.of(1998, 12, 21))
+        .birthDate("1998-12-21")
         .build();
 
         // When

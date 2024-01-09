@@ -19,6 +19,6 @@ public class MemberCreateDTO {
     private boolean emailAuth;
     private String phoneNumber;
     private String nickname;
-    private LocalDate birthDate;
+    private String birthDate;
     
 }

@@ -1,6 +1,5 @@
 package org.bs.rental.dto.member;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import lombok.AllArgsConstructor;
@@ -20,7 +19,7 @@ public class MemberReadDTO {
     private boolean emailAuth;
     private String phoneNumber;
     private String nickname;
-    private LocalDate birthDate;
+    private String birthDate;
     private LocalDateTime accountDate;
     private String role;
     

@@ -35,16 +35,16 @@ public class MailController {
 
     // 인증 코드 처리
     @PostMapping("{email}/authcode")
-    public ResponseEntity<String> postVerifyEmailCode(@PathVariable("email") String email, @RequestBody MailAuthDTO mailAuthDTO) {
+    public ResponseEntity<Boolean> postVerifyEmailCode(@PathVariable("email") String email,
+            @RequestBody MailAuthDTO mailAuthDTO) {
 
         log.info(email);
         log.info(mailAuthDTO.getCode());
 
         if (emailService.verifyEmailCode(email, mailAuthDTO.getCode())) {
-            return ResponseEntity.ok("인증되었습니다.");
+            return ResponseEntity.ok(true);
         }
 
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("일치하지 않는 코드입니다.");
+        return ResponseEntity.ok(false);
     }
-
 }

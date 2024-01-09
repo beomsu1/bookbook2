@@ -1,4 +1,4 @@
--- member
+-- member 
 CREATE TABLE member (
     id VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255) NOT NULL,
@@ -6,10 +6,11 @@ CREATE TABLE member (
     email_auth BOOLEAN NOT NULL DEFAULT FALSE,
     phone_number VARCHAR(20),
     nickname VARCHAR(50) NOT NULL UNIQUE,
-    birthDate DATE,
+    birthDate VARCHAR(255),
     accountDate DATETIME DEFAULT CURRENT_TIMESTAMP,
     role VARCHAR(50) DEFAULT 'USER'
 );
+
 
 -- book
 CREATE TABLE book (

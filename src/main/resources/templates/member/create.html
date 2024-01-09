@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/memberCreate.css">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>회원가입</h2>
+        <form class="signupForm" action="/member/create" method="post">
+            <div class="form-group">
+                <input type="text" id="id" name="id" placeholder="아이디" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="password" id="password" name="password" placeholder="비밀번호" class="form-control" required>
+            </div>
+            <div class="form-group" id="emailInputGroup">
+                <input type="email" id="email" name="email" class="form-control" placeholder="이메일" required>
+                <button type="button" id="sendEmailBtn" class="btn btn-info">이메일 인증</button>
+            </div>
+
+            <div class="form-group" id="codeInputGroup" style="display: none">
+                <input type="text" id="code" name="code" class="form-control" placeholder="인증코드" >
+                <button type="button" id="verifyCodeBtn" class="btn btn-info">인증</button>
+            </div>
+
+            <div class="form-group" id="successMessage">
+            </div>
+
+            <div class="form-group">
+                <input type="hidden" id="emailAuth" name="emailAuth" class="form-control" value="false" required >
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="phoneNumber" name="phoneNumber" placeholder="전화번호" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" id="nickname" name="nickname" placeholder="닉네임" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <input type="text" id="birthDate" name="birthDate" placeholder="생년월일 8자리" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary signupBtn">회원가입</button>
+
+        </form>
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        const emailInput = document.querySelector("#email")
+        const sendEmailBtn = document.querySelector("#sendEmailBtn")
+        const codeInputGroup = document.querySelector("#codeInputGroup")
+        const verifyCodeBtn = document.querySelector("#verifyCodeBtn")
+        const successMessage = document.querySelector("#successMessage")
+        const emailAuth = document.querySelector("#emailAuth")
+        const signupBtn = document.querySelector(".signupBtn")
+        const signupForm = document.querySelector(".signupForm")
+
+        // 이메일 인증 요청 버튼
+        sendEmailBtn.addEventListener("click", async (e) => {
+            e.stopPropagation()
+            e.preventDefault()
+
+            // 이메일 인증 요청
+            const res = await axios.get(`/mail/${emailInput.value}/authcode`)
+
+            if (res.status === 200) {
+
+                emailInputGroup.style.display = "none"
+                sendEmailBtn.style.display = "none"
+                codeInputGroup.style.display = "block"
+                verifyCodeBtn.style.display = "block"
+                
+                alert("이메일을 확인해주세요.")
+
+            } else {
+                console.log("인증 실패")
+            }
+        })
+
+        // 이메일 인증 버튼 클릭
+        verifyCodeBtn.addEventListener("click", async (e) => {
+            e.preventDefault()
+            e.stopPropagation()
+
+            // 작성한 인증 코드
+            const enteredCode = document.getElementById("code").value
+
+            // 인증 코드 확인
+            const res = await axios.post(`/mail/${emailInput.value}/authcode`, { code: enteredCode })
+
+            if (res.data === true) {
+
+                emailAuth.setAttribute("value", true)
+
+                // 인증 성공 시
+                emailInputGroup.style.display = "none"
+                sendEmailBtn.style.display = "none"
+                codeInputGroup.style.display = "none"
+                verifyCodeBtn.style.display = "none"
+                successMessage.style.display = "block"
+
+            } else {
+
+                console.log("인증 실패")
+                alert("틀린 인증코드입니다.")
+            }
+        }, false)
+        
+        // 회원가입
+        signupBtn.addEventListener("click", (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            const rawBirthDate = document.getElementById('birthDate').value
+            const formattedBirthDate = `${rawBirthDate.substring(0, 4)}-${rawBirthDate.substring(4, 6)}-${rawBirthDate.substring(6, 8)}`
+
+            // verifyCodeBtn 클릭 시에 추가한 emailAuth 값을 가져오기
+            const isEmailVerified = emailAuth.value === 'true'
+
+            if (!isEmailVerified) {
+                alert("이메일 인증이 완료되지 않았습니다.")
+                return
+            }
+
+            if(emailAuth.value === 'false'){
+                alert("이메일 인증이 완료되지 않았습니다.")
+                return
+            }
+
+            const formData = new FormData()
+            formData.append('id', document.getElementById('id').value)
+            formData.append('password', document.getElementById('password').value)
+            formData.append('email', document.getElementById('email').value)
+            formData.append('birthDate', formattedBirthDate)
+            formData.append('phoneNumber', document.getElementById('phoneNumber').value)
+            formData.append('nickname', document.getElementById('nickname').value)
+            formData.append('emailAuth', isEmailVerified)
+
+            signupForm.submit()
+            alert("회원가입이 완료되었습니다.")
+
+        }, false)
+
+    </script>
+
+</body>
+
+</html>

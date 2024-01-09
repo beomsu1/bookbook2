@@ -18,12 +18,12 @@ public class MemberDTO extends User {
     private boolean emailAuth;
     private String phoneNumber;
     private String nickname;
-    private LocalDate birthDate;
+    private String birthDate;
     private LocalDateTime accountDate;
     private String role;
 
     public MemberDTO(String id, String password, String email, boolean emailAuth,
-            String phoneNumber, String nickname, LocalDate birthDate,
+            String phoneNumber, String nickname, String birthDate,
             LocalDateTime accountDate, String role) {
         super(email, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role)));
 
