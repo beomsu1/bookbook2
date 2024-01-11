@@ -77,7 +77,7 @@ public class BookMapperTests {
         BookCreateDTO bookCreateDTO = BookCreateDTO.builder()
         .title("book1")
         .author("beomsu")
-        .isbn("AHHGBZ-12")
+        .isbn("112-12")
         .publicationDate(LocalDate.of(2023, 12, 23))
         .publisher("blue")
         .language("한국어")

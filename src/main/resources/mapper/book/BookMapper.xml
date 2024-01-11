@@ -5,8 +5,26 @@
 
 <mapper namespace="org.bs.rental.mapper.book.BookMapper">
 
+  <!-- - file (resultMap) -->
+  <resultMap id="fileListMap" type="org.bs.rental.dto.book.BookListDTO">
+      <id property="book_number" column="book_number"/>
+      <result property="title" column="title"/>
+      <result property="author" column="author"/>
+      <result property="publication_date" column="publication_date"/>
+      <result property="publisher" column="publisher"/>
+      <result property="language" column="language"/>
+      <result property="total_pages" column="total_pages"/>
+      <result property="status" column="status"/>
+      <collection property="fnames" resultMap="fileMap"/>
+  </resultMap>
+
+  <resultMap id="fileMap" type="string">
+      <result property="fnames" column="fnames"/>
+  </resultMap>
+  <!-- file (resultMap) -->
+
     <!-- Book List -->
-    <select id="bookList" resultType="org.bs.rental.dto.book.BookListDTO">
+    <select id="bookList" resultMap="fileListMap">
         select
             b.book_number,
             b.title,
@@ -15,9 +33,10 @@
             b.publisher,
             b.language,
             b.total_pages,
-            b.thumbnail_url,
-            b.status
+            b.status,
+            concat(bi.uuid, "_", bi.fname) as fnames
         from book b
+        left outer join book_img bi on b.book_number = bi.book_number and bi.ord = 0 
         where b.book_number > 0
         <if test="keyword != null and types != null">
             <trim prefix="AND (" prefixOverrides="OR" suffix=")">
