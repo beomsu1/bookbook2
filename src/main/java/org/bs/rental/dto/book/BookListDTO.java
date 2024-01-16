@@ -14,7 +14,7 @@ public class BookListDTO {
     private Date publication_date;
     private String publisher;
     private String language;
-    private int total_pages;
+    private String total_pages;
     private String status;
     private List<String> fnames;
     

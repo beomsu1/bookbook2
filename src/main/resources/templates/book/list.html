@@ -6,6 +6,41 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>도서 목록</title>
+
+  <style>
+    .item {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+      /* 필요에 따라 여백 조절 */
+    }
+
+    .image-container {
+      position: relative;
+    }
+
+    .status-label {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      padding: 5px;
+      font-size: 12px;
+      border-radius: 5px;
+      color: #fff;
+    }
+
+    /* 대출가능일 때의 스타일 */
+    .status-label.available {
+      background-color: #007bff;
+      /* 파란색 배경 */
+    }
+
+    /* 대출불가일 때의 스타일 */
+    .status-label.unavailable {
+      background-color: #ff0000;
+      /* 빨간색 배경 */
+    }
+  </style>
 </head>
 
 <body>
@@ -20,18 +55,27 @@
               <h2>We Provide The Best Property You Like</h2>
             </div>
           </div>
+          <div class="create">
+            <a href="/book/create">도서 등록</a>
+          </div>
         </div>
         <div class="row">
           <div th:each="book : ${book.list}" class="col-lg-4">
             <div class="item">
-              <a href="property-details.html"><img src="assets/images/property-01.jpg" alt=""></a>
+              <div class="image-container">
+                <div th:each="fname : ${book.fnames}">
+                  <img th:src="@{|http://localhost:/${fname}|}" width="300">
+                </div>
+                <div th:class="'status-label ' + (${book.status} == '대출 가능' ? 'available' : 'unavailable')"
+                  th:text="${book.status}"></div>
+              </div>
               <h4 th:text="${book.title}"></h4>
               <ul>
                 <li>작가: <span th:text="${book.author}"></span></li>
-                <li>출간일: <span th:text="${#dates.format(book.publication_date, 'yyyy-MM-dd')}"></span></li>
+                <li>출간일: <span th:text="${#temporals.format(book.publication_date, 'yyyy-MM-dd')}"></span></li>
               </ul>
               <div class="main-button">
-                <a href="property-details.html">자세히 보기</a>
+                <a th:href="@{/book/read/{bookNumber}(bookNumber=${book.book_number})}">자세히 보기</a>
               </div>
             </div>
           </div>

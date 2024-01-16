@@ -23,11 +23,11 @@ public class ImageController {
 
     // 이미지 추가
     @PostMapping("upload")
-    public List<String> postImageupload(List<MultipartFile> images){
+    public List<String> postImageupload(List<MultipartFile> files){
 
         log.info("POST | Image Upload Controller");
 
-        List<String> name = imageUtil.uplaod(images);
+        List<String> name = imageUtil.uplaod(files);
 
         return name;
 

@@ -6,14 +6,16 @@
 <mapper namespace="org.bs.rental.mapper.book.BookMapper">
 
   <!-- - file (resultMap) -->
-  <resultMap id="fileListMap" type="org.bs.rental.dto.book.BookListDTO">
+  <resultMap id="fileListMap" type="org.bs.rental.dto.book.BookDTO">
       <id property="book_number" column="book_number"/>
       <result property="title" column="title"/>
       <result property="author" column="author"/>
       <result property="publication_date" column="publication_date"/>
       <result property="publisher" column="publisher"/>
+      <result property="isbn" column="isbn"/>
       <result property="language" column="language"/>
       <result property="total_pages" column="total_pages"/>
+      <result property="description" column="description"/>
       <result property="status" column="status"/>
       <collection property="fnames" resultMap="fileMap"/>
   </resultMap>
@@ -113,9 +115,22 @@
     </insert>
 
     <!-- Book Read -->
-    <select id="bookRead" resultType="org.bs.rental.dto.book.BookDTO">
-        select * from book
-        where book_number = #{bookNumber}
+    <select id="bookRead" resultMap="fileListMap">
+            select
+            b.book_number,
+            b.title,
+            b.author,
+            b.isbn,
+            b.publication_date,
+            b.publisher,
+            b.language,
+            b.total_pages,
+            b.description,
+            b.status,
+            concat(bi.uuid, "_", bi.fname) as fnames
+            from book b
+        left outer join book_img bi on b.book_number = bi.book_number 
+        where b.book_number = #{bookNumber}
     </select>
 
     <!-- Book Update -->

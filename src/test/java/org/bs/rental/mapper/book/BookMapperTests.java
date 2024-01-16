@@ -81,7 +81,7 @@ public class BookMapperTests {
         .publicationDate(LocalDate.of(2023, 12, 23))
         .publisher("blue")
         .language("한국어")
-        .totalPages(117)
+        .totalPages("117")
         .description("책 입니다.")
         .build();
 
@@ -103,7 +103,7 @@ public class BookMapperTests {
         // Given
         log.info("Book Read Mapper Test Start");
 
-        Long bookNumber = 1L;
+        Long bookNumber = 6L;
 
         // When
         BookDTO info =  bookMapper.bookRead(bookNumber);
@@ -130,7 +130,7 @@ public class BookMapperTests {
         .publicationDate(LocalDate.of(2011, 1, 8))
         .publisher("lbs")
         .language("한국어")
-        .totalPages(221)
+        .totalPages("221")
         .description("book")
         .build();
 

@@ -21,7 +21,7 @@ CREATE TABLE book (
     publication_date DATE,
     publisher VARCHAR(100),
     language VARCHAR(50),
-    total_pages INT,
+    total_pages VARCHAR(50),
     description TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(20) DEFAULT '대출 가능'

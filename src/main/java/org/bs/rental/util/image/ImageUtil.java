@@ -50,7 +50,7 @@ public class ImageUtil {
 
         for (MultipartFile file : files) {
 
-            String saveName = UUID.randomUUID().toString() + file.getOriginalFilename();
+            String saveName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
 
             Path savePath = Paths.get(uploadPath, saveName);
 

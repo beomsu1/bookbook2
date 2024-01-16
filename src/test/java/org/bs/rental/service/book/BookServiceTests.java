@@ -62,7 +62,7 @@ public class BookServiceTests {
         .publicationDate(LocalDate.of(1998, 12, 21))
         .publisher("lbs")
         .language("korean")
-        .totalPages(26)
+        .totalPages("26")
         .description("maple")
         .build();
 
@@ -111,7 +111,7 @@ public class BookServiceTests {
         .publicationDate(LocalDate.of(1998, 12, 21))
         .publisher("lbs")
         .language("korean")
-        .totalPages(25)
+        .totalPages("25")
         .description("maple1")
         .build();
 

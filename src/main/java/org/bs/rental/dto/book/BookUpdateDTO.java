@@ -21,7 +21,7 @@ public class BookUpdateDTO {
     private LocalDate publicationDate;
     private String publisher;
     private String language;
-    private int totalPages;
+    private String totalPages;
     private String description;
     private List<String> fnames;
 

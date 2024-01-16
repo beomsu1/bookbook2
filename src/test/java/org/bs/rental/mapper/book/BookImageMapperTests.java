@@ -42,7 +42,7 @@ public class BookImageMapperTests {
                 .publicationDate(LocalDate.of(2023, 12, 23))
                 .publisher("blue")
                 .language("한국어")
-                .totalPages(117)
+                .totalPages("117쪽")
                 .description("책 입니다.")
                 .fnames(List.of(UUID.randomUUID()+"_Image"))
                 .build();

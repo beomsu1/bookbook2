@@ -14,7 +14,7 @@ import lombok.extern.log4j.Log4j2;
 public class CustomSecurityConfig {
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
 
         return new BCryptPasswordEncoder();
     }
@@ -26,7 +26,9 @@ public class CustomSecurityConfig {
 
         http.formLogin(config -> {
 
-            config.loginPage("/member/login");
+            config.loginPage("/member/login")
+
+            .defaultSuccessUrl("/book/list", true);
 
         });
 
@@ -37,8 +39,5 @@ public class CustomSecurityConfig {
 
         return http.build();
     }
-
-    
-
 
 }

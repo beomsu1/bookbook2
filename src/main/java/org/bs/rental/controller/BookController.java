@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.RequiredArgsConstructor;
@@ -55,7 +54,7 @@ public class BookController {
 
         model.addAttribute("book", list);
 
-        return "redirect:/book/list";
+        return "/book/read";
     }
 
     // Get Book Update
@@ -68,13 +67,13 @@ public class BookController {
 
         model.addAttribute("book", list);
 
-        return "redirect:/book/update";
+        return "/book/update";
 
     }
 
     // Post Book Create
     @PostMapping("create")
-    public String postBookCreate(@RequestBody BookCreateDTO bookCreateDTO) {
+    public String postBookCreate(BookCreateDTO bookCreateDTO) {
 
         log.info("POST | Book Create Controller");
 
@@ -85,7 +84,7 @@ public class BookController {
 
     // Post Book Update
     @PostMapping("update/{bookNumber}")
-    public String postBookUpdate(@RequestBody BookUpdateDTO bookUpdateDTO) {
+    public String postBookUpdate(BookUpdateDTO bookUpdateDTO) {
 
         log.info("POST | Book Update Controller");
 
