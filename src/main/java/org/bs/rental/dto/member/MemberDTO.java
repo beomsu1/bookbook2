@@ -2,7 +2,6 @@ package org.bs.rental.dto.member;
 
 import lombok.Data;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collections;
 
@@ -25,7 +24,7 @@ public class MemberDTO extends User {
     public MemberDTO(String id, String password, String email, boolean emailAuth,
             String phoneNumber, String nickname, String birthDate,
             LocalDateTime accountDate, String role) {
-        super(email, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role)));
+        super(id, password, Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role)));
 
         this.id = id;
         this.password = password;

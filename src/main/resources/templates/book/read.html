@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -11,26 +11,53 @@
 
 <body>
 
-<div layout:fragment="content" class="book-details-container">
+    <div layout:fragment="content">
 
-    <div class="book-details">
-        <div th:each="fname : ${book.fnames}" class="book-image">
-            <img th:src="@{|http://localhost/${fname}|}" alt="Book Cover">
+        <div class="container book-container">
+
+            <div class="book-row">
+
+                <h3 class="book-info-title"><span th:text="${book.title}"></span></h3>
+
+                <div class="book-col-lg-6">
+                    <div th:each="fname : ${book.fnames}" class="book-image-container">
+                        <img th:src="@{|http://localhost/${fname}|}">
+                    </div>
+                </div>
+
+                <div class="book-input-section book-col-lg-6">
+                    <ul class="book-metadata-list">
+                        <li class="book-metadata-item"><strong>저자</strong> - <span th:text="${book.author}"></span></li>
+                        <li class="book-metadata-item"><strong>출판사</strong> - <span th:text="${book.publisher}"></span>
+                        </li>
+                        <li class="book-metadata-item"><strong>출판일</strong> - <span
+                                th:text="${book.publication_date}"></span></li>
+                        <li class="book-metadata-item"><strong>ISBN</strong> - <span th:text="${book.isbn}"></span></li>
+                        <li class="book-metadata-item"><strong>쪽수</strong> - <span th:text="${book.total_pages}"></span>
+                        </li>
+                    </ul>
+                    <div class="book-description"><strong>책 소개</strong> <br>
+                        <span th:text="${book.description}"></span>
+                    </div>
+
+                    <div class="buttonWrap">
+                        <button class="updateBtn">도서 수정</button>
+                        <button class="borrowBtn">대여하기</button>
+                    </div>
+                    <p>
+                        User ID: <span th:text="${userDetails.id}"></span><br>
+                        Authorities (Roles):
+                        <ul>
+                            <li th:each="authority : ${userDetails.authorities}" th:text="${authority.authority}"></li>
+                        </ul>
+                    </p>
+                </div>
+
+            </div>
+
         </div>
-        <div class="book-info">
-            <div class="book-title"><span th:text="${book.title}"></span></div>
-            <ul class="book-metadata">
-                <li class="book-author"><span th:text="${book.author}"></span></li>
-                <li class="book-publisher"><span th:text="${book.publisher}"></span></li>
-                <li class="book-publication-date"><span th:text="${book.publication_date}"></span></li>
-                <li class="book-isbn"><span th:text="${book.isbn}"></span></li>
-                <li class="book-total-pages"><span th:text="${book.total_pages}"></span></li>
-            </ul>
-            <div class="book-description"><span th:text="${book.description}"></span></div>
-        </div>
+
     </div>
-
-</div>
 
 </body>
 

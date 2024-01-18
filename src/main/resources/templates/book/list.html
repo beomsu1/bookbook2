@@ -5,42 +5,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/bookList.css">
   <title>도서 목록</title>
-
-  <style>
-    .item {
-      position: relative;
-      display: inline-block;
-      margin-bottom: 20px;
-      /* 필요에 따라 여백 조절 */
-    }
-
-    .image-container {
-      position: relative;
-    }
-
-    .status-label {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      padding: 5px;
-      font-size: 12px;
-      border-radius: 5px;
-      color: #fff;
-    }
-
-    /* 대출가능일 때의 스타일 */
-    .status-label.available {
-      background-color: #007bff;
-      /* 파란색 배경 */
-    }
-
-    /* 대출불가일 때의 스타일 */
-    .status-label.unavailable {
-      background-color: #ff0000;
-      /* 빨간색 배경 */
-    }
-  </style>
 </head>
 
 <body>
@@ -50,7 +16,7 @@
       <div class="container">
         <div class="row">
           <div class="col-lg-4 offset-lg-4">
-            <div class="section-heading text-center">
+            <div class="section-heading text-center" style="margin-top: -100px;">
               <h6>| Properties</h6>
               <h2>We Provide The Best Property You Like</h2>
             </div>

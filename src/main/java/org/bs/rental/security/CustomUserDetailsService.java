@@ -11,12 +11,15 @@ import lombok.extern.log4j.Log4j2;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class CustomUserDetailsService implements UserDetailsService{
 
     private final MemberMapper memberMapper;    
 
     @Override
     public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
+
+        log.info("id: " + id);
 
         return memberMapper.memberReadOne(id);
     }
