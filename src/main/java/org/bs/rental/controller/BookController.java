@@ -4,11 +4,11 @@ import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.loan.LoanReadDTO;
 import org.bs.rental.service.Book.BookService;
+import org.bs.rental.service.Loan.LoanService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +26,8 @@ import lombok.extern.log4j.Log4j2;
 public class BookController {
 
     private final BookService bookService;
+
+    private final LoanService loanService;
 
     // Book List
     @GetMapping("list")
@@ -48,14 +50,16 @@ public class BookController {
 
     // Get Book Read
     @GetMapping("read/{bookNumber}")
-    public String getBookRead(@PathVariable("bookNumber") Long bookNumber, @AuthenticationPrincipal UserDetails userDetails, Model model) {
+    public String getBookRead(@PathVariable("bookNumber") Long bookNumber, Model model) {
 
         log.info("GET | Book Read Controller");
 
         BookDTO list = bookService.bookRead(bookNumber);
 
+        LoanReadDTO loan = loanService.borrowedByBookNumber(bookNumber);
+
         model.addAttribute("book", list);
-        model.addAttribute("userDetails", userDetails);
+        model.addAttribute("loan", loan);
 
         return "/book/read";
     }

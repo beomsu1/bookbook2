@@ -5,8 +5,8 @@ import java.util.List;
 import org.bs.rental.dto.loan.BookBorrowDTO;
 import org.bs.rental.dto.loan.BookReturnDTO;
 import org.bs.rental.dto.loan.LoanDTO;
+import org.bs.rental.dto.loan.LoanReadDTO;
 import org.bs.rental.mapper.book.BookMapper;
-import org.bs.rental.mapper.loan.LoanMapper;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -104,6 +104,7 @@ public class LoanMapperTests {
 
         BookReturnDTO bookReturnDTO =  BookReturnDTO.builder()
         .bookNumber(1L)
+        .memberId("beomsu1221")
         .build();
 
         // When
@@ -114,5 +115,27 @@ public class LoanMapperTests {
         // Then
         log.info("Book Return Mapper Test Complete");
     }
+
+    // Borrowed by Book Number
+    @Test
+    @DisplayName("책 번호로 멤버 조회 매퍼 테스트")
+    @Transactional
+    public void borrowedByBookNumber(){
+
+        // Given
+        log.info("Borrowed by Book Number Mapper Test Start");
+
+        Long BookNumber = 1L;
+
+        // When
+        LoanReadDTO info = loanMapper.BorrowedByBookNumber(BookNumber);
+
+        // Then
+        log.info("info: " + info);
+
+        log.info("Borrowed by Book Number Mapper Test Complete");
+
+    }
+
 
 }

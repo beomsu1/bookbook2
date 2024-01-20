@@ -17,6 +17,11 @@
 
             <div class="book-row">
 
+                <input type="hidden" name="memberId" th:value="${#authentication.principal.id}">
+                <input type="hidden" name="bookNumber" th:value="${book.book_number}">
+                <input type="hidden" name="status" th:value="${book.status}">
+                <input type="hidden" name="loanStatus" th:value="${loan != null ? loan.status : ''}">
+
                 <h3 class="book-info-title"><span th:text="${book.title}"></span></h3>
 
                 <div class="book-col-lg-6">
@@ -41,16 +46,18 @@
                     </div>
 
                     <div class="buttonWrap">
-                        <button class="updateBtn">도서 수정</button>
-                        <button class="borrowBtn">대여하기</button>
+                        <a class="updateBtn" th:href="@{/book/update/{bookNumber}(bookNumber=${book.book_number})}">도서
+                            수정</a>
+                        <button id="returnBtn" class="returnBtn">반납하기</button>
+                        <button id="borrowBtn" class="borrowBtn">대여하기</button>
                     </div>
-                    <p>
+                    <!-- <p>
                         User ID: <span th:text="${userDetails.id}"></span><br>
                         Authorities (Roles):
                         <ul>
                             <li th:each="authority : ${userDetails.authorities}" th:text="${authority.authority}"></li>
                         </ul>
-                    </p>
+                    </p> -->
                 </div>
 
             </div>
@@ -58,6 +65,67 @@
         </div>
 
     </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        const borrowBtn = document.querySelector(".borrowBtn")
+        const returnBtn = document.querySelector(".returnBtn")
+        const bookStatus = document.querySelector("input[name=status]").value
+        const bookNumber = document.querySelector("input[name=bookNumber]").value
+        const memberId = document.querySelector("input[name=memberId]").value
+        const loanStatus = document.querySelector("input[name=loanStatus]").value
+
+        if (loanStatus === '대출 중') {
+            borrowBtn.style.display = "none";
+            returnBtn.style.display = "block";
+        } else {
+            borrowBtn.style.display = "block";
+            returnBtn.style.display = "none";
+        }
+
+
+        // 대여 버튼 클릭 시
+        borrowBtn.addEventListener("click", async (e) => {
+
+            e.stopPropagation()
+            e.preventDefault()
+
+            // 대출 전 상태 확인
+            if (bookStatus === '대출 중') {
+                alert('도서가 대출 중이므로 대여할 수 없습니다.');
+                return;
+            }
+            const selectedPeriod = 1
+
+            const borrow = await axios.post('http://localhost:8080/api/loan/borrow', {
+                bookNumber,
+                memberId,
+                selectedPeriod,
+            })
+
+            alert("대여가 완료되었습니다.")
+
+        }, false)
+
+        // 반납 버튼 클릭 시 
+        returnBtn.addEventListener("click", async (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            console.log(memberId)
+            console.log(bookNumber)
+
+            const bookReturn = await axios.post(`http://localhost:8080/api/loan/return`, {
+                bookNumber,
+                memberId
+            })
+
+            alert("반납이 완료되었습니다.")
+
+        }, false)
+
+    </script>
 
 </body>
 

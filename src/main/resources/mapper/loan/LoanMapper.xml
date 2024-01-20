@@ -63,8 +63,16 @@
     <update id="bookReturn" parameterType="org.bs.rental.dto.loan.BookReturnDTO">
         update loan
         set status = '반납 완료', return_date = CURRENT_TIMESTAMP
-        where book_number = #{bookNumber}
+        where book_number = #{bookNumber} and member_id = #{memberId}
     </update>
+
+    <!-- Borrowed By Book Number -->
+    <select id="BorrowedByBookNumber" resultType="org.bs.rental.dto.loan.LoanReadDTO">
+    select l.book_number, l.member_id, l.status
+    from loan l
+    left outer join book b on l.book_number = b.book_number
+    where l.status = '대출 중' and l.book_number = #{bookNumber}
+    </select>
 
 
 </mapper>

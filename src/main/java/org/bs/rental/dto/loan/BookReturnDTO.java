@@ -12,5 +12,6 @@ import lombok.NoArgsConstructor;
 public class BookReturnDTO {
 
     private Long bookNumber;
+    private String memberId;
     
 }

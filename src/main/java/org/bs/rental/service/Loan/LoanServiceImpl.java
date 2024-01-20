@@ -5,6 +5,7 @@ import java.util.List;
 import org.bs.rental.dto.loan.BookBorrowDTO;
 import org.bs.rental.dto.loan.BookReturnDTO;
 import org.bs.rental.dto.loan.LoanDTO;
+import org.bs.rental.dto.loan.LoanReadDTO;
 import org.bs.rental.mapper.book.BookMapper;
 import org.bs.rental.mapper.loan.LoanMapper;
 import org.bs.rental.util.page.PageRequestDTO;
@@ -61,6 +62,14 @@ public class LoanServiceImpl implements LoanService{
 
         bookMapper.bookStatusToAvailable(returnDTO.getBookNumber());
 
+    }
+
+    @Override
+    public LoanReadDTO borrowedByBookNumber(Long bookNumber) {
+
+        log.info("Borrowed By Book Number Impl Start");
+
+        return loanMapper.BorrowedByBookNumber(bookNumber);
     }
     
 }

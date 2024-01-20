@@ -3,6 +3,7 @@ package org.bs.rental.service.loan;
 import org.bs.rental.dto.loan.BookBorrowDTO;
 import org.bs.rental.dto.loan.BookReturnDTO;
 import org.bs.rental.dto.loan.LoanDTO;
+import org.bs.rental.dto.loan.LoanReadDTO;
 import org.bs.rental.service.Loan.LoanService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
@@ -75,6 +76,7 @@ public class LoanServiceTests {
 
         BookReturnDTO bookReturnDTO = BookReturnDTO.builder()
         .bookNumber(1L)
+        .memberId("beomsu1221")
         .build();
 
         // When
@@ -83,6 +85,26 @@ public class LoanServiceTests {
         // Then
         log.info("Book Return Service Test Complete");
 
+    }
+
+    // Borrowed By Book Number
+    @Test
+    @DisplayName("책 번호로 멤버 조회 서비스 테스트")
+    @Transactional
+    public void BorrowedByBookNumber(){
+
+        // Given
+        log.info("Borrowed By Book Number Service Test Start");
+
+        Long BookNumber = 1L;
+
+        // When
+        LoanReadDTO info = loanService.borrowedByBookNumber(BookNumber);
+
+        // Then
+        log.info("info: " + info);
+
+        log.info("Borrowed By Book Number Service Test Complete");
     }
     
 }

@@ -1,6 +1,7 @@
 package org.bs.rental.dto.loan;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 import lombok.AllArgsConstructor;
@@ -16,16 +17,17 @@ public class BookBorrowDTO {
 
     private Long bookNumber;
     private String memberId;
-    private LocalDate dueDate;
+    private LocalDateTime dueDate;
+    private int selectedPeriod;
     
     // 선택한 기간에 따라 dueDate 설정
     public void setDueDateFromSelectedPeriod(int selectedPeriod) {
         switch (selectedPeriod) {
             case 1:
-                this.dueDate = LocalDate.now().plus(1, ChronoUnit.WEEKS);
+                this.dueDate = LocalDateTime.now().plus(1, ChronoUnit.WEEKS);
                 break;
             case 2:
-                this.dueDate = LocalDate.now().plus(2, ChronoUnit.WEEKS);
+                this.dueDate = LocalDateTime.now().plus(2, ChronoUnit.WEEKS);
                 break;
             // 기타 선택지에 대한 처리도 추가 가능
             default:
