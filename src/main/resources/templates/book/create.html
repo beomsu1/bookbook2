@@ -72,7 +72,7 @@
                                     required>
                             </div>
                             <div class="col-lg-12">
-                                <label for="description">설명</label>
+                                <label for="description">책 설명</label>
                                 <textarea name="description" id="description" placeholder="책 설명을 입력해주세요"
                                     required></textarea>
                             </div>
@@ -229,16 +229,6 @@
             hiddenFnames.name = "fnames";
             hiddenFnames.value = fnames.join(',');
             actionForm.appendChild(hiddenFnames);
-
-            // publicationDate 값을 yyyy-MM-dd 형식으로 변환
-            const publicationDateInput = document.getElementById("publicationDate")
-            const originalDateValue = publicationDateInput.value
-
-            // 날짜 형식 변환 직접 처리
-            const formattedDate = `${originalDateValue.substring(0, 4)}-${originalDateValue.substring(4, 6)}-${originalDateValue.substring(6, 8)}`
-
-            // 변환된 값을 다시 input에 설정
-            publicationDateInput.value = formattedDate
 
             // Form 제출
             actionForm.submit();

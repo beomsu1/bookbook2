@@ -20,9 +20,33 @@
               <h6>| Properties</h6>
               <h2>We Provide The Best Property You Like</h2>
             </div>
+            <!-- 검색 -->
+            <div class="mb-3 searchWrap">
+              <form action="/book/list" method="get" class="actionForm">
+                <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+                <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                <select name="type" class="form-select mb-3">
+                  <option value="">선택해주세요</option>
+                  <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                  <option value="c" th:selected="${pageRequestDTO.type == 'c'}">내용</option>
+                  <option value="w" th:selected="${pageRequestDTO.type == 'w'}">작성자</option>
+                  <option value="tc" th:selected="${pageRequestDTO.type == 'tc'}">제목+내용
+                  </option>
+                  <option value="tcw" th:selected="${pageRequestDTO.type == 'tcw'}">제목+내용+작성자
+                  </option>
+                </select>
+                <input type="text" name="keyword" class="form-control mb-3" placeholder="검색어를 입력 해주세요."
+                  th:value="${pageRequestDTO.keyword}">
+                <div class="button_wrap">
+                  <button type="submit" class="btn btn-primary btnSearch">검색</button>
+                </div>
+              </form>
+            </div>
+            <!-- 검색 -->
+
           </div>
           <div class="create">
-            <a href="/book/create">도서 등록</a>
+            <a href="/book/create" sec:authorize="hasRole('ROLE_ADMIN')">도서 등록</a>
           </div>
         </div>
         <div class="row">
@@ -30,7 +54,7 @@
             <div class="item">
               <div class="image-container">
                 <div th:each="fname : ${book.fnames}">
-                  <img th:src="@{|http://localhost:/${fname}|}" width="300">
+                  <img th:src="@{|http://localhost:/${fname}|}" height="500px" width="350px">
                 </div>
                 <div th:class="'status-label ' + (${book.status} == '대출 가능' ? 'available' : 'unavailable')"
                   th:text="${book.status}"></div>
@@ -46,9 +70,62 @@
             </div>
           </div>
         </div>
+        <!-- 페이징 처리 -->
+        <div class="btn-toolbar" role="toolbar" style="justify-content: center">
+          <div class="btn-group me-2 paging" role="group" aria-label="First group" style="width: 40%"></div>
+        </div>
+
       </div>
     </div>
+
+    <script src="/js/bookPaging.js"></script>
+
   </div>
+
+  <script layout:fragment="script" th:inline="javascript">
+
+    const actionForm = document.querySelector(".actionForm")
+    const paging = document.querySelector(".paging")
+    const pageObj = document.querySelector("input[name=page]")
+
+    const { page, size } = [[${ pageRequestDTO }]]
+    const { total } = [[${ book }]]
+
+    console.log("page: " + page)
+    console.log("size: " + size)
+    console.log("total: " + total)
+
+    // 페이지 동적으로 생성
+    const pageList = makePage(page, size, total)
+    paging.innerHTML = pageList
+
+    //페이징 이동 버튼
+    paging.addEventListener("click", (e) => {
+
+      e.preventDefault()
+      e.stopPropagation()
+
+      // 타겟 잡기
+      const target = e.target
+
+      console.log(target)
+
+      // paging 번호 가져오기
+      const pageNum = target.getAttribute("href")
+      console.log(pageNum)
+
+      //쿼리에 들어오는 page값 수정하기
+      pageObj.value = pageNum
+
+      // console.log(pageObj.value)
+
+      actionForm.setAttribute("action", "/book/list")
+      actionForm.submit()
+
+    }, false)
+
+
+  </script>
 
 </body>
 

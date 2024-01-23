@@ -39,7 +39,7 @@ public class LoanController {
 
     // Book Borrow
     @PostMapping("borrow")
-    public String postBookBorrow(@RequestBody BookBorrowDTO bookBorrowDTO) {
+    public ResponseEntity<String> postBookBorrow(@RequestBody BookBorrowDTO bookBorrowDTO) {
 
         log.info("POST | Book Borrow Controller");
 
@@ -49,7 +49,7 @@ public class LoanController {
 
         loanService.bookBorrow(bookBorrowDTO);
 
-        return "redirect:/book/read/" + bookBorrowDTO.getBookNumber();
+        return ResponseEntity.ok("도서 대출이 완료되었습니다.");
     }
 
     // Book Return

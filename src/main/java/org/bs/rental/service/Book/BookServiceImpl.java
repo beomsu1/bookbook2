@@ -34,6 +34,8 @@ public class BookServiceImpl implements BookService {
 
         log.info("Book List Service Impl Start");
 
+        pageRequestDTO.setSize(9);
+
         int total = bookMapper.bookTotal(pageRequestDTO);
         List<BookListDTO> list = bookMapper.bookList(pageRequestDTO);
 
