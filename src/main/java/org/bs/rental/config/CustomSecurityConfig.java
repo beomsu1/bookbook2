@@ -7,12 +7,30 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import javax.sql.DataSource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 @Configuration
 @Log4j2
+@RequiredArgsConstructor
 public class CustomSecurityConfig {
+
+    private final DataSource dataSource;
+
+    // 자동 로그인
+    @Bean
+    public PersistentTokenRepository persistentTokenRepository() {
+
+        JdbcTokenRepositoryImpl repo = new JdbcTokenRepositoryImpl();
+
+        repo.setDataSource(dataSource);
+
+        return repo;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -43,6 +61,14 @@ public class CustomSecurityConfig {
         // csrf 토큰 비활성화
         http.csrf(config -> {
             config.disable();
+        });
+
+        // 자동 로그인
+        http.rememberMe(config -> {
+
+            config.tokenRepository(persistentTokenRepository());
+
+            config.tokenValiditySeconds(60*60);
         });
 
         return http.build();
