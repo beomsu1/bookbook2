@@ -1,6 +1,5 @@
 package org.bs.rental.dto.loan;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
