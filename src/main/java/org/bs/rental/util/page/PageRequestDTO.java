@@ -22,7 +22,7 @@ public class PageRequestDTO {
 
     private String type;
     private String keyword;
-
+ 
     private String link;
 
     // 페이지 설정

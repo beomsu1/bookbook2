@@ -1,7 +1,5 @@
 package org.bs.rental.service.Book;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Param;
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;

@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.bs.rental.dto.book.BookCreateDTO;
 import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookImageDTO;
 import org.bs.rental.dto.book.BookListDTO;
 import org.bs.rental.dto.book.BookUpdateDTO;
 import org.bs.rental.mapper.book.BookImageMapper;

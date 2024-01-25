@@ -1,7 +1,5 @@
 package org.bs.rental.dto.member;
 
-import java.time.LocalDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

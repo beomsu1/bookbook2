@@ -2,7 +2,6 @@ package org.bs.rental.controller;
 
 import org.bs.rental.dto.mail.MailAuthDTO;
 import org.bs.rental.service.Mail.MailService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
