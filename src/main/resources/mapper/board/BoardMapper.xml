@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.board.BoardMapper">
+
+  <!-- - file (resultMap) -->
+  <resultMap id="fileListMap" type="org.bs.rental.dto.board.BoardDTO">
+      <id property="tno" column="tno"/>
+      <result property="title" column="title"/>
+      <result property="content" column="content"/>
+      <result property="writer" column="writer"/>
+      <result property="createDate" column="createDate"/>
+      <result property="updateDate" column="updateDate"/>
+      <collection property="fnames" resultMap="fileMap"/>
+  </resultMap>
+
+  <resultMap id="fileMap" type="string">
+      <result property="fnames" column="fnames"/>
+  </resultMap>
+  <!-- file (resultMap) -->
+
+<!-- Board List -->
+<select id="boardList" resultMap="fileListMap">
+
+select b.tno, b.title, b.content, b.writer, b.createDate, concat(bi.uuid, "_", bi.fname) as fnames
+from board b 
+left outer join board_img bi on b.tno = bi.tno and bi.ord= 0
+where b.tno > 0
+   <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" or ">
+          <if test='type == "t"'>
+            b.title like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "c"'>
+            b.content like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "w"'>
+            b.writer like concat('%', #{keyword}, '%')
+          </if>
+        </foreach>
+      </trim>
+    </if>
+order by b.tno desc
+limit #{skip} , #{size}
+
+</select>
+
+<!-- Board Create -->
+<insert id="boardCreate" parameterType="org.bs.rental.dto.board.BoardCreateDTO">
+
+insert into board (title,content,writer) value (#{title},#{content},#{writer})
+        <selectKey resultType="long" keyProperty="tno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+</insert>
+
+<!-- Board Read -->
+<select id="boardRead" resultMap="fileListMap">
+
+select b.tno, b.title, b.content, b.writer, b.createDate, b.updateDate, concat(bi.uuid, "_", bi.fname) as fnames
+from board b 
+left outer join board_img bi on b.tno = bi.tno
+where b.tno = #{tno}
+
+</select>
+
+<!-- Board Update -->
+<update id="boardUpdate" parameterType="org.bs.rental.dto.board.BoardUpdateDTO">
+
+update board set title=#{title} , content=#{content} , updateDate = now()
+where tno=#{tno}
+
+</update>
+
+<delete id="boardDelete">
+
+delete from board where tno=#{tno}
+
+</delete>
+
+<!-- Board Total -->
+<select id="boardTotal">
+
+    select count(*)
+    from
+    (select tno from board b
+    where tno > 0
+       <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" or ">
+          <if test='type == "t"'>
+            b.title like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "c"'>
+            b.content like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "w"'>
+            b.writer like concat('%', #{keyword}, '%')
+          </if>
+        </foreach>
+      </trim>
+    </if>
+    limit #{countEnd}) board
+
+</select>
+
+
+</mapper> 

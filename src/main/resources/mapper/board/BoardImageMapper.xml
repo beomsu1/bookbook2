@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.board.BoardImageMapper">
+
+<!-- Insert Image -->
+<insert id="insertImage" parameterType="org.bs.rental.dto.board.BoardImageDTO">
+
+insert into board_img (tno, fname, ord, uuid) values
+<foreach collection="list" item="item" separator=",">
+   ( #{item.tno}, #{item.fname}, #{item.ord}, #{item.uuid} )
+</foreach>
+
+</insert>
+
+<!-- Delete Image -->
+<delete id="deleteImage">
+
+delete from board_img where tno=#{tno}
+
+</delete>
+
+
+
+</mapper>

@@ -49,3 +49,32 @@ create table book_img (
 	uuid varchar(255),
 	foreign key(book_number) references book(book_number) ON DELETE CASCADE
 );
+
+-- remember-me --
+create table persistent_logins (
+       username varchar(64) not null,
+       series varchar(64) primary key,
+       token varchar(64) not null,
+       last_used timestamp not null
+);
+
+-- board --
+CREATE TABLE board (
+    tno int auto_increment primary key,
+    title varchar(500) not null,
+    content varchar(1000) not null,
+    writer VARCHAR(255) not null,
+    createDate timestamp default now(),
+    updateDate timestamp default now(),
+    foreign key (writer) references member(id)
+);
+
+-- board_img --
+create table board_img (
+	imgno int auto_increment primary key,
+	tno int not null,
+	fname varchar(255),
+	ord int default 0 not null,
+	uuid varchar(255),
+	foreign key(tno) references board(tno) ON DELETE CASCADE
+);
