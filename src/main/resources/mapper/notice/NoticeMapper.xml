@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.notice.NoticeMapper">
+
+  <!-- - file (resultMap) -->
+  <resultMap id="fileListMap" type="org.bs.rental.dto.notice.NoticeDTO">
+      <id property="nno" column="nno"/>
+      <result property="title" column="title"/>
+      <result property="content" column="content"/>
+      <result property="writer" column="writer"/>
+      <result property="createDate" column="createDate"/>
+      <collection property="fnames" resultMap="fileMap"/>
+  </resultMap>
+
+  <resultMap id="fileMap" type="string">
+      <result property="fnames" column="fnames"/>
+  </resultMap>
+  <!-- file (resultMap) -->
+
+<!-- Notice List -->
+<select id="noticeList" resultMap="fileListMap">
+
+select n.nno, n.title, n.content, n.writer, n.createDate, concat(ni.uuid, "_", ni.fname) as fnames
+from notice n 
+left outer join notice_img ni on n.nno = ni.nno and ni.ord= 0
+where n.nno > 0
+   <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" or ">
+          <if test='type == "t"'>
+            n.title like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "c"'>
+            n.content like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "w"'>
+            n.writer like concat('%', #{keyword}, '%')
+          </if>
+        </foreach>
+      </trim>
+    </if>
+order by n.nno desc
+limit #{skip} , #{size}
+
+</select>
+
+<!-- Notice Create -->
+<insert id="noticeCreate" parameterType="org.bs.rental.dto.notice.NoticeCreateDTO">
+
+insert into notice (title,content,writer) value (#{title},#{content},#{writer})
+        <selectKey resultType="long" keyProperty="nno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+
+</insert>
+
+<!-- Notice Read -->
+<select id="noticeRead" resultMap="fileListMap">
+
+select n.nno, n.title, n.content, n.writer, n.createDate, concat(ni.uuid, "_", ni.fname) as fnames
+from notice n 
+left outer join notice_img ni on n.nno = ni.nno
+where n.nno = #{nno}
+
+</select>
+
+<!-- Notice Update -->
+<update id="noticeUpdate" parameterType="org.bs.rental.dto.notice.NoticeUpdateDTO">
+
+update notice set title=#{title} , content=#{content}
+where nno=#{nno}
+
+</update>
+
+<delete id="noticeDelete">
+
+delete from notice where nno=#{nno}
+
+</delete>
+
+<!-- Notice Total -->
+<select id="noticeTotal">
+
+    select count(*)
+    from
+    (select nno from notice n
+    where nno > 0
+       <if test="keyword != null and types != null">
+      <trim prefix="and (" prefixOverrides="or" suffix=")">
+        <foreach collection="types" item="type" separator=" or ">
+          <if test='type == "t"'>
+            n.title like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "c"'>
+            n.content like concat('%', #{keyword}, '%')
+          </if>
+          <if test='type == "w"'>
+            n.writer like concat('%', #{keyword}, '%')
+          </if>
+        </foreach>
+      </trim>
+    </if>
+    limit #{countEnd}) notice
+
+</select>
+
+
+</mapper> 

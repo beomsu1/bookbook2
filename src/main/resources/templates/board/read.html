@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 정보</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <div class="container board-container">
+
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <div class="mb-3">
+                        <h3 th:text="${board.title}"></h3>
+                        <div class="row">
+                            <div th:text="${board.writer}"></div>
+                            <div th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd, HH:mm')}"></div>
+                        </div>
+                    </div>
+                        <div class="board-col-lg-6" style="width: 300px;">
+                            <div th:each="fname : ${board.fnames}" class="board-image-container">
+                                <img th:src="@{|http://localhost/${fname}|}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <span th:text="${board.content}"></span>
+     
+                        </div>
+
+                        <!-- <div class="buttonWrap">
+                            <a class="updateBtn" 
+                            th:href="@{/book/update/{tno}(tno=${board.tno})}" 
+                            sec:authorize="hasRole('ROLE_ADMIN') or ${#authentication.principal.username == board.writer}">
+                            도서 수정
+                         </a>
+                            <a class="btn btn-secondary" href="/board/list">목록</a>
+                        </div> -->
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+
+    </script>
+
+</body>
+
+</html>

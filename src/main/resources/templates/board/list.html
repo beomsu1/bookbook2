@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List</title>
+
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <table id="example2" class="table table-bordered table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>번호</th>
+                                        <th>제목</th>
+                                        <th>작성자</th>
+                                        <th>작성일</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="listTable">
+                                    <tr th:each="list : ${board.list}">
+                                        <td th:text="${list.tno}" th:data-tno="${list.tno}"></td>
+                                        <td>
+                                            <span th:text="${list.title}" th:data-tno="${list.tno}"></span>
+                                            <span th:unless="${#lists.isEmpty(list.fnames)}" th:data-tno="${list.tno}">
+                                                <img th:src="@{/image/image.png}" width="18" th:data-tno="${list.tno}">
+                                            </span>
+                                        </td>
+
+                                        <td th:text="${list.writer}" th:data-tno="${list.tno}"></td>
+                                        <td th:text="${#temporals.format(list.createDate, 'yyyy-MM-dd, HH:mm')}" th:data-tno="${list.tno}"></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br>
+                            <div>
+                                <form class="acf" action="/board/create" method="get">
+                                    <a href="/board/create" class="btn btn-primary">게시물 작성</a>
+                                </form>
+                            </div>
+                            <br>
+                            <!-- 페이징 처리 -->
+                            <div class="btn-toolbar" role="toolbar" style="justify-content: center">
+                                <div class="btn-group me-2 paging" role="group" aria-label="First group"
+                                    style="width: 40%"></div>
+                            </div>
+
+                            <br>
+                            <!-- 검색 -->
+                            <div class="mb-3 searchWrap row">
+                                <form action="/board/list" method="get" class="actionForm d-flex align-items-end">
+                                    <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+                                    <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                                    <select name="type" class="form-select form-select-sm me-2 col-2"
+                                        style="width: 28.57%;">
+                                        <option value="tap" th:selected="${pageRequestDTO.type == 'tap'}">통합검색</option>
+                                        <option value="t" th:selected="${pageRequestDTO.type == 't'}">제목</option>
+                                        <option value="a" th:selected="${pageRequestDTO.type == 'a'}">저자</option>
+                                        <option value="p" th:selected="${pageRequestDTO.type == 'p'}">출판사</option>
+                                    </select>
+                                    <input type="text" name="keyword" class="form-control me-2 col-4"
+                                        style="width: 57.14%;" placeholder="검색어를 입력해주세요."
+                                        th:value="${pageRequestDTO.keyword}">
+                                    <button type="submit" class="btn btn-primary btnSearch col-1" 
+                                        style="width: 14.29%;">검색</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </section>
+
+        <script src="/js/bookPaging.js"></script>
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        // 태그 객체 생성
+        const actionForm = document.querySelector(".actionForm")
+        const listTable = document.querySelector(".listTable")
+        const paging = document.querySelector(".paging")
+        const pageObj = document.querySelector("input[name=page]")
+
+        const { page, size } = [[${ pageRequestDTO }]]
+
+        console.log("page:" + page)
+        console.log("size: " + size)
+
+        const { total } = [[${ board }]]
+
+        console.log("total: " + total)
+
+        // 페이지 동적으로 생성
+        const pageList = makePage(page, size, total)
+        paging.innerHTML = pageList
+
+        //페이징 이동 버튼
+        paging.addEventListener("click", (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            // 타겟 잡기
+            const target = e.target
+
+            console.log(target)
+
+            // paging 번호 가져오기
+            const pageNum = target.getAttribute("href")
+            console.log(pageNum)
+
+            //쿼리에 들어오는 page값 수정하기
+            pageObj.value = pageNum
+
+            // console.log(pageObj.value)
+
+            actionForm.setAttribute("action", "/board/list")
+            actionForm.submit()
+
+        }, false)
+
+        listTable.addEventListener("click", (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            console.log(e.target)
+
+            const target = e.target;
+
+            const tno = target.getAttribute("data-tno")
+
+            console.log(tno)
+
+            actionForm.setAttribute("action", `/board/read/${tno}`)
+            actionForm.setAttribute("method", `get`)
+            actionForm.submit()
+
+
+        }, false)
+
+    </script>
+
+
+</body>
+
+</html>

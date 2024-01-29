@@ -78,3 +78,23 @@ create table board_img (
 	uuid varchar(255),
 	foreign key(tno) references board(tno) ON DELETE CASCADE
 );
+
+-- notice --
+CREATE TABLE notice (
+    nno int auto_increment primary key,
+    title varchar(500) not null,
+    content varchar(1000) not null,
+    writer VARCHAR(255) not null,
+    createDate timestamp default now(),
+    foreign key (writer) references member(id)
+);
+
+-- notice_img --
+create table notice_img (
+	imgno int auto_increment primary key,
+	nno int not null,
+	fname varchar(255),
+	ord int default 0 not null,
+	uuid varchar(255),
+	foreign key(nno) references notice(nno) ON DELETE CASCADE
+);

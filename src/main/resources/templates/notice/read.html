@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항 정보</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <div class="container notice-container">
+
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <div class="mb-3">
+                        <h3 th:text="${notice.title}"></h3>
+                        <div class="row">
+                            <div th:text="${notice.writer}"></div>
+                            <div th:text="${#temporals.format(notice.createDate, 'yyyy-MM-dd, HH:mm')}"></div>
+                        </div>
+                    </div>
+                        <div class="notice-col-lg-6" style="width: 300px;">
+                            <div th:each="fname : ${notice.fnames}" class="notice-image-container">
+                                <img th:src="@{|http://localhost/${fname}|}">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <span th:text="${notice.content}"></span>
+     
+                        </div>
+
+                        <div class="buttonWrap">
+                            <a class="btn btn-warning updateBtn" th:href="@{/notice/update/{nno}(nno=${notice.nno})}" sec:authorize="hasRole('ROLE_ADMIN')">공지사항 수정</a>
+                            <a class="btn btn-secondary" href="/notice/list">목록</a>
+                        </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+
+    </script>
+
+</body>
+
+</html>

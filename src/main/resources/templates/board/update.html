@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시물 수정</title>
+</head>
+
+<body>
+
+    <div layout:fragment="content">
+
+        <div class="container">
+
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h4 class="mb-4">| 게시물 수정</h4>
+                        <form th:action="@{/board/update/{tno}}" th:object="${board}" method="post" class="actionForm">
+                            <div class="mb-3">
+                                <label for="boardTitle" class="form-label">제목</label>
+                                <input type="text" name="title" class="form-control" id="boardTitle"
+                                    placeholder="제목을 입력해주세요." th:value="${board.title}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="boardContent" class="form-label">내용</label>
+                                <textarea name="content" class="form-control" id="boardContent" rows="7"
+                                    placeholder="내용을 입력해주세요.">[[${board.content}]]</textarea>
+                            </div>
+
+                            <!-- 파일업로드 -->
+                            <div style="margin-top: 50px;">
+                                <label style="margin-bottom: 10px;">이미지 등록</label>
+                                <br>
+                                <input class="uploadInput" type="file" name="upload" multiple>
+                                <button class="uploadBtn">업로드</button>
+                            </div>
+
+                            <!-- 파일 업로드 사진 출력 -->
+                            <ul class="uploadUL" style="width: 300px;">
+
+                            </ul>
+
+                            <div class="button_wrap" style="margin-top: 30px;">
+                                <button class="btn btn-primary updateBtn">수정</button>
+                                <button class="btn btn-danger deleteBtn">삭제</button>
+                                <a th:href="@{/board/read/{tno}(tno=${board.tno})}" class="btn btn-secondary returnBtn">취소</a>
+                            </div>
+
+                        </form>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <script layout:fragment="script" th:inline="javascript">
+
+        // 태그 객체 생성
+        const uploadInput = document.querySelector(".uploadInput")
+        const uploadBtn = document.querySelector(".uploadBtn")
+        const uploadUL = document.querySelector(".uploadUL")
+        const updateBtn = document.querySelector(".updateBtn")
+        const actionForm = document.querySelector(".actionForm")
+        const deleteBtn = document.querySelector(".deleteBtn")
+
+        const { tno } = [[${ board }]]
+        const { fnames } = [[${ board }]]
+
+        console.log(fnames)
+
+        // UPLOAD 버튼 클릭 시
+        uploadBtn.addEventListener("click", (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            console.dir(uploadInput.files)
+
+            // 파일이 없을 시 return
+            if (!uploadInput.files || uploadInput.files.length === 0) {
+                return
+            }
+
+            // 폼데이터 생성
+            const formData = new FormData()
+
+            // 반복문 돌려서 formData에 값 대입
+            for (let i = 0; i < uploadInput.files.length; i++) {
+
+                // formData에 uploadInput.files[i] 의 값들을 추가
+                formData.append("files", uploadInput.files[i])
+
+            }
+
+            console.dir(formData)
+
+            // 헤더 생성- 헤더는 multipart/form-data 형식 (파일 업로드)
+            const header = { headers: { "Content-Type": "multipart/form-data" } }
+
+            // 비동기
+            axios.post("http://localhost:8080/api/image/upload", formData, header).then(res => {
+                const result = res.data
+
+                console.log("-----------------")
+                console.log(result)
+                console.log("-----------------")
+
+                showImages(result)
+
+                // 파일 추가 후 비우기
+                uploadInput.value = ''
+            })
+
+        }, false)
+
+        // show uplaod Images
+        const showImages = (arr) => {
+
+            let str = ""
+
+            // 반복문 돌려서 필요한 값 추출
+            for (const uploadFile of arr) {
+
+                console.log("uploadFile: ", uploadFile)
+
+                // uuid 0~36까지 자르기
+                const uuid = uploadFile.substring(0, 36);
+
+                // 파일명 가져오기 ~37 fname에 _가 있어서 37까지 잘라줘야 제대로 fname을 출력
+                const fname = uploadFile.substring(37);
+
+                console.log("uuid: ", uuid);
+                console.log("fname: ", fname);
+
+                str += `
+                    <br>
+                    <li data-uuid='${uuid}' data-fname='${fname}'>
+                        <div>
+                            <a href='http://localhost/${uuid}_${fname}' target="_blank">
+                            <img src='http://localhost/s_${uploadFile}'/>
+                            </a>
+                            <p>${fname} <button onclick="javascript:removeImage(event, '${uuid}', '${fname}')">x</button></p>
+                        <div>   
+                    </li>`
+            }
+
+            // str을 uploadUL에 innerHTML
+            uploadUL.innerHTML += str
+        }
+
+        // 기존 이미지 가져오기
+        const showImages2 = () => {
+
+            let str = "";
+
+            // fnames를 직접 사용
+            for (const fname of fnames) {
+                // uuid 0~36까지 자르기
+                const uuid = fname.substring(0, 36);
+
+                // 파일명 가져오기 ~37 fname에 _가 있어서 37까지 잘라줘야 제대로 fname을 출력
+                const imgName = fname.substring(37);
+
+                console.log("uuid: ", uuid);
+                console.log("imgName: ", imgName);
+
+                str += `
+            <br>
+            <li data-uuid='${uuid}' data-fname='${imgName}'>
+                <div>
+                    <a href='http://localhost/${uuid}_${imgName}' target="_blank">
+                        <img src='http://localhost/s_${fname}'/>
+                    </a>
+                    <p>${imgName} <button onclick="javascript:removeImage(event, '${uuid}', '${imgName}')">x</button></p>
+                </div>   
+            </li>`;
+            }
+
+            // str을 uploadUL에 innerHTML
+            uploadUL.innerHTML += str;
+        };
+
+        showImages2();
+
+
+
+
+        // remove upload Image
+        const removeImage = (e, uuid, fname) => {
+
+            // 이벤트 방지
+            e.preventDefault()
+            e.stopPropagation()
+
+            // closest 사용해서 li태그 찾기
+            const liObj = e.target.closest("li")
+
+            // liObj = uuid , fname
+            console.log(liObj)
+
+            // 비동기
+            axios.delete(`http://localhost:8080/api/image/delete/${uuid}_${fname}`)
+
+            // li태그 삭제
+            liObj.remove()
+        }
+
+        // updateBtn
+        // 수정 버튼 눌렀을 시 파일 업로드 된 데이터까지 같이 전송
+        updateBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+
+            // li 태그 모두 찾아서 liArr 변수에 저장
+            const liArr = uploadUL.querySelectorAll("li");
+
+            // fnames 배열 생성
+            const fnames = [];
+
+            // 반복문 돌려서 fnames에 파일 저장
+            for (let liObj of liArr) {
+                const uuid = liObj.getAttribute("data-uuid");
+                const fname = liObj.getAttribute("data-fname");
+                console.log(uuid, fname);
+                fnames.push(`${uuid}_${fname}`);
+            }
+
+            // fnames 값을 hidden input으로 추가
+            const hiddenFnames = document.createElement("input");
+            hiddenFnames.type = "hidden";
+            hiddenFnames.name = "fnames";
+            hiddenFnames.value = fnames.join(',');
+            actionForm.appendChild(hiddenFnames);
+
+            // Form 제출
+            actionForm.submit();
+        }, false);
+
+        // deleteBtn
+        deleteBtn.addEventListener("click", (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            actionForm.setAttribute("action", `/board/delete/${tno}`)
+            actionForm.setAttribute("method", "post")
+            actionForm.submit()
+
+            alert("삭제되었습니다.")
+
+        }, false)
+
+    </script>
+
+
+</body>
+
+</html>

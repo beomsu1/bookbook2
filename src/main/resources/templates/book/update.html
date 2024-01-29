@@ -89,7 +89,7 @@
                         <div class="button_wrap">
                             <button class="btn btn-primary updateBtn">수정</button>
                             <button class="btn btn-danger deleteBtn">삭제</button>
-                            <a href="/book/list" class="btn btn-secondary returnBtn">목록</a>
+                            <a th:href="@{/board/read/{book_number}(tno=${book.book_number})}" class="btn btn-secondary returnBtn">취소</a>
                         </div>
 
                     </form>

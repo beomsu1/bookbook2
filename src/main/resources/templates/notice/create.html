@@ -5,93 +5,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>도서 등록</title>
-
+    <title>공지사항 등록</title>
 </head>
 
 <body>
 
     <div layout:fragment="content">
 
-        <div class="contact-page section">
-            <div class="container">
-                <div class="row">
-                    <div class="section-heading" style="margin-top: -100px;">
-                        <h4>| 도서 등록</h4>
-                    </div>
+        <div class="container">
 
-                    <!-- 폼 추가 -->
-                    <form id="contact-form" action="/book/create" method="post" style="margin-top: -30px;">
-
-                        <div class="row">
-
-                            <!-- 입력 필드 섹션 -->
-                            <div class="input-section col-lg-6">
-                                <div class="col-lg-12">
-                                    <label for="title">제목</label>
-                                    <input type="text" name="title" id="title" placeholder="책 제목을 입력해주세요." required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="author">작가</label>
-                                    <input type="text" name="author" id="author" placeholder="작가를 입력해주세요." required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="isbn">ISBN</label>
-                                    <input type="text" name="isbn" id="isbn" placeholder="ISBN을 입력해주세요." required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="publicationDate">출간일</label>
-                                    <input type="text" name="publicationDate" id="publicationDate"
-                                        placeholder="출간일 8자리를 입력해주세요." required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="publisher">출판사</label>
-                                    <input type="text" name="publisher" id="publisher" placeholder="출판사를 입력해주세요."
-                                        required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="language">언어</label>
-                                    <input type="text" name="language" id="language" placeholder="언어를 입력해주세요." required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="totalPages">총 페이지 수</label>
-                                    <input type="text" name="totalPages" id="totalPages" placeholder="페이지 수를 입력해주세요."
-                                        required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="description">책 설명</label>
-                                    <textarea name="description" id="description" placeholder="책 설명을 입력해주세요"
-                                        required></textarea>
-                                </div>
-                            </div>
-
-                            <!-- 이미지 업로드 섹션 -->
-                            <div class="image-upload-section col-lg-6">
-                                <div>
-                                    <label for="upload">책 이미지 등록</label>
-                                    <input class="uploadInput" type="file" name="upload" multiple
-                                        style="background: none;">
-                                    <button class="uploadBtn">이미지 등록</button>
-                                </div>
-                                <!-- 파일 업로드 사진 출력 -->
-                                <ul class="uploadUL">
-                                </ul>
-                            </div>
-
+            <div class="col-sm-12 col-xl-12">
+                <div class="bg-light rounded h-100 p-4">
+                    <h4 class="mb-4">| 공지사항 등록</h4>
+                    <form method="post" action="/notice/create" class="actionForm">
+                        <div class="mb-3">
+                            <label for="noticeTitle" class="form-label">제목</label>
+                            <input type="text" name="title" class="form-control" id="noticeTitle"
+                                placeholder="제목을 입력해주세요.">
+                        </div>
+                        <div class="mb-3">
+                            <label for="noticeContent" class="form-label">내용</label>
+                            <textarea name="content" class="form-control" id="noticeContent" rows="7"
+                                placeholder="내용을 입력해주세요." required></textarea>
+                        </div>
+                        <div>
+                            <input type="hidden" name="writer" th:value="${#authentication.principal.id}">
                         </div>
 
-                        <div class="button_wrap">
+                        <!-- 파일업로드 -->
+                        <div style="margin-top: 50px;">
+                            <label style="margin-bottom: 10px;">이미지 등록</label>
+                            <br>
+                            <input class="uploadInput" type="file" name="upload" multiple>
+                            <button class="uploadBtn">업로드</button>
+                        </div>
+
+                        <!-- 파일 업로드 사진 출력 -->
+                        <ul class="uploadUL" style="width: 300px;">
+
+                        </ul>
+
+                        <div class="button_wrap" style="margin-top: 30px;">
                             <button type="submit" class="btn btn-primary createBtn">등록</button>
-                            <a href="/book/list" class="btn btn-danger">취소</a>
+                            <a href="/notice/list" class="btn btn-danger">취소</a>
                         </div>
-
-
 
                     </form>
 
                 </div>
             </div>
+
+
         </div>
+
     </div>
 
     <script layout:fragment="script" th:inline="javascript">
@@ -101,7 +67,7 @@
         const uploadBtn = document.querySelector(".uploadBtn")
         const uploadUL = document.querySelector(".uploadUL")
         const createBtn = document.querySelector(".createBtn")
-        const actionForm = document.querySelector("#contact-form")
+        const actionForm = document.querySelector(".actionForm")
 
         // UPLOAD 버튼 클릭 시
         uploadBtn.addEventListener("click", (e) => {
@@ -232,6 +198,8 @@
 
             // Form 제출
             actionForm.submit();
+
+            alert("공지사항 작성이 완료되었습니다.")
         }, false);
 
     </script>
