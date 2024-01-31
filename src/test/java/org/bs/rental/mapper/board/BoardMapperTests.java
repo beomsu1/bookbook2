@@ -137,7 +137,7 @@ public class BoardMapperTests {
 
     // Board Total
     @Test
-    @DisplayName("게시판 갯수 매퍼 테스트")
+    @DisplayName("게시판 개수 매퍼 테스트")
     @Transactional
     public void boardTotalMapperTest(){
 
