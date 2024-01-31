@@ -137,7 +137,7 @@ public class NoticeMapperTests {
 
     // Notice Total
     @Test
-    @DisplayName("공지사항 갯수 매퍼 테스트")
+    @DisplayName("공지사항 개수 매퍼 테스트")
     @Transactional
     public void noticeTotalMapperTest() {
 
