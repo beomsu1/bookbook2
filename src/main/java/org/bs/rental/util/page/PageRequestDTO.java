@@ -25,6 +25,8 @@ public class PageRequestDTO {
  
     private String link;
 
+    private boolean replyLast;
+
     // 페이지 설정
     public void setPage(int page){
 

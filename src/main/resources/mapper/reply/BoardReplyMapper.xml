@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.bs.rental.mapper.reply.board.BoardReplyMapper">
+
+<!-- 댓글 목록 -->
+<select id="boardReplyList" resultType="org.bs.rental.dto.reply.board.BoardReplyListDTO">
+
+select if(rno = gno, 0, 1) as step, rno, tno, reply, replyer, replyDate, gno from board_reply
+where tno = #{tno} and rno > 0 and status = 0
+order by rno asc, gno asc
+limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
+
+</select>
+
+<!-- 댓글 개수 -->
+<select id="boardReplyTotal">
+
+select count(*) 
+from 
+(select * from board_reply where tno = #{tno}
+limit #{countEnd} ) board_reply
+
+
+</select>
+
+<!-- 댓글 생성 -->
+<insert id="boardReplyCreate" parameterType="org.bs.rental.dto.reply.board.BoardReplyCreateDTO">
+
+insert into board_reply (tno,reply,replyer) values (#{tno},#{reply},#{replyer})
+
+    <!-- rno 찾기 -->
+    <selectKey resultType="Long" keyProperty="rno" order="AFTER">
+    select LAST_INSERT_ID()
+    </selectKey>
+
+</insert>
+
+<!-- gno == rno -> 댓글 -->
+<update id="boardReplyGnoUpdate">
+
+update board_reply set gno = #{rno} where rno = #{rno}
+
+</update>
+
+<!-- ============ 댓글 생성 완 =============== -->
+
+<!-- 대댓글 생성 -->
+<insert id="boardReplyChildCreate" parameterType="org.bs.rental.dto.reply.board.BoardReplyCreateDTO">
+
+insert into board_reply (tno, gno, reply, replyer) values (#{tno}, #{gno}, #{reply}, #{replyer})
+
+    <!-- rno 찾기 -->
+    <selectKey resultType="Long" keyProperty="rno" order="AFTER">
+    select LAST_INSERT_ID()
+    </selectKey>
+
+</insert>
+
+<!-- 댓글, 대댓글 조회 -->
+<select id="boardReplyRead" resultType="org.bs.rental.dto.reply.board.BoardReplyDTO">
+
+select tno, rno, gno, reply, replyer, replyDate, status from board_reply where rno = #{rno}
+
+</select>
+
+<!-- 댓글, 대댓글 수정 -->
+<update id="boardReplyUpdate" parameterType="org.bs.rental.dto.reply.board.BoardReplyUpdateDTO">
+
+update board_reply set reply = #{reply} where rno = #{rno}
+
+</update>
+
+
+<!-- 댓글, 대댓글 삭제 -->
+<update id="boardReplyDelete">
+
+update board_reply set reply = '삭제된 댓글입니다.', status = true where rno = #{rno}
+
+</update>
+
+
+</mapper> 
