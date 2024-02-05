@@ -9,7 +9,6 @@ import org.bs.rental.dto.reply.board.BoardReplyUpdateDTO;
 import org.bs.rental.mapper.reply.board.BoardReplyMapper;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
-import org.springframework.security.access.method.P;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
