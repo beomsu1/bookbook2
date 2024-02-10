@@ -6,6 +6,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>게시글 정보</title>
+    <style>
+        .board-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        .board-header {
+            width: 100%;
+            border-bottom: 1px solid #cccccc;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            background-color: #FCFCFC;
+            padding: 10px;
+        }
+
+        .board-title {
+            flex: 1;
+            font-size: 23px;
+        }
+
+        .board-writer {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .board-content {
+            margin-top: 20px;
+        }
+
+        .reply {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .reply strong {
+            font-size: 16px;
+            color: #333;
+        }
+
+        .reply textarea {
+            width: calc(100% - 100px); /* 입력창 너비를 버튼 포함 전체 너비에서 버튼 너비를 뺀 값으로 설정 */
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px; /* 왼쪽 모서리만 둥글게 */
+            font-size: 16px;
+            outline: none; /* 포커스 효과 제거 */
+            margin-bottom: 10px; /* 여백 추가 */
+        }
+
+        .reply input[type="button"] {
+            width: 100px;
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 0 5px 5px 0; /* 오른쪽 모서리만 둥글게 */
+            cursor: pointer;
+            font-size: 16px;
+            margin-left: -4px; /* 텍스트 에어리어와 겹치는 여백 보정 */
+        }
+
+        .reply input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 
 <body>
@@ -15,38 +93,36 @@
         <div class="container board-container">
 
             <div class="col-sm-12 col-xl-12">
-                <div class="bg-light rounded h-100 p-4">
-                    <div class="mb-3">
-                        <h3 th:text="${board.title}"></h3>
-                        <div class="row">
+                <div class="rounded h-100 p-4">
+                    <div class="mb-3 row">
+                        <div class="board-header">
+                            <h1 class="board-title" th:text="${board.title}"></h1>
+                            <div class="board-date"
+                                th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd, HH:mm')}"></div>
+                        </div>
+                        <div class="board-writer">
                             <div th:text="${board.writer}"></div>
-                            <div th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd, HH:mm')}"></div>
+                            <span>댓글 <b>0</b></span>
                         </div>
                     </div>
-                        <div class="board-col-lg-6" style="width: 300px;">
-                            <div th:each="fname : ${board.fnames}" class="board-image-container">
-                                <img th:src="@{|http://localhost/${fname}|}">
-                            </div>
+                    <div class="board-col-lg-6" style="width: 300px;">
+                        <div th:each="fname : ${board.fnames}" class="board-image-container">
+                            <img th:src="@{|http://localhost/${fname}|}">
                         </div>
-                        <div class="mb-3">
-                            <span th:text="${board.content}"></span>
-     
-                        </div>
-
-                        <!-- <div class="buttonWrap">
-                            <a class="updateBtn" 
-                            th:href="@{/book/update/{tno}(tno=${board.tno})}" 
-                            sec:authorize="hasRole('ROLE_ADMIN') or ${#authentication.principal.username == board.writer}">
-                            도서 수정
-                         </a>
-                            <a class="btn btn-secondary" href="/board/list">목록</a>
-                        </div> -->
+                    </div>
+                    <div class="mb-3 board-content">
+                        <span th:text="${board.content}"></span>
+                    </div>
                 </div>
-
+                <div class="reply">
+                    <label><strong>댓글 쓰기</strong></label>
+                    <div>
+                        <textarea></textarea>
+                        <input type="button" value="등록" disabled="disabled" class="bd_btn">
+                    </div>
+                </div>
             </div>
-
         </div>
-
     </div>
 
     <script layout:fragment="script" th:inline="javascript">
