@@ -43,41 +43,52 @@
 
         .board-content {
             margin-top: 20px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #cccccc;
+            padding-bottom: 10px;
         }
 
         .reply {
             border: 1px solid #ccc;
-            border-radius: 5px;
+            border-radius: 10px;
             padding: 10px;
-            margin-top: 20px;
+            margin-top: 100px;
             width: 100%;
         }
 
         .reply strong {
             font-size: 16px;
             color: #333;
+            padding: 10px;
         }
 
-        .reply textarea {
-            width: calc(100% - 100px); /* 입력창 너비를 버튼 포함 전체 너비에서 버튼 너비를 뺀 값으로 설정 */
+        .reply input[type="text"] {
+            width: 935px;
+            height: 52px;
             padding: 8px;
             border: 1px solid #ccc;
-            border-radius: 5px 0 0 5px; /* 왼쪽 모서리만 둥글게 */
+            border-radius: 5px;
             font-size: 16px;
-            outline: none; /* 포커스 효과 제거 */
-            margin-bottom: 10px; /* 여백 추가 */
+            outline: none;
+            /* 포커스 효과 제거 */
+            margin-bottom: 10px;
+            /* 여백 추가 */
+            margin-top: 10px;
+            margin-left: 22px;
         }
 
-        .reply input[type="button"] {
-            width: 100px;
+        .reply .replyCreateBtn {
+            width: 80px;
+            height: 52px;
             padding: 8px;
             background-color: #007bff;
             color: #fff;
             border: none;
-            border-radius: 0 5px 5px 0; /* 오른쪽 모서리만 둥글게 */
+            border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            margin-left: -4px; /* 텍스트 에어리어와 겹치는 여백 보정 */
+            margin-top: 10px;
+            margin-left: 10px;
         }
 
         .reply input[type="button"]:hover {
@@ -113,14 +124,18 @@
                     <div class="mb-3 board-content">
                         <span th:text="${board.content}"></span>
                     </div>
-                </div>
-                <div class="reply">
-                    <label><strong>댓글 쓰기</strong></label>
-                    <div>
-                        <textarea></textarea>
-                        <input type="button" value="등록" disabled="disabled" class="bd_btn">
+
+                    <div>댓글 목록</div>
+                    
+                    <div class="reply">
+                        <label><strong>댓글 쓰기</strong></label>
+                        <div class="row">
+                            <input type="text"></input>
+                            <button class="replyCreateBtn">작성</button>
+                        </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
