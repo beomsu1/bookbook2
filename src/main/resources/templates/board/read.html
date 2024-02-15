@@ -108,6 +108,7 @@
                     <div class="mb-3 row">
                         <div class="board-header">
                             <h1 class="board-title" th:text="${board.title}"></h1>
+                            <input type="hidden" name="tno" th:value="${board.tno}"></input>
                             <div class="board-date"
                                 th:text="${#temporals.format(board.createDate, 'yyyy-MM-dd, HH:mm')}"></div>
                         </div>
@@ -126,12 +127,15 @@
                     </div>
 
                     <div>댓글 목록</div>
-                    
+
                     <div class="reply">
                         <label><strong>댓글 쓰기</strong></label>
                         <div class="row">
-                            <input type="text"></input>
-                            <button class="replyCreateBtn">작성</button>
+                            <form class="replyForm">
+                                <input type="text" name="reply"></input>
+                                <input type="hidden" name="replyer" th:value="${#authentication.principal.id}"></input>
+                                <button class="replyCreateBtn">작성</button>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -141,6 +145,26 @@
     </div>
 
     <script layout:fragment="script" th:inline="javascript">
+
+        const replyForm = document.querySelector(".replyForm")
+        const replyCreateBtn = document.querySelector(".replyCreateBtn")
+        const tno = document.querySelector("input[name=tno]").value
+
+        // 댓글 생성
+        replyCreateBtn.addEventListener("click", async (e) => {
+
+            e.preventDefault()
+            e.stopPropagation()
+
+            console.log("tno: " + tno)
+
+            await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`)
+
+            replyForm.submit()
+
+        }, false)
+
+
 
 
     </script>
