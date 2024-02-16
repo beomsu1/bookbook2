@@ -21,5 +21,6 @@ public class BoardDTO {
     private LocalDateTime createDate;
     private LocalDateTime updateDate;
     private List<String> fnames;
+    private int replyCount;
     
 }

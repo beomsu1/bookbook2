@@ -13,6 +13,7 @@
       <result property="writer" column="writer"/>
       <result property="createDate" column="createDate"/>
       <result property="updateDate" column="updateDate"/>
+      <result property="replyCount" column="replyCount"/>
       <collection property="fnames" resultMap="fileMap"/>
   </resultMap>
 
@@ -61,10 +62,25 @@ insert into board (title,content,writer) value (#{title},#{content},#{writer})
 <!-- Board Read -->
 <select id="boardRead" resultMap="fileListMap">
 
-select b.tno, b.title, b.content, b.writer, b.createDate, b.updateDate, concat(bi.uuid, "_", bi.fname) as fnames
-from board b 
-left outer join board_img bi on b.tno = bi.tno
-where b.tno = #{tno}
+select 
+    b.tno,
+    b.title,
+    b.content,
+    b.writer,
+    b.createDate,
+    b.updateDate,
+    concat(bi.uuid, "_", bi.fname) as fnames,
+    count(br.rno) as replyCount
+from 
+    board b
+left outer join 
+    board_img bi on b.tno = bi.tno
+left outer join  
+    board_reply br on b.tno = br.tno
+where 
+    b.tno = #{tno}
+group by 
+    b.tno, b.title, b.content, b.writer, b.createDate, b.updateDate, bi.uuid, bi.fname;
 
 </select>
 

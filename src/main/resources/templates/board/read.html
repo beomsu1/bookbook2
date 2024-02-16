@@ -44,7 +44,6 @@
         .board-content {
             margin-top: 20px;
             margin-bottom: 10px;
-            border-bottom: 1px solid #cccccc;
             padding-bottom: 10px;
         }
 
@@ -52,7 +51,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 10px;
-            margin-top: 100px;
+            margin-top: 50px;
             width: 100%;
         }
 
@@ -63,16 +62,14 @@
         }
 
         .reply input[type="text"] {
-            width: 935px;
+            width: 1100px;
             height: 52px;
             padding: 8px;
             border: 1px solid #ccc;
             border-radius: 5px;
             font-size: 16px;
             outline: none;
-            /* 포커스 효과 제거 */
             margin-bottom: 10px;
-            /* 여백 추가 */
             margin-top: 10px;
             margin-left: 22px;
         }
@@ -94,6 +91,67 @@
         .reply input[type="button"]:hover {
             background-color: #0056b3;
         }
+
+        .replyListUl {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .replyListUl li {
+            padding: 10px;
+        }
+
+        .replyListUl li .replyer {
+            font-weight: bold;
+        }
+
+        .replyListUl li button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .replyListUl li button:hover {
+            background-color: #0056b3;
+        }
+
+        .replyChild {
+            margin-left: 60px;
+            position: relative;
+        }
+
+        .replyChild::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -30px;
+            width: 10px;
+            height: 10px;
+            border-top: 2px solid #ccc;
+            border-right: 2px solid #ccc;
+            transform: translateY(-50%) rotate(45deg);
+        }
+
+        .replyDiv {
+            padding: 10px;
+            border: 0.4px solid gray;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+            margin-bottom: 10px;
+        }
+
+        .createReplyBtn {
+            border: none;
+            padding: 5px 10px;
+            color: #007bff;
+            cursor: pointer;
+            margin-right: 5px;
+            background-color: transparent;
+        }
     </style>
 </head>
 
@@ -114,7 +172,7 @@
                         </div>
                         <div class="board-writer">
                             <div th:text="${board.writer}"></div>
-                            <span>댓글 <b>0</b></span>
+                            <span>댓글 <b th:text="${board.replyCount}"></b></span>
                         </div>
                     </div>
                     <div class="board-col-lg-6" style="width: 300px;">
@@ -126,7 +184,17 @@
                         <span th:text="${board.content}"></span>
                     </div>
 
-                    <div>댓글 목록</div>
+                    <div th:if="${board.replyCount > 0}" class="replyDiv">
+                        <span th:text="'댓글 ' + ${board.replyCount} + ' 개'"></span>
+                    </div>
+
+                    <div>
+                        <ul class="replyListUl">
+
+
+                        </ul>
+
+                    </div>
 
                     <div class="reply">
                         <label><strong>댓글 쓰기</strong></label>
@@ -150,6 +218,10 @@
         const replyCreateBtn = document.querySelector(".replyCreateBtn")
         const tno = document.querySelector("input[name=tno]").value
 
+        const replyListUl = document.querySelector(".replyListUl")
+
+        const replyDiv = document.querySelector(".replyDiv");
+
         // 댓글 생성
         replyCreateBtn.addEventListener("click", async (e) => {
 
@@ -165,14 +237,94 @@
 
             await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`, { tno: tno, reply: reply, replyer: replyer })
 
-            replyForm.submit()
-
             alert("댓글이 등록되었습니다.")
+
+            replyList()
+
+            reply.value = '';
 
         }, false)
 
+        // 댓글 리스트
+        const replyList = async (page) => {
 
+            const response = await axios.get(`http://localhost:8080/api/board/reply/${tno}/list`)
 
+            console.log(response.data)
+
+            const { list, total } = response.data
+
+            let str = '';
+
+            for (let i = 0; i < list.length; i++) {
+
+                const { gno, rno, reply, replyer, replyDate, step } = list[i]
+
+                // 스타일 적용
+                const reply2 = `<span style="display: inline-block; margin-top: 10px">${reply}</span>`;
+
+                const timeDifference = Math.floor((new Date() - new Date(replyDate)) / 60000);
+                const timeAgoString = timeAgo(new Date(replyDate));
+
+                const replyInfo = `<span style="display: inline-block; margin-bottom: 10px;">${replyer} <span style="margin-left: 10px">${timeAgoString} 전</span></span>`
+
+                if (step === 1) {
+                    str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer} class="replyChild">
+
+                ${replyInfo}                 
+                
+                <button class="createReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">답글달기</button>
+                <button class="updateReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">수정</button>
+                <button class="deleteReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">삭제</button>
+
+                <br>  ${reply2}
+                
+
+                </li>
+                <hr>`
+                } else {
+                    str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer}>
+
+                     ${replyInfo} 
+                    
+                <button class="createReplyBtn">답글</button>
+                <button class="updateReplyBtn">수정</button>
+                <button class="deleteReplyBtn">삭제</button>
+                
+                <br>  ${reply2}
+
+                </li>
+                <hr>`
+                }
+
+            }
+
+            replyListUl.innerHTML = str
+
+        }
+
+        window.onload = function () {
+            replyList();
+        };
+
+        // 현재 시간으로부터 몇 분 전인지 계산하는 함수
+        function timeAgo(date) {
+            const seconds = Math.floor((new Date() - date) / 1000);
+            let interval = Math.floor(seconds / 60);
+
+            if (interval < 1) {
+                return "방금";
+            }
+            if (interval < 60) {
+                return `${interval}분`;
+            }
+            interval = Math.floor(interval / 60);
+            if (interval < 24) {
+                return `${interval}시간`;
+            }
+            interval = Math.floor(interval / 24);
+            return `${interval}일`;
+        }
 
     </script>
 

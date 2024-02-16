@@ -113,7 +113,7 @@ create table board_reply (
 );
 
 -- gno 값 변경 -> 댓글
-update tbl_reply set gno = rno where rno = rno ;
+update board_reply set gno = rno where rno = rno ;
 
 -- reply index
-create index idx_tbl_reply1 on tbl_reply ( tno desc , rno asc);
+create index idx_board_reply on board_reply ( tno desc , rno asc);
