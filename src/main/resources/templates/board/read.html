@@ -132,8 +132,8 @@
                         <label><strong>댓글 쓰기</strong></label>
                         <div class="row">
                             <form class="replyForm">
-                                <input type="text" name="reply"></input>
                                 <input type="hidden" name="replyer" th:value="${#authentication.principal.id}"></input>
+                                <input type="text" name="reply"></input>
                                 <button class="replyCreateBtn">작성</button>
                             </form>
                         </div>
@@ -156,11 +156,18 @@
             e.preventDefault()
             e.stopPropagation()
 
-            console.log("tno: " + tno)
+            const replyer = replyForm.querySelector("input[name=replyer]").value
+            const reply = replyForm.querySelector("input[name=reply]").value
 
-            await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`)
+            console.log("tno: " + tno)
+            console.log("replyer: " + replyer)
+            console.log("reply: " + reply)
+
+            await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`, { tno: tno, reply: reply, replyer: replyer })
 
             replyForm.submit()
+
+            alert("댓글이 등록되었습니다.")
 
         }, false)
 
