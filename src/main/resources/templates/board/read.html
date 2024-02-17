@@ -51,7 +51,7 @@
             border: 1px solid #ccc;
             border-radius: 10px;
             padding: 10px;
-            margin-top: 50px;
+            margin-top: 30px;
             width: 100%;
         }
 
@@ -152,6 +152,20 @@
             margin-right: 5px;
             background-color: transparent;
         }
+
+        .replyFormContainer .replyChildCreateBtn {
+            width: 80px;
+            height: 52px;
+            padding: 8px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
     </style>
 </head>
 
@@ -217,10 +231,11 @@
         const replyForm = document.querySelector(".replyForm")
         const replyCreateBtn = document.querySelector(".replyCreateBtn")
         const tno = document.querySelector("input[name=tno]").value
-
         const replyListUl = document.querySelector(".replyListUl")
-
         const replyDiv = document.querySelector(".replyDiv");
+        const createReplyBtn = document.querySelector(".createReplyBtn")
+        const replyer = replyForm.querySelector("input[name=replyer]").value
+        const replyChildCreateBtn = document.querySelector(".replyChildCreateBtn")
 
         // 댓글 생성
         replyCreateBtn.addEventListener("click", async (e) => {
@@ -228,7 +243,6 @@
             e.preventDefault()
             e.stopPropagation()
 
-            const replyer = replyForm.querySelector("input[name=replyer]").value
             const reply = replyForm.querySelector("input[name=reply]").value
 
             console.log("tno: " + tno)
@@ -241,7 +255,7 @@
 
             replyList()
 
-            reply.value = '';
+            reply.value = ''
 
         }, false)
 
@@ -254,22 +268,22 @@
 
             const { list, total } = response.data
 
-            let str = '';
+            let str = ''
 
             for (let i = 0; i < list.length; i++) {
 
-                const { gno, rno, reply, replyer, replyDate, step } = list[i]
+                const { tno, gno, rno, reply, replyer, replyDate, step } = list[i]
 
                 // 스타일 적용
-                const reply2 = `<span style="display: inline-block; margin-top: 10px">${reply}</span>`;
+                const reply2 = `<span style="display: inline-block; margin-top: 10px">${reply}</span>`
 
-                const timeDifference = Math.floor((new Date() - new Date(replyDate)) / 60000);
+                const timeDifference = Math.floor((new Date() - new Date(replyDate)) / 60000)
                 const timeAgoString = timeAgo(new Date(replyDate));
 
                 const replyInfo = `<span style="display: inline-block; margin-bottom: 10px;">${replyer} <span style="margin-left: 10px">${timeAgoString} 전</span></span>`
 
                 if (step === 1) {
-                    str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer} class="replyChild">
+                    str += `<li data-tno=${tno} data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer} class="replyChild">
 
                 ${replyInfo}                 
                 
@@ -283,7 +297,7 @@
                 </li>
                 <hr>`
                 } else {
-                    str += `<li data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer}>
+                    str += `<li data-tno=${tno} data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer}>
 
                      ${replyInfo} 
                     
@@ -303,28 +317,123 @@
 
         }
 
+        // 로딩 시 replyList 실행
         window.onload = function () {
             replyList();
         };
 
         // 현재 시간으로부터 몇 분 전인지 계산하는 함수
         function timeAgo(date) {
-            const seconds = Math.floor((new Date() - date) / 1000);
-            let interval = Math.floor(seconds / 60);
+            const seconds = Math.floor((new Date() - date) / 1000)
+            let interval = Math.floor(seconds / 60)
 
             if (interval < 1) {
-                return "방금";
+                return "방금"
             }
             if (interval < 60) {
-                return `${interval}분`;
+                return `${interval}분`
             }
             interval = Math.floor(interval / 60);
             if (interval < 24) {
-                return `${interval}시간`;
+                return `${interval}시간`
             }
             interval = Math.floor(interval / 24);
-            return `${interval}일`;
+            return `${interval}일`
         }
+
+        // 답글 생성 버튼 클릭 시 이벤트 처리
+        replyListUl.addEventListener("click", (e) => {
+            if (e.target.classList.contains("createReplyBtn")) {
+                e.preventDefault()
+                e.stopPropagation()
+
+                const parentLi = e.target.closest("li")
+                const tno = parentLi.getAttribute("data-tno")
+                const rno = parentLi.getAttribute("data-rno")
+                const gno = parentLi.getAttribute("data-gno")
+
+                let replyFormContainer = parentLi.querySelector(".replyFormContainer")
+
+                // 새로운 div 추가 혹은 토글 동작
+                if (!replyFormContainer) {
+                    const replyFormHtml = `
+                        <div class="replyFormContainer reply">
+                            <div class="row">
+                                <label><strong>답글 달기</strong></label>
+                                <form class="replyForm">
+                                    <input type="hidden" name="replyer" th:value="${replyer}">
+                                    <input type="hidden" name="tno" value="${tno}">
+                                    <input type="hidden" name="rno" value="${rno}">
+                                    <input type="hidden" name="gno" value="${gno}">
+                                    <input type="text" name="reply" style="width: 1080px">
+                                    <button class="replyChildCreateBtn">작성</button>
+                                </form>
+                            </div>
+                        </div>
+                    `
+                    parentLi.insertAdjacentHTML("beforeend", replyFormHtml)
+                    replyFormContainer = parentLi.querySelector(".replyFormContainer")
+                } else {
+                    // replyFormContainer의 display 상태에 따라 토글 동작
+                    replyFormContainer.style.display = replyFormContainer.style.display === "none" ? "block" : "none"
+                }
+            }
+        })
+
+        // 답글 생성 버튼 클릭 시
+        replyListUl.addEventListener("click", async (e) => {
+
+            // "replyChildCreateBtn" 클래스를 가진 버튼이 클릭되었는지 확인
+            if (e.target.classList.contains("replyChildCreateBtn")) {
+                e.preventDefault()
+                e.stopPropagation()
+
+                const parentLi = e.target.closest("li")
+
+                // li 요소 내부의 input 값들 가져오기
+                const tno = parentLi.querySelector("input[name=tno]").value
+                const rno = parentLi.querySelector("input[name=rno]").value
+                const gno = parentLi.querySelector("input[name=gno]").value
+                const reply = parentLi.querySelector("input[name=reply]").value
+
+                console.log("tno: " + tno)
+                console.log("rno: " + rno)
+                console.log("gno: " + gno)
+                console.log("replyer: " + replyer)
+                console.log("reply: " + reply)
+
+                await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`, { tno: tno, rno: rno, gno: gno, reply: reply, replyer: replyer })
+
+                alert("댓글이 등록되었습니다.")
+
+                replyList()
+
+                reply.value = ''
+
+            }
+        })
+
+        // 삭제 버튼 클릭시
+        replyListUl.addEventListener("click", async (e) => {
+
+            if (e.target.classList.contains("deleteReplyBtn")) {
+
+                e.preventDefault()
+                e.stopPropagation()
+
+                const parentLi = e.target.closest("li")
+
+                const rno = parentLi.getAttribute("data-rno")
+
+                await axios.delete(`http://localhost:8080/api/board/reply/delete/${rno}`, { rno: rno })
+
+                alert("댓글이 삭제되었습니다.")
+
+                replyList()
+
+            }
+
+        }, false)
 
     </script>
 

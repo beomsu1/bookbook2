@@ -9,8 +9,8 @@
 <select id="boardReplyList" resultType="org.bs.rental.dto.reply.board.BoardReplyListDTO">
 
 select if(rno = gno, 0, 1) as step, rno, tno, reply, replyer, replyDate, gno from board_reply
-where tno = #{tno} and rno > 0 and status = 0
-order by rno asc, gno asc
+where tno = #{tno} and rno > 0 
+order by gno asc, rno asc
 limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
 
 </select>
