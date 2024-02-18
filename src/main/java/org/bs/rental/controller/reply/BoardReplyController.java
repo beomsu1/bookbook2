@@ -61,7 +61,7 @@ public class BoardReplyController {
 
     // Board Reply Update
     @PutMapping("update/{rno}")
-    public ResponseEntity<String> putBoardReplyUpdate(@PathVariable("rno") Long rno, BoardReplyUpdateDTO boardReplyUpdateDTO){
+    public ResponseEntity<String> putBoardReplyUpdate(@PathVariable("rno") Long rno, @RequestBody BoardReplyUpdateDTO boardReplyUpdateDTO){
 
         log.info("PUT | Board Reply Update Controller");
 

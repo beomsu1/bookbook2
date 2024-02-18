@@ -153,7 +153,7 @@
             background-color: transparent;
         }
 
-        .replyFormContainer .replyChildCreateBtn {
+        .replyFormContainer .btn {
             width: 80px;
             height: 52px;
             padding: 8px;
@@ -275,7 +275,7 @@
                 const { tno, gno, rno, reply, replyer, replyDate, step } = list[i]
 
                 // 스타일 적용
-                const reply2 = `<span style="display: inline-block; margin-top: 10px">${reply}</span>`
+                const reply2 = `<span class="replyContent" style="display: inline-block; margin-top: 10px">${reply}</span>`
 
                 const timeDifference = Math.floor((new Date() - new Date(replyDate)) / 60000)
                 const timeAgoString = timeAgo(new Date(replyDate));
@@ -285,30 +285,31 @@
                 if (step === 1) {
                     str += `<li data-tno=${tno} data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer} class="replyChild">
 
-                ${replyInfo}                 
-                
-                <button class="createReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">답글달기</button>
-                <button class="updateReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">수정</button>
-                <button class="deleteReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">삭제</button>
+                    ${replyInfo}                 
+                    
+                    <button class="createReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">답글달기</button>
+                    
 
-                <br>  ${reply2}
-                
+                    <br>  ${reply2}
 
-                </li>
-                <hr>`
+                    <button class="updateReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-left: 15px;">수정하기</button>
+                    
+
+                    </li>
+                    <hr>`
                 } else {
                     str += `<li data-tno=${tno} data-rno=${rno} data-gno=${gno} data-reply=${reply} data-replyer=${replyer}>
 
-                     ${replyInfo} 
+                        ${replyInfo} 
+                        
+                        <button class="createReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-right: 5px;">답글달기</button>
                     
-                <button class="createReplyBtn">답글</button>
-                <button class="updateReplyBtn">수정</button>
-                <button class="deleteReplyBtn">삭제</button>
-                
-                <br>  ${reply2}
+                    <br>  ${reply2}
 
-                </li>
-                <hr>`
+                    <button class="updateReplyBtn" style="background: none; border: none; padding: 5px 10px; color: #666666; cursor: pointer; margin-left: 15px;">수정하기</button>
+
+                    </li>
+                    <hr>`
                 }
 
             }
@@ -341,7 +342,7 @@
             return `${interval}일`
         }
 
-        // 답글 생성 버튼 클릭 시 이벤트 처리
+        // 답글 달기 버튼 클릭 시 div 생성
         replyListUl.addEventListener("click", (e) => {
             if (e.target.classList.contains("createReplyBtn")) {
                 e.preventDefault()
@@ -354,36 +355,45 @@
 
                 let replyFormContainer = parentLi.querySelector(".replyFormContainer")
 
-                // 새로운 div 추가 혹은 토글 동작
                 if (!replyFormContainer) {
                     const replyFormHtml = `
-                        <div class="replyFormContainer reply">
-                            <div class="row">
-                                <label><strong>답글 달기</strong></label>
-                                <form class="replyForm">
-                                    <input type="hidden" name="replyer" th:value="${replyer}">
-                                    <input type="hidden" name="tno" value="${tno}">
-                                    <input type="hidden" name="rno" value="${rno}">
-                                    <input type="hidden" name="gno" value="${gno}">
-                                    <input type="text" name="reply" style="width: 1080px">
-                                    <button class="replyChildCreateBtn">작성</button>
-                                </form>
+                            <div class="replyFormContainer reply">
+                                <div class="row">
+                                    <label><strong>답글 달기</strong></label>
+                                    <form class="replyForm">
+                                        <input type="hidden" name="replyer" th:value="${replyer}">
+                                        <input type="hidden" name="tno" value="${tno}">
+                                        <input type="hidden" name="rno" value="${rno}">
+                                        <input type="hidden" name="gno" value="${gno}">
+                                        <input type="text" name="reply" style="width: 1080px">
+                                        <button class="replyChildCreateBtn btn">작성</button>
+                                        <button class="replyCancelBtn btn">취소</button>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                    `
+                        `
                     parentLi.insertAdjacentHTML("beforeend", replyFormHtml)
                     replyFormContainer = parentLi.querySelector(".replyFormContainer")
                 } else {
-                    // replyFormContainer의 display 상태에 따라 토글 동작
                     replyFormContainer.style.display = replyFormContainer.style.display === "none" ? "block" : "none"
+                }
+
+                // 취소 버튼 클릭 시
+            } else if (e.target.classList.contains("replyCancelBtn")) {
+                e.preventDefault();
+                e.stopPropagation();
+
+                const parentLi = e.target.closest("li");
+                const replyFormContainer = parentLi.querySelector(".replyFormContainer");
+
+                if (replyFormContainer) {
+                    replyFormContainer.style.display = "none";
                 }
             }
         })
 
-        // 답글 생성 버튼 클릭 시
+        // 답글 달기 버튼 클릭 시 이벤트 처리
         replyListUl.addEventListener("click", async (e) => {
-
-            // "replyChildCreateBtn" 클래스를 가진 버튼이 클릭되었는지 확인
             if (e.target.classList.contains("replyChildCreateBtn")) {
                 e.preventDefault()
                 e.stopPropagation()
@@ -413,10 +423,107 @@
             }
         })
 
-        // 삭제 버튼 클릭시
+        // 수정하기 버튼 클릭시
         replyListUl.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("updateReplyBtn")) {
+                e.preventDefault();
+                e.stopPropagation();
 
-            if (e.target.classList.contains("deleteReplyBtn")) {
+                const parentLi = e.target.closest("li");
+                const replyText = parentLi.querySelector(".replyContent"); // 수정할 요소 선택
+                const replyContent = replyText.textContent
+
+                // 기존의 삭제 및 취소 버튼 제거
+                const existingDeleteButton = parentLi.querySelector(".deleteReplyBtn");
+                if (existingDeleteButton) {
+                    existingDeleteButton.remove()
+                }
+                const existingCancelButton = parentLi.querySelector(".cancelBtn");
+                if (existingCancelButton) {
+                    existingCancelButton.remove()
+                }
+
+                // 삭제 버튼 추가
+                const newDeleteButton = document.createElement("button")
+                newDeleteButton.innerText = "삭제"
+                newDeleteButton.classList.add("deleteReplyBtn")
+                newDeleteButton.style.background = "none"
+                newDeleteButton.style.border = "none"
+                newDeleteButton.style.padding = "5px 10px"
+                newDeleteButton.style.color = "#666666"
+                newDeleteButton.style.cursor = "pointer"
+                parentLi.appendChild(newDeleteButton)
+
+                // 취소 버튼 생성
+                const newCancelButton = document.createElement("button")
+                newCancelButton.innerText = "취소"
+                newCancelButton.classList.add("cancelBtn")
+                newCancelButton.style.background = "none"
+                newCancelButton.style.border = "none"
+                newCancelButton.style.padding = "5px 10px"
+                newCancelButton.style.color = "#666666"
+                newCancelButton.style.cursor = "pointer"
+                parentLi.appendChild(newCancelButton)
+
+                // 수정 가능한 입력 필드 생성
+                const inputField = document.createElement("input")
+                inputField.setAttribute("type", "text")
+                inputField.setAttribute("value", replyContent)
+                inputField.classList.add("replyEditInput"); // 추가된 입력 필드에 클래스 추가
+
+                // 입력 필드에 스타일 적용
+                inputField.style.width = "600px"
+                inputField.style.height = "52px"
+                inputField.style.padding = "8px"
+                inputField.style.border = "1px solid #ccc"
+                inputField.style.borderRadius = "5px"
+                inputField.style.fontSize = "16px"
+                inputField.style.outline = "none"
+                inputField.style.marginBottom = "10px"
+                inputField.style.marginTop = "10px"
+                inputField.style.marginLeft = "22px"
+
+                // 기존 내용 대신에 입력 필드를 추가
+                parentLi.insertBefore(inputField, replyText)
+                replyText.style.display = "none"
+
+                // 수정하기 버튼을 수정 버튼으로 변경
+                e.target.innerText = "수정"
+                e.target.classList.remove("updateReplyBtn")
+                e.target.classList.add("confirmUpdateBtn")
+
+                // 수정 버튼 클릭 시 
+            } else if (e.target.classList.contains("confirmUpdateBtn")) {
+
+                e.preventDefault()
+                e.stopPropagation()
+
+                const parentLi = e.target.closest("li")
+                const replyText = parentLi.querySelector(".replyContent")
+                const inputField = parentLi.querySelector(".replyEditInput")
+                const updatedContent = inputField.value
+                const rno = parentLi.getAttribute("data-rno")
+
+                // 비동기 통신
+                await axios.put(`http://localhost:8080/api/board/reply/update/${rno}`, { rno: rno, reply: updatedContent });
+
+                // 수정 완료 후 UI 업데이트
+                replyText.textContent = updatedContent
+                replyText.style.display = "inline-block"
+                inputField.remove()
+                e.target.innerText = "수정하기"
+                e.target.classList.remove("confirmUpdateBtn")
+                e.target.classList.add("updateReplyBtn")
+
+                // 삭제 버튼 제거
+                const deleteButton = parentLi.querySelector(".deleteReplyBtn")
+                deleteButton.remove()
+
+                alert("수정되었습니다.")
+
+
+                // 삭제 버튼 클릭 시
+            } else if (e.target.classList.contains("deleteReplyBtn")) {
 
                 e.preventDefault()
                 e.stopPropagation()
@@ -431,9 +538,33 @@
 
                 replyList()
 
+                // 삭제 버튼 제거
+                e.target.remove()
+
             }
 
-        }, false)
+            // 취소 버튼 클릭 시 
+            else if (e.target.classList.contains("cancelBtn")) {
+                e.preventDefault()
+                e.stopPropagation()
+
+                const parentLi = e.target.closest("li")
+                const replyText = parentLi.querySelector(".replyContent")
+                const inputField = parentLi.querySelector(".replyEditInput")
+
+                // 입력 필드 제거
+                inputField.remove()
+
+                // 기존 내용 보이도록 설정
+                replyText.style.display = "inline-block"
+
+                // 수정 버튼 초기 상태로 변경
+                const updateButton = parentLi.querySelector(".confirmUpdateBtn")
+                updateButton.innerText = "수정하기"
+                updateButton.classList.remove("confirmUpdateBtn")
+                updateButton.classList.add("updateReplyBtn")
+            }
+        })
 
     </script>
 
