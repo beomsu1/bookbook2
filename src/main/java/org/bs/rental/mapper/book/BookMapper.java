@@ -39,5 +39,9 @@ public interface BookMapper {
     // Book Status To Borrow
     @Update("UPDATE book SET status = '대출 중' WHERE book_number = #{bookNumber}")
     int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
-    
+
+    // 회원이 빌린 리스트
+    List<BookListDTO> listOfBookBorrowedByMember(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO, @Param("id") String id);
+
+
 }

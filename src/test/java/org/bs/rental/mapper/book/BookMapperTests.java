@@ -203,5 +203,27 @@ public class BookMapperTests {
 
         log.info("Book Status To Borrowed Mapper Test Complete");
     }
+
+    // 회원이 빌린 책 리스트
+    @Test
+    @DisplayName("회원이 빌린 책 리스트 매퍼 테스트")
+    @Transactional
+    public void listOfBookBorrowedByMemberMapperTest(){
+
+        // Given
+        log.info("List Of Book Borrowed By Member Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        String id = "admin";
+
+        // When
+        List<BookListDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
+
+        // Then
+        list.forEach(info -> log.info(info.toString()));
+
+        log.info("List Of Book Borrowed By Member Mapper Test Complete");
+    }
     
 }

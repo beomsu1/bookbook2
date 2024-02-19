@@ -74,5 +74,4 @@
     where l.status = '대출 중' and l.book_number = #{bookNumber}
     </select>
 
-
 </mapper>

@@ -129,7 +129,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public int bookDelete(Long bookNumber) {
 
-        log.info("Book Delete Service Imple Start");
+        log.info("Book Delete Service Impl Start");
 
         return bookMapper.bookDelete(bookNumber);
     }
@@ -138,14 +138,34 @@ public class BookServiceImpl implements BookService {
     @Override
     public int bookStatusToAvailable(Long bookNumber) {
 
+        log.info("Book Status To Available Service Impl Start");
+
         return bookMapper.bookStatusToAvailable(bookNumber);
     }
 
     // Book Status To Borrow
     @Override
     public int bookStatusToBorrowed(Long bookNumber) {
+        
+        log.info("Book Status To Borrowed Service impl Start");
 
         return bookMapper.bookStatusToBorrowed(bookNumber);
+    }
+
+    // 회원이 빌린 책 리스트
+    @Override
+    public PageResponseDTO<BookListDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id) {
+        
+        log.info("List Of Book Borrowed By Member Service Impl Start");
+
+        int total = bookMapper.bookTotal(pageRequestDTO);
+        List<BookListDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
+
+        return PageResponseDTO.<BookListDTO>builder()
+                .total(total)
+                .list(list)
+                .build();
+
     }
 
 }

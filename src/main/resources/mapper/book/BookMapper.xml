@@ -153,4 +153,14 @@
         where book_number = #{bookNumber}
     </delete>
 
+    <!-- 회원이 빌린 책 리스트 -->
+    <select id="listOfBookBorrowedByMember" resultType="org.bs.rental.dto.book.BookListDTO" >
+        select l.lno, b.title, b.author, l.start_date, l.status
+        from book b
+                 left outer join loan l on b.book_number = l.book_number
+        where l.member_id = #{id}
+        order by l.start_date asc
+        limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
+    </select>
+
 </mapper>

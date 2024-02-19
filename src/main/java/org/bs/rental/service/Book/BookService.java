@@ -28,9 +28,12 @@ public interface BookService {
     int bookDelete(Long bookNumber);
 
     // Status To Available
-    int bookStatusToAvailable(@Param("bookNumber") Long bookNumber);
+    int bookStatusToAvailable(Long bookNumber);
 
     // Status To Borrow
-    int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
+    int bookStatusToBorrowed(Long bookNumber);
+
+    // 회원이 빌린 책 리스트
+    PageResponseDTO<BookListDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id);
 
 }

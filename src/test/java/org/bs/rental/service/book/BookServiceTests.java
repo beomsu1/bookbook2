@@ -182,4 +182,26 @@ public class BookServiceTests {
 
         log.info("Book Status To Borrowed Service Test Complete");
     }
+
+    // 회원이 빌린 책 리스트
+    @Test
+    @DisplayName("회원이 빌린 책 리스트 서비스 테스트")
+    @Transactional
+    public void listOfBookBorrowedByMemberServiceTest(){
+
+        // Given
+        log.info("List Of Book Borrowed By Member Service Test Start");
+
+        String id = "admin";
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        // When
+        PageResponseDTO<BookListDTO> list = bookService.listOfBookBorrowedByMember(pageRequestDTO,id);
+
+        // Then
+        log.info("List: " + list);
+
+        log.info("List Of Book Borrowed By Member Service Test Complete");
+
+    }
 }
