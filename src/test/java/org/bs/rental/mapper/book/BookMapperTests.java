@@ -5,10 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.bs.rental.dto.book.BookCreateDTO;
-import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookListDTO;
-import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.book.*;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -218,7 +215,7 @@ public class BookMapperTests {
         String id = "admin";
 
         // When
-        List<BookListDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
+        List<BookListByMemberDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
 
         // Then
         list.forEach(info -> log.info(info.toString()));

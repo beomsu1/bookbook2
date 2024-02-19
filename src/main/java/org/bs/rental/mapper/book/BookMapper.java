@@ -5,10 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Update;
-import org.bs.rental.dto.book.BookCreateDTO;
-import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookListDTO;
-import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.book.*;
 import org.bs.rental.util.page.PageRequestDTO;
 
 @Mapper
@@ -41,7 +38,7 @@ public interface BookMapper {
     int bookStatusToBorrowed(@Param("bookNumber") Long bookNumber);
 
     // 회원이 빌린 리스트
-    List<BookListDTO> listOfBookBorrowedByMember(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO, @Param("id") String id);
+    List<BookListByMemberDTO> listOfBookBorrowedByMember(@Param("pageRequestDTO") PageRequestDTO pageRequestDTO, @Param("id") String id);
 
 
 }

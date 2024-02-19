@@ -1,10 +1,7 @@
 package org.bs.rental.service.Book;
 
 import org.apache.ibatis.annotations.Param;
-import org.bs.rental.dto.book.BookCreateDTO;
-import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookListDTO;
-import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.book.*;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +31,6 @@ public interface BookService {
     int bookStatusToBorrowed(Long bookNumber);
 
     // 회원이 빌린 책 리스트
-    PageResponseDTO<BookListDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id);
+    PageResponseDTO<BookListByMemberDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id);
 
 }

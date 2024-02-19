@@ -5,10 +5,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
-import org.bs.rental.dto.book.BookCreateDTO;
-import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookListDTO;
-import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.book.*;
 import org.bs.rental.mapper.book.BookImageMapper;
 import org.bs.rental.mapper.book.BookMapper;
 import org.bs.rental.util.page.PageRequestDTO;
@@ -154,14 +151,14 @@ public class BookServiceImpl implements BookService {
 
     // 회원이 빌린 책 리스트
     @Override
-    public PageResponseDTO<BookListDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id) {
+    public PageResponseDTO<BookListByMemberDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id) {
         
         log.info("List Of Book Borrowed By Member Service Impl Start");
 
         int total = bookMapper.bookTotal(pageRequestDTO);
-        List<BookListDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
+        List<BookListByMemberDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
 
-        return PageResponseDTO.<BookListDTO>builder()
+        return PageResponseDTO.<BookListByMemberDTO>builder()
                 .total(total)
                 .list(list)
                 .build();

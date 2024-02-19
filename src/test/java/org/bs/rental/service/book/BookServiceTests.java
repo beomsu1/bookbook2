@@ -4,10 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.time.LocalDate;
 
-import org.bs.rental.dto.book.BookCreateDTO;
-import org.bs.rental.dto.book.BookDTO;
-import org.bs.rental.dto.book.BookListDTO;
-import org.bs.rental.dto.book.BookUpdateDTO;
+import org.bs.rental.dto.book.*;
 import org.bs.rental.service.Book.BookService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
@@ -196,7 +193,7 @@ public class BookServiceTests {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
-        PageResponseDTO<BookListDTO> list = bookService.listOfBookBorrowedByMember(pageRequestDTO,id);
+        PageResponseDTO<BookListByMemberDTO> list = bookService.listOfBookBorrowedByMember(pageRequestDTO,id);
 
         // Then
         log.info("List: " + list);
