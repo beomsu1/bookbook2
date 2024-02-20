@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 정보</title>
+
+</head>
+
+<body>
+
+<div layout:fragment="content" class="container pt-4 px-4">
+    <div class="row">
+
+        <div class="col-md-2"></div>
+        <!-- 회원 정보 내용 -->
+        <div class="col-md-10">
+            <div class="bg-light rounded h-100 p-4 memberInfo">
+                <h2 class="mb-4">정보 수정</h2>
+
+                <form method="post" action="/member/update" class="actionForm">
+                    <div class="mb-3">
+                        <label for="id" class="form-label">id</label>
+                        <input type="text" class="form-control" style="background-color: lightgray" name="id" id="id" th:value="${member.id}" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">password</label>
+                        <input type="password" class="form-control" name="password" id="password">
+                    </div>
+                    <div class="mb-3">
+                        <label for="nickname" class="form-label">nickname</label>
+                        <input type="text" class="form-control" name="nickname" id="nickname" th:value="${member.nickname}"
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">email</label>
+                        <input type="text" class="form-control" style="background-color: lightgray" id="email" th:value="${member.email}"
+                               readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">phoneNumber</label>
+                        <input type="text" class="form-control" name="phoneNumber" id="phoneNumber" th:value="${member.phoneNumber}"
+                        >
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthDate" class="form-label">birthDate</label>
+                        <input type="text" class="form-control" name="birthDate" id="birthDate" th:value="${member.birthDate}">
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountDate" class="form-label">accountDate</label>
+                        <input type="text" class="form-control" style="background-color: lightgray" name="accountDate" id="accountDate"
+                               th:value="${#temporals.format(member.accountDate, 'yyyy-MM-dd HH:mm')}" readonly>
+                    </div>
+                    <div class="button_wrap">
+                        <button class="btn btn-primary updateBtn">수정하기</button>
+                        <button class="btn btn-primary deleteBtn">회원 탈퇴</button>
+                        <a href="/member/read" class="btn btn-secondary returnBtn">취소</a>
+                    </div>
+                </form>
+            </div>
+
+            <div class="bg-light rounded h-100 p-4 record" style="display: none">
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+    const actionForm = document.querySelector(".actionForm")
+    const updateBtn = document.querySelector(".updateBtn")
+    const deleteBtn = document.querySelector(".deleteBtn")
+
+    // 수정버튼 핸들러
+    updateBtn.addEventListener("click", (e) => {
+
+        // 이벤트 방지
+        e.preventDefault()
+        e.stopPropagation()
+
+        actionForm.setAttribute("action", `/member/update`)
+        actionForm.submit()
+
+        alert("수정되었습니다.")
+
+    }, false)
+
+    // 회원 탈퇴 버튼 클릭 이벤트 핸들러
+    deleteBtn.addEventListener("click", (e) => {
+        // 이벤트 방지
+        e.preventDefault()
+        e.stopPropagation()
+
+        // 회원 탈퇴 확인 알림창
+        if (confirm("회원 탈퇴하시겠습니까?")) {
+
+            // 탈퇴 요청을 서버로 보내는 코드
+            actionForm.setAttribute("action", `/member/delete`)
+            actionForm.submit()
+
+            // 탈퇴
+            alert("탈퇴되었습니다.")
+        }
+    }, false);
+
+
+</script>
+
+
+</body>
+
+</html>

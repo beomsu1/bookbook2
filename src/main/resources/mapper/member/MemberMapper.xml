@@ -96,8 +96,6 @@ select * from member where id = #{id}
     update member
     set 
         password = #{password},
-        email = #{email},
-        email_auth = #{emailAuth},
         phone_number = #{phoneNumber},
         nickname = #{nickname}
     where

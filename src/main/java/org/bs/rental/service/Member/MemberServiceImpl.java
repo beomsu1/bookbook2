@@ -88,7 +88,14 @@ public class MemberServiceImpl implements MemberService {
             throw new DuplicateKeyException("중복된 닉네임입니다.");
         }
 
-        return memberMapper.memberUpdate(memberUpdateDTO);
+        return memberMapper.memberUpdate(MemberUpdateDTO.builder()
+                        .id(memberUpdateDTO.getId())
+                        .password(passwordEncoder.encode(memberUpdateDTO.getPassword()))
+                        .phoneNumber(memberUpdateDTO.getPhoneNumber())
+                        .email(memberUpdateDTO.getEmail())
+                        .emailAuth(memberUpdateDTO.isEmailAuth())
+                        .nickname(memberUpdateDTO.getNickname())
+                .build());
     }
 
     @Override

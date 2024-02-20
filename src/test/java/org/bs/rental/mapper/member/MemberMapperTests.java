@@ -141,7 +141,7 @@ public class MemberMapperTests {
 
         // Given
         log.info("Member Read One Test Start");
-        String id = "beomsu1221";
+        String id = "admin";
 
         // When
         MemberDTO memberDTO = memberMapper.memberReadOne(id);

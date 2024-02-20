@@ -60,7 +60,7 @@ https://templatemo.com/tm-591-villa-agency
           <li style="display: flex; justify-content: flex-end;">
             <span th:if="${#authorization.expression('isAuthenticated()')}">
               <form th:action="@{/member/logout}" method="post">
-                <span th:text="${#authentication.principal.username + '님 안녕하세요. '}"></span>
+                <span th:text="${#authentication.principal.nickname + '님 안녕하세요. '}"></span>
                 <button type="submit" class="btn btn-link">로그아웃</button>
               </form>
             </span>
