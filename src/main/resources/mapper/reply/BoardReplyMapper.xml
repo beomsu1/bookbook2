@@ -8,9 +8,9 @@
 <!-- 댓글 목록 -->
 <select id="boardReplyList" resultType="org.bs.rental.dto.reply.board.BoardReplyListDTO">
 
-select if(rno = gno, 0, 1) as step, rno, tno, reply, replyer, replyDate, gno from board_reply
-where tno = #{tno} and rno > 0 
-order by gno asc, rno asc
+select if(rno = gno, 0, 1) as step, br.rno, br.tno, br.reply, br.replyer, br.replyDate, br.gno, m.nickname as nickname from board_reply br left outer join member m on br.replyer = m.id
+where br.tno = #{tno} and br.rno > 0
+order by br.gno asc, br.rno asc
 limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
 
 </select>

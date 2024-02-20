@@ -17,6 +17,7 @@ public class BoardReplyListDTO {
     private Long tno;
     private String reply;
     private String replyer;
+    private String nickname;
     private LocalDateTime replyDate;
 
     // 대댓글
