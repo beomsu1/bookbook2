@@ -8,7 +8,9 @@ import org.bs.rental.service.Member.MemberService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -59,30 +61,24 @@ public class MemberController {
     }
 
     // GET Member Read One
-    @GetMapping("read/{id}")
-    public String getMemberReadOne(@PathVariable("id") String id, Model model) {
+    @GetMapping("read")
+    public String getMemberReadOne(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         log.info("GET | Member Read One Controller");
 
-        MemberDTO info = memberService.memberReadOne(id);
-
-        model.addAttribute("member", info);
+        model.addAttribute("member", userDetails);
 
         return "/member/read";
 
     }
 
     // GET Member Update
-    @GetMapping("update/{id}")
-    public String getMemberUpdate(@PathVariable("id") String id, Model model) {
+    @GetMapping("update")
+    public void getMemberUpdate(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         log.info("GET | Member Update Controller");
 
-        MemberDTO info = memberService.memberReadOne(id);
-
-        model.addAttribute("member", info);
-
-        return "/member/update";
+        model.addAttribute("member", userDetails);
 
     }
 
@@ -91,7 +87,6 @@ public class MemberController {
     public String postMemberCreate(MemberCreateDTO memberCreateDTO) {
 
         log.info("POST | Member Create Controller");
-
 
         memberService.memberCreate(memberCreateDTO);
 
@@ -107,13 +102,13 @@ public class MemberController {
 
         memberService.memberUpdate(memberUpdateDTO);
 
-        return "redirect:/member/read" + memberUpdateDTO.getId();
+        return "redirect:/member/read";
 
     }
 
     // POST Member Delete
-    @PostMapping("delete/{id}")
-    public String postMemberDelete(@PathVariable("id") String id) {
+    @PostMapping("delete")
+    public String postMemberDelete(String id) {
 
         log.info("POST | Member Delete Controller");
 

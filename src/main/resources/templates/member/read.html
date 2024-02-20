@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 정보</title>
+
+</head>
+
+<body>
+
+
+<div layout:fragment="content">
+    <div class="container pt-4 px-4">
+        <div class="col-sm-12 col-xl-12">
+            <div class="bg-light rounded h-100 p-4">
+                <h2 class="mb-4">내 정보</h2>
+
+                <div class="mb-3">
+                    <label for="id" class="form-label">id</label>
+                    <input type="text" class="form-control" id="id" th:value="${member.id}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="nickname" class="form-label">nickname</label>
+                    <input type="text" class="form-control" id="nickname" th:value="${member.nickname}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">email</label>
+                    <input type="text" class="form-control" id="email" th:value="${member.email}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label">phoneNumber</label>
+                    <input type="text" class="form-control" id="phoneNumber" th:value="${member.phoneNumber}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="birthDate" class="form-label">birthDate</label>
+                    <input type="text" class="form-control" id="birthDate" th:value="${member.birthDate}"
+                           readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="accountDate" class="form-label">accountDate</label>
+                    <input type="text" class="form-control" id="accountDate" th:value="${member.accountDate}"
+                           readonly>
+                </div>
+
+                <!--                <div class="mb-3">-->
+                <!--                    <label for="rolename" class="form-label">Role</label>-->
+                <!--                    <ul>-->
+                <!--                        <li th:each="authority : ${member.authorities}"-->
+                <!--                            th:text="${#strings.substring(authority, 5)}"></li>-->
+                <!--                    </ul>-->
+                <!--                </div>-->
+
+                <div class="button_wrap">
+                    <a href="/member/modify" class="btn btn-primary modifyBtn">정보 수정</a>
+                    <a href="/board/list" class="btn btn-secondary returnBtn">목록</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script layout:fragment="script" th:inline="javascript">
+
+
+</script>
+
+
+</body>
+
+</html>
