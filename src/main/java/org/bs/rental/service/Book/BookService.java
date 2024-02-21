@@ -33,4 +33,7 @@ public interface BookService {
     // 회원이 빌린 책 리스트
     PageResponseDTO<BookListByMemberDTO> listOfBookBorrowedByMember(PageRequestDTO pageRequestDTO, String id);
 
+    // 회원이 반납한 책 리스트
+    PageResponseDTO<BookListByMemberDTO> listOfBookReturnByMember(PageRequestDTO pageRequestDTO, String id);
+
 }

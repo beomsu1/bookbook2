@@ -189,7 +189,7 @@ public class BookServiceTests {
         // Given
         log.info("List Of Book Borrowed By Member Service Test Start");
 
-        String id = "admin";
+        String id = "beomsu1221";
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
@@ -199,6 +199,28 @@ public class BookServiceTests {
         log.info("List: " + list);
 
         log.info("List Of Book Borrowed By Member Service Test Complete");
+
+    }
+
+    // 회원이 반납한 책 리스트
+    @Test
+    @DisplayName("회원이 반납한 책 리스트 서비스 테스트")
+    @Transactional
+    public void listOfBookReturnByMemberServiceTest(){
+
+        // Given
+        log.info("List Of Book Return By Member Service Test Start");
+
+        String id = "beomsu1221";
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        // When
+        PageResponseDTO<BookListByMemberDTO> list = bookService.listOfBookReturnByMember(pageRequestDTO,id);
+
+        // Then
+        log.info("List: " + list);
+
+        log.info("List Of Book Return By Member Service Test Complete");
 
     }
 }

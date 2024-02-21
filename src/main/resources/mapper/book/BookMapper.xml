@@ -153,14 +153,24 @@
         where book_number = #{bookNumber}
     </delete>
 
-    <!-- 회원이 빌린 책 리스트 -->
+    <!-- 회원이 대여중인 책 리스트 -->
     <select id="listOfBookBorrowedByMember" resultType="org.bs.rental.dto.book.BookListByMemberDTO" >
-        select l.lno, b.title, b.author, l.start_date as startDate, l.status
+        select b.book_number bookNumber, l.lno, b.title, b.author, l.start_date startDate, l.status
         from book b
                  left outer join loan l on b.book_number = l.book_number
-        where l.member_id = #{id}
+        where l.member_id = #{id} and l.status = '대출 중'
         order by l.start_date asc
         limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
+    </select>
+
+    <!-- 회원이 반납한 책 리스트 -->
+    <select id="listOfBookReturnByMember" resultType="org.bs.rental.dto.book.BookListByMemberDTO" >
+        select b.book_number bookNumber, l.lno, b.title, b.author, l.start_date startDate, l.return_date returnDate, l.status
+        from book b
+                 left outer join loan l on b.book_number = l.book_number
+        where l.member_id = #{id} and l.status = '반납 완료'
+        order by l.start_date asc
+            limit #{pageRequestDTO.skip}, #{pageRequestDTO.size}
     </select>
 
 </mapper>

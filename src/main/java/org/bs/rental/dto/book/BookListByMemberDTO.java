@@ -14,8 +14,10 @@ import java.time.LocalDateTime;
 public class BookListByMemberDTO {
 
     private Long lno;
+    private Long bookNumber;
     private String title;
     private String author;
     private LocalDateTime startDate;
+    private LocalDateTime returnDate;
     private String status;
 }

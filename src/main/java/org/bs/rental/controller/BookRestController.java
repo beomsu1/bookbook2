@@ -20,12 +20,22 @@ public class BookRestController {
 
     private final BookService bookService;
 
-    @GetMapping("list/{id}")
-    PageResponseDTO<BookListByMemberDTO> getListByMember (PageRequestDTO pageRequestDTO, @PathVariable("id") String id){
+    // 회원이 대여한 책 리스트 컨트롤러
+    @GetMapping("borrowList/{id}")
+    PageResponseDTO<BookListByMemberDTO> getBorrowListByMember (PageRequestDTO pageRequestDTO, @PathVariable("id") String id){
 
-        log.info("GET | List By Member Controller Start");
+        log.info("GET | Borrow List By Member Controller Start");
 
         return bookService.listOfBookBorrowedByMember(pageRequestDTO,id);
+    }
+
+    // 회원이 반납한 책 리스트 컨트롤러
+    @GetMapping("returnList/{id}")
+    PageResponseDTO<BookListByMemberDTO> getReturnListByMember (PageRequestDTO pageRequestDTO, @PathVariable("id") String id){
+
+        log.info("GET | Return List By Member Controller Start");
+
+        return  bookService.listOfBookReturnByMember(pageRequestDTO,id);
     }
 
 }

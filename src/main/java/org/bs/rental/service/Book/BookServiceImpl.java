@@ -165,4 +165,19 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    // 회원이 반납한 책 리스트
+    @Override
+    public PageResponseDTO<BookListByMemberDTO> listOfBookReturnByMember(PageRequestDTO pageRequestDTO, String id) {
+
+        log.info("List Of Book Return By Member Service Impl Start");
+
+        int total = bookMapper.bookTotal(pageRequestDTO);
+        List<BookListByMemberDTO> list = bookMapper.listOfBookReturnByMember(pageRequestDTO,id);
+
+        return PageResponseDTO.<BookListByMemberDTO>builder()
+                .total(total)
+                .list(list)
+                .build();
+    }
+
 }

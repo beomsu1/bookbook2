@@ -266,7 +266,7 @@
         }, false)
 
         // 댓글 리스트
-        const replyList = async (page) => {
+        const replyList = async () => {
 
             const response = await axios.get(`http://localhost:8080/api/board/reply/${tno}/list`)
 

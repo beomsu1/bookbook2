@@ -7,20 +7,129 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>회원 정보</title>
 
+    <style>
+
+        .nav {
+            margin-left: 25px;
+
+        }
+
+        .book-header {
+            margin: 30px 0 10px 0;
+        }
+
+        .book-header li {
+            display: inline-block;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .book-item {
+            list-style-type: none;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .book-info {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .book-info span {
+            flex: 1;
+            text-align: center;
+        }
+
+        .book-name {
+            margin-left: 90px;
+        }
+
+        .book-author {
+            margin-left: 180px;
+        }
+
+        .book-date {
+            margin-left: 180px;
+        }
+
+        .book-status {
+            float: right;
+            margin-right: 158px;
+        }
+
+        .returnBook-name {
+            margin-left: 67px;
+        }
+
+        .returnBook-author {
+            margin-left: 133px;
+        }
+
+        .returnBook-startDate {
+            margin-left: 132px;
+        }
+
+        .returnBook-returnDate {
+            margin-left: 112px;
+        }
+
+        .returnBook-status {
+            margin-left: 110px;
+        }
+
+        .nav2 {
+            overflow: hidden;
+        }
+
+        .nav2 ul {
+            padding: 0;
+            list-style: none;
+
+        }
+
+        .nav-item-left, .nav-item-right {
+            float: left;
+            width: 50%;
+            text-align: center;
+        }
+
+        .nav-item-left a, .nav-item-right a {
+            display: block;
+            padding: 10px 0;
+            color: black;
+            text-decoration: none;
+        }
+
+        .nav-item-right {
+            float: right;
+        }
+
+        .nav-item-left a.selected, .nav-item-right a.selected {
+            font-weight: bold;
+        }
+
+        .nav-item1 a.selected, .nav-item2 a.selected {
+            font-weight: bold;
+        }
+
+    </style>
+
 </head>
 
 <body>
 
 <div layout:fragment="content" class="container pt-4 px-4">
     <div class="row">
-        <!-- 왼쪽에 네비게이션 메뉴 추가 -->
         <div class="col-md-2">
             <ul class="nav flex-column">
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showMemberInfo()">내 정보</a>
+                <li class="nav-item1">
+                    <a class="nav-link navMemberInfo" href="#" onclick="showMemberInfo()">내 정보</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#" onclick="showRecordInfo()">활동 기록</a>
+                <li class="nav-item2">
+                    <a class="nav-link navRecordInfo" href="#" onclick="showRecordInfo()">활동 기록</a>
                 </li>
             </ul>
         </div>
@@ -68,11 +177,55 @@
             <div class="bg-light rounded h-100 p-4 recordInfo" style="display: none">
 
                 <div class="nav2">
-                    <li>
-                        <a href="#" >대여중인 책</a>
-                        <a>반납한 책</a>
+                    <li class="nav-item-left">
+                        <a href="#" class="borrowInfo" onclick="borrowBookList()">대여중인 책</a>
+                    </li>
+                    <li class="nav-item-right">
+                        <a href="#" class="returnInfo" onclick="returnBookList()">반납한 책</a>
                     </li>
 
+
+                </div>
+
+
+                <div class="borrowDiv">
+
+                    <div>
+                        <ul class="book-header">
+                            <li class="book-name">도서 제목</li>
+                            <li class="book-author">저자</li>
+                            <li class="book-date">대출 날짜</li>
+                            <li class="book-status">반납 상태</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <ul class="borrowBookListUl">
+
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="returnDiv" style="display: none">
+
+                    <div>
+                        <ul class="book-header">
+                            <li class="returnBook-name">도서 제목</li>
+                            <li class="returnBook-author">저자</li>
+                            <li class="returnBook-startDate">대출 날짜</li>
+                            <li class="returnBook-returnDate">반납 날짜</li>
+                            <li class="returnBook-status">반납 상태</li>
+                        </ul>
+                    </div>
+
+
+                    <div>
+                        <ul class="returnBookListUl">
+
+
+                        </ul>
+                    </div>
 
                 </div>
 
@@ -89,13 +242,119 @@
     const showMemberInfo = function () {
         document.querySelector(".memberInfo").style.display = 'block'
         document.querySelector(".recordInfo").style.display = 'none'
+
+        document.querySelector(".navMemberInfo").classList.add("selected")
+        document.querySelector(".navRecordInfo").classList.remove("selected")
     }
 
     const showRecordInfo = function () {
         document.querySelector(".memberInfo").style.display = 'none'
         document.querySelector(".recordInfo").style.display = 'block'
+
+        document.querySelector(".navRecordInfo").classList.add("selected")
+        document.querySelector(".navMemberInfo").classList.remove("selected")
+
+        borrowBookList()
     }
 
+
+    const borrowBookListUl = document.querySelector(".borrowBookListUl")
+    const returnBookListUl = document.querySelector(".returnBookListUl")
+    const {id} = [[${ member }]]
+
+    console.log("id: " + id)
+
+    const borrowBookList = async () => {
+
+        document.querySelector(".borrowDiv").style.display = 'block'
+        document.querySelector(".returnDiv").style.display = 'none'
+
+        document.querySelector(".borrowInfo").classList.add("selected")
+        document.querySelector(".returnInfo").classList.remove("selected")
+
+        const response = await axios.get(`http://localhost:8080/api/book/borrowList/${id}`)
+
+        console.log(response)
+
+        const {list, total} = response.data
+
+        console.log("List: " + list)
+        console.log("total: " + total)
+
+        let str = ''
+
+        for (let i = 0; i < list.length; i++) {
+
+            const {bookNumber, title, author, startDate, status} = list[i]
+
+            const formattedStartDate = new Date(startDate)
+
+            const date = `${formattedStartDate.getFullYear()}-${String(formattedStartDate.getMonth() + 1).padStart(2, '0')}-${String(formattedStartDate.getDate()).padStart(2, '0')} ${String(formattedStartDate.getHours()).padStart(2, '0')}:${String(formattedStartDate.getMinutes()).padStart(2, '0')}`
+
+
+            str += `<li class="book-item" data-bookNumber="${bookNumber}">
+            <div class="book-info">
+                <span class="title">${title}</span>
+                <span class="author">${author}</span>
+                <span class="start-date">${date}</span>
+                <span class="status">${status}</span>
+                <a href="/book/read/${bookNumber}">바로가기</a>
+            </div>
+        </li>`
+
+        }
+
+        borrowBookListUl.innerHTML = str
+
+    }
+
+    const returnBookList = async () => {
+
+        document.querySelector(".borrowDiv").style.display = 'none'
+        document.querySelector(".returnDiv").style.display = 'block'
+
+        document.querySelector(".returnInfo").classList.add("selected")
+        document.querySelector(".borrowInfo").classList.remove("selected")
+
+        const response = await axios.get(`http://localhost:8080/api/book/returnList/${id}`)
+
+        console.log(response)
+
+        const {list, total} = response.data
+
+        console.log("List: " + list)
+        console.log("total: " + total)
+
+        let str = ''
+
+        for (let i = 0; i < list.length; i++) {
+
+            const {bookNumber, title, author, startDate, returnDate, status} = list[i]
+
+            const formattedStartDate = new Date(startDate)
+            const formattedReturnDate = new Date(returnDate)
+
+            const newStartDate = `${formattedStartDate.getFullYear()}-${String(formattedStartDate.getMonth() + 1).padStart(2, '0')}-${String(formattedStartDate.getDate()).padStart(2, '0')} ${String(formattedStartDate.getHours()).padStart(2, '0')}:${String(formattedStartDate.getMinutes()).padStart(2, '0')}`
+            const newReturnDate = `${formattedReturnDate.getFullYear()}-${String(formattedReturnDate.getMonth() + 1).padStart(2, '0')}-${String(formattedReturnDate.getDate()).padStart(2, '0')} ${String(formattedReturnDate.getHours()).padStart(2, '0')}:${String(formattedReturnDate.getMinutes()).padStart(2, '0')}`
+
+            str += `<li class="book-item" data-bookNumber="${bookNumber}">
+            <div class="book-info">
+                <span class="title">${title}</span>
+                <span class="author">${author}</span>
+                <span class="start-date">${newStartDate}</span>
+                <span class="return-date">${newReturnDate}</span>
+                <span class="status">${status}</span>
+                <a href="/book/read/${bookNumber}">바로가기</a>
+            </div>
+        </li>`
+
+        }
+
+        returnBookListUl.innerHTML = str
+
+    }
+
+    showMemberInfo()
 
 </script>
 

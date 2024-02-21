@@ -212,7 +212,7 @@ public class BookMapperTests {
 
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
-        String id = "admin";
+        String id = "beomsu1221";
 
         // When
         List<BookListByMemberDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
@@ -221,6 +221,28 @@ public class BookMapperTests {
         list.forEach(info -> log.info(info.toString()));
 
         log.info("List Of Book Borrowed By Member Mapper Test Complete");
+    }
+
+    // 회원이 반납한 책 리스트
+    @Test
+    @DisplayName("회원이 반납한 책 리스트 매퍼 테스트")
+    @Transactional
+    public void listOfBookReturnByMemberMapperTest(){
+
+        // Given
+        log.info("List Of Book Return By Member Mapper Test Start");
+
+        PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
+
+        String id = "beomsu1221";
+
+        // When
+        List<BookListByMemberDTO> list = bookMapper.listOfBookReturnByMember(pageRequestDTO,id);
+
+        // Then
+        list.forEach(info -> log.info(info.toString()));
+
+        log.info("List Of Book Return By Member Mapper Test Complete");
     }
     
 }
