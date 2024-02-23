@@ -57,6 +57,7 @@ public class MemberServiceImpl implements MemberService {
         }
 
         return memberMapper.memberCreate(MemberCreateDTO.builder()
+        .id(memberCreateDTO.getId())
         .password(passwordEncoder.encode(memberCreateDTO.getPassword()))
         .email(memberCreateDTO.getEmail())
         .emailAuth(memberCreateDTO.isEmailAuth())
