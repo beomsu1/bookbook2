@@ -142,4 +142,26 @@ public class MemberController {
         return "redirect:/member/login";
     }
 
+    // GET Member Update
+    @GetMapping("kakao/create")
+    public void getKakaoMemberCreate(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+
+        log.info("GET | Kakao Member Create Controller");
+
+        model.addAttribute("member", userDetails);
+
+    }
+
+    // POST Kakao Member Create
+    @PostMapping("kakao/create")
+    public String postKakaoMemberCreate(MemberCreateDTO memberCreateDTO) {
+
+        log.info("POST | kakao Member Create Controller");
+
+        memberService.memberCreate(memberCreateDTO);
+
+        return "redirect:/member/read";
+
+    }
+
 }

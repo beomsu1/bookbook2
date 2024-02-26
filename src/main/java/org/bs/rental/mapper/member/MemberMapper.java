@@ -40,4 +40,7 @@ public interface MemberMapper {
     // nickname 중복 검사
     boolean isNicknameExists(@Param("nickname") String nickname);
 
+    // 이메일로 id 찾기
+    String findByEmailToId(@Param("email") String email);
+
 }

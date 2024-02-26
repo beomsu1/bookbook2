@@ -4,12 +4,14 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Map;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 @Data
-public class MemberDTO extends User {
+public class MemberDTO extends User implements OAuth2User {
 
     private String id;
     private String password;
@@ -37,4 +39,13 @@ public class MemberDTO extends User {
         this.role = role;
     }
 
+    @Override
+    public Map<String, Object> getAttributes() {
+        return null;
+    }
+
+    @Override
+    public String getName() {
+        return email;
+    }
 }

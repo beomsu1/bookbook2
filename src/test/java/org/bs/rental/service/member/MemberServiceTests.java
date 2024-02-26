@@ -133,5 +133,46 @@ public class MemberServiceTests {
         // Then
         log.info("Member Delete Service Test Complete");
     }
+    
+    // 이메일 중복 찾기
+    @Test
+    @DisplayName("이메일 중복 찾기 서비스 테스트")
+    @Transactional
+    public void isEmailExistsServiceTest(){
+
+        // Given
+        log.info("isEmailExists Service Test Start");
+
+        String email = "9805121234@naver.com";
+
+        // When
+        boolean result = memberService.isEmailExists(email);
+
+        // Then
+        log.info("Result: " + result);
+
+        log.info(" isEmailExists Service Test Complete");
+    }
+    
+    // 이메일로 아이디 찾기
+    @Test
+    @DisplayName("이메일로 아이디 찾기")
+    @Transactional
+    public void findByEmailToIdServiceTest(){
+
+        // Given
+        log.info("findByEmailToId Service Test Start");
+
+        String email = "9805121234@naver.com";
+
+        // When
+        String id = memberService.findByEmailToId(email);
+
+        // Then
+        log.info("ID: " + id);
+
+        log.info("findByEmailToId Service Test Complete");
+
+    }
 
 }

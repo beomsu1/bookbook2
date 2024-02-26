@@ -25,6 +25,7 @@ public class MemberServiceImpl implements MemberService {
 
     private final PasswordEncoder passwordEncoder;
 
+    // 회원 리스트
     @Override
     public PageResponseDTO<MemberListDTO> memberList(PageRequestDTO pageRequsetDTO) {
 
@@ -39,6 +40,7 @@ public class MemberServiceImpl implements MemberService {
                 .build();
     }
 
+    // 회원 가입
     @Override
     public int memberCreate(MemberCreateDTO memberCreateDTO) {
 
@@ -67,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
         .build());
     }
 
+    // 회원 정보
     @Override
     public MemberDTO memberReadOne(String id) {
 
@@ -75,6 +78,7 @@ public class MemberServiceImpl implements MemberService {
         return memberMapper.memberReadOne(id);
     }
 
+    // 회원 정보 수정
     @Override
     public int memberUpdate(MemberUpdateDTO memberUpdateDTO) {
 
@@ -98,12 +102,30 @@ public class MemberServiceImpl implements MemberService {
                 .build());
     }
 
+    // 회원 탈퇴
     @Override
     public int memberDelete(String id) {
 
-        log.info("Member List Delete Impl Start");
+        log.info("Member Delete Service Impl Start");
 
         return memberMapper.memberDelete(id);
+    }
+
+    // 이메일 중복 찾기
+    @Override
+    public Boolean isEmailExists(String email) {
+
+        log.info("isEmailExists Service Impl Start");
+
+        return memberMapper.isEmailExists(email);
+    }
+
+    @Override
+    public String findByEmailToId(String email) {
+
+        log.info("findByEmailToId Service Impl Start");
+
+        return memberMapper.findByEmailToId(email);
     }
 
 }

@@ -123,4 +123,9 @@ delete from member where id = #{id}
     SELECT COUNT(*) > 0 FROM member WHERE nickname = #{nickname}
 </select>
 
+<!-- 이메일로 아이디 찾기 -->
+    <select id="findByEmailToId">
+        select id from member where email = #{email}
+    </select>
+
 </mapper>

@@ -1,5 +1,6 @@
 package org.bs.rental.config;
 
+import org.bs.rental.security.CustomOauth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -11,6 +12,7 @@ import org.springframework.security.web.authentication.rememberme.JdbcTokenRepos
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -54,7 +56,7 @@ public class CustomSecurityConfig {
         // 세션 보호
         http.sessionManagement(config -> {
             config.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-            .sessionFixation().migrateSession();
+                    .sessionFixation().migrateSession();
         });
 
 
@@ -68,7 +70,15 @@ public class CustomSecurityConfig {
 
             config.tokenRepository(persistentTokenRepository());
 
-            config.tokenValiditySeconds(60*60);
+            config.tokenValiditySeconds(60 * 60);
+        });
+
+        // oauth2 로그인
+        http.oauth2Login(config -> {
+
+            config.loginPage("/member/login");
+
+            config.successHandler(new CustomOauth2SuccessHandler());
         });
 
         return http.build();

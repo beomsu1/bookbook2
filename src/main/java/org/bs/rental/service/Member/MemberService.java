@@ -26,5 +26,11 @@ public interface MemberService {
 
     // Delete
     int memberDelete(@Param("id") String id);
+
+    // 이메일 중복 찾기
+    Boolean isEmailExists(String email);
+
+    // 이메일로 id 찾기
+    String findByEmailToId(@Param("email") String email);
     
 }

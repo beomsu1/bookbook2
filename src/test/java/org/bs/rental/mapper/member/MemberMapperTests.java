@@ -225,4 +225,44 @@ public class MemberMapperTests {
         log.info("Member Delete Mapper Test Complete");
     }
 
+    // 이메일 중복 찾기
+    @Test
+    @DisplayName("이메일 중복 찾기 매퍼 테스트")
+    @Transactional
+    public void isEmailExistsMapperTest(){
+
+        // Given
+        log.info("isEmailExists Mapper Test Start");
+
+        String email = "9805121234@naver.com";
+
+        // When
+        boolean result = memberMapper.isEmailExists(email);
+
+        // Then
+        log.info("Result: " + result);
+
+        log.info(" isEmailExists Mapper Test Complete");
+    }
+    
+    // 이메일로 아이디 찾기
+    @Test
+    @DisplayName("이메일로 아이디 찾기 매퍼 테스트")
+    @Transactional
+    public void findByEmailToIdMapperTest(){
+
+        // Given
+        log.info("findByEmailToId Mapper Test Start");
+
+        String email = "9805121234@naver.com";
+
+        // When
+        String id = memberMapper.findByEmailToId(email);
+
+        // Then
+        log.info("ID: " + id);
+
+        log.info("findByEmailToId Mapper Test Complete");
+    }
+
 }
