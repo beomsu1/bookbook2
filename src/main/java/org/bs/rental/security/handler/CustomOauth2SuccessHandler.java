@@ -1,4 +1,4 @@
-package org.bs.rental.security;
+package org.bs.rental.security.handler;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
