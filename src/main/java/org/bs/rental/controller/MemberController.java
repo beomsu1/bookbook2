@@ -127,14 +127,17 @@ public class MemberController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
 
-        // 자동 로그인 토큰 삭제
+        // 자동 로그인 쿠키, 엑세스 토큰 삭제
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("remember-me")) {
+                if (cookie.getName().equals("remember-me"))  {
                     cookie.setMaxAge(0);
                     response.addCookie(cookie);
-                    break;
+                }
+                if (cookie.getName().equals("accessToken"))  {
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
                 }
             }
         }

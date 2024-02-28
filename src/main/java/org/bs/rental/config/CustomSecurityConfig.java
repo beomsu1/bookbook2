@@ -1,6 +1,8 @@
 package org.bs.rental.config;
 
-import org.bs.rental.security.CustomOauth2SuccessHandler;
+import org.bs.rental.security.filter.JWTCheckFilter;
+import org.bs.rental.security.handler.CustomLoginSuccessHandler;
+import org.bs.rental.security.handler.CustomOauth2SuccessHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,6 +10,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
@@ -48,17 +51,8 @@ public class CustomSecurityConfig {
         http.formLogin(config -> {
 
             config.loginPage("/member/login")
-
-                    .defaultSuccessUrl("/book/list", true);
-
+                    .successHandler(new CustomLoginSuccessHandler());
         });
-
-        // 세션 보호
-        http.sessionManagement(config -> {
-            config.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
-                    .sessionFixation().migrateSession();
-        });
-
 
         // csrf 토큰 비활성화
         http.csrf(config -> {
@@ -70,7 +64,7 @@ public class CustomSecurityConfig {
 
             config.tokenRepository(persistentTokenRepository());
 
-            config.tokenValiditySeconds(60 * 60);
+            config.tokenValiditySeconds(60 * 60 * 24);
         });
 
         // oauth2 로그인
@@ -80,6 +74,8 @@ public class CustomSecurityConfig {
 
             config.successHandler(new CustomOauth2SuccessHandler());
         });
+
+        http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }

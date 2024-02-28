@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -48,4 +49,19 @@ public class MemberDTO extends User implements OAuth2User {
     public String getName() {
         return email;
     }
+
+    // Claim 정보 가져오기 - JWT 페이로드 만들기 위해 필요
+    public Map<String, Object> getClaims(){
+
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("id", id);
+        map.put("password", password);
+        map.put("email", email);
+        map.put("role", role);
+
+        return map;
+
+    }
+
 }
