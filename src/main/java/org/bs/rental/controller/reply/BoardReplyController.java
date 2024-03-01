@@ -8,6 +8,8 @@ import org.bs.rental.service.reply.board.BoardReplyService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,12 +26,14 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/api/board/reply/")
 @Log4j2
 @RequiredArgsConstructor
+@EnableMethodSecurity
 public class BoardReplyController {
 
     private final BoardReplyService boardReplyService;
 
     // Board Reply List
     @GetMapping("{tno}/list")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public PageResponseDTO<BoardReplyListDTO> getBoardReplyList(@PathVariable("tno") Long tno, PageRequestDTO pageRequestDTO) {
 
         log.info("GET | Board Reply List Controller");
@@ -40,6 +44,7 @@ public class BoardReplyController {
 
     // Board Reply Create
     @PostMapping("{tno}/create")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<String> postBoardReplyCreate(@PathVariable("tno") Long tno, @RequestBody BoardReplyCreateDTO boardReplyCreateDTO){
 
         log.info("POST | Board Reply Create Controller");
@@ -52,6 +57,7 @@ public class BoardReplyController {
 
     // Board Reply Read
     @GetMapping("read/{rno}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public BoardReplyDTO getBoardReplyRead(@PathVariable("rno") Long rno){
 
         log.info("GET | Board REply Read Controller");
@@ -61,6 +67,7 @@ public class BoardReplyController {
 
     // Board Reply Update
     @PutMapping("update/{rno}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<String> putBoardReplyUpdate(@PathVariable("rno") Long rno, @RequestBody BoardReplyUpdateDTO boardReplyUpdateDTO){
 
         log.info("PUT | Board Reply Update Controller");
@@ -72,6 +79,7 @@ public class BoardReplyController {
 
     // Board Reply Delete
     @DeleteMapping("delete/{rno}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<String> deleteBoardReplyDelete(@PathVariable("rno") Long rno){
 
         log.info("DELETE | Board Reply Delete Controller");

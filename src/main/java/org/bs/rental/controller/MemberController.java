@@ -7,6 +7,8 @@ import org.bs.rental.dto.member.MemberUpdateDTO;
 import org.bs.rental.service.Member.MemberService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,6 +27,7 @@ import lombok.extern.log4j.Log4j2;
 @Controller
 @Log4j2
 @RequiredArgsConstructor
+@EnableMethodSecurity
 @RequestMapping("/member/")
 public class MemberController {
 
@@ -32,6 +35,7 @@ public class MemberController {
 
     // GET Member Login
     @GetMapping("login")
+    @PreAuthorize("permitAll()")
     public void getMemberLogin() {
 
         log.info("GET | Member Login Controller");
@@ -39,6 +43,7 @@ public class MemberController {
 
     // GET Member List
     @GetMapping("list")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void getMemberList(PageRequestDTO pageRequestDTO, Model model) {
 
         log.info("GET | Member List Controller");
@@ -51,6 +56,7 @@ public class MemberController {
 
     // GET Member Create
     @GetMapping("create")
+    @PreAuthorize("permitAll()")
     public void getMemberCreate() {
 
         log.info("GET | Member Create Controller");
@@ -59,6 +65,7 @@ public class MemberController {
 
     // GET Member Read One
     @GetMapping("read")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String getMemberReadOne(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         log.info("GET | Member Read One Controller");
@@ -71,6 +78,7 @@ public class MemberController {
 
     // GET Member Update
     @GetMapping("update")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public void getMemberUpdate(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         log.info("GET | Member Update Controller");
@@ -81,6 +89,7 @@ public class MemberController {
 
     // POST Member Create
     @PostMapping("create")
+    @PreAuthorize("permitAll()")
     public String postMemberCreate(MemberCreateDTO memberCreateDTO) {
 
         log.info("POST | Member Create Controller");
@@ -93,6 +102,7 @@ public class MemberController {
 
     // POST Member Update
     @PostMapping("update")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String postMemberUpdate(MemberUpdateDTO memberUpdateDTO) {
 
         log.info("POST | Member Update Controller");
@@ -105,6 +115,7 @@ public class MemberController {
 
     // POST Member Delete
     @PostMapping("delete")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String postMemberDelete(String id) {
 
         log.info("POST | Member Delete Controller");
@@ -117,6 +128,7 @@ public class MemberController {
 
     // POST Member Logout
     @PostMapping("logout")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String postMemberLogout(HttpServletRequest request, HttpServletResponse response) {
 
         log.info("POST | Member Logout Controller");
@@ -147,6 +159,7 @@ public class MemberController {
 
     // GET Member Update
     @GetMapping("kakao/create")
+    @PreAuthorize("permitAll()")
     public void getKakaoMemberCreate(@AuthenticationPrincipal UserDetails userDetails, Model model) {
 
         log.info("GET | Kakao Member Create Controller");
@@ -157,6 +170,7 @@ public class MemberController {
 
     // POST Kakao Member Create
     @PostMapping("kakao/create")
+    @PreAuthorize("permitAll()")
     public String postKakaoMemberCreate(MemberCreateDTO memberCreateDTO) {
 
         log.info("POST | kakao Member Create Controller");

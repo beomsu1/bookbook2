@@ -7,6 +7,8 @@ import org.bs.rental.dto.notice.NoticeUpdateDTO;
 import org.bs.rental.service.notice.NoticeService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,12 +23,14 @@ import lombok.extern.log4j.Log4j2;
 @RequestMapping("/notice/")
 @RequiredArgsConstructor
 @Log4j2
+@EnableMethodSecurity
 public class NoticeController {
 
         private final NoticeService noticeService;
 
     // Notice List
     @GetMapping("list")
+    @PreAuthorize("permitAll()")
     public void getNoticeList(PageRequestDTO pageRequestDTO, Model model){
 
         log.info("GET | Notice List Controller");
@@ -39,6 +43,7 @@ public class NoticeController {
 
     // Get Notice Create
     @GetMapping("create")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void getNoticeCreate(){
 
         log.info("GET | Notice Create Controller");
@@ -47,6 +52,7 @@ public class NoticeController {
 
     // Get Notice Read
     @GetMapping("read/{nno}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public String getNoticeRead(@PathVariable("nno") Long nno, Model model){
 
         log.info("GET | Notice Read Controller");
@@ -61,6 +67,7 @@ public class NoticeController {
 
     // Get Notice Update
     @GetMapping("update/{nno}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String getNoticeUpdade(@PathVariable("nno") Long nno, Model model){
 
         log.info("GET | Notice Update Controller");
@@ -75,6 +82,7 @@ public class NoticeController {
 
     // Post Notice Create
     @PostMapping("create")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String postNoticeCreate(NoticeCreateDTO noticeCreateDTO){
 
         log.info("POST | Notice Create Controller");
@@ -86,6 +94,7 @@ public class NoticeController {
 
     // Post Notice Update
     @PostMapping("update")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String postNoticeUpdate(NoticeUpdateDTO noticeUpdateDTO){
 
         log.info("POST | Notice Update Controller");
@@ -98,6 +107,7 @@ public class NoticeController {
 
     // Post Notice Delete
     @PostMapping("delete/{nno}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public String postNoticeDelete(@PathVariable("nno") Long nno){
 
         log.info("POST | Notice Delete Controller");

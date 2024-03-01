@@ -6,6 +6,8 @@ import org.bs.rental.dto.book.BookListByMemberDTO;
 import org.bs.rental.service.Book.BookService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,13 +17,14 @@ import org.springframework.web.bind.annotation.RestController;
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/api/book/")
-
+@EnableMethodSecurity
 public class BookRestController {
 
     private final BookService bookService;
 
     // 회원이 대여한 책 리스트 컨트롤러
     @GetMapping("borrowList/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     PageResponseDTO<BookListByMemberDTO> getBorrowListByMember (PageRequestDTO pageRequestDTO, @PathVariable("id") String id){
 
         log.info("GET | Borrow List By Member Controller Start");
@@ -31,6 +34,7 @@ public class BookRestController {
 
     // 회원이 반납한 책 리스트 컨트롤러
     @GetMapping("returnList/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     PageResponseDTO<BookListByMemberDTO> getReturnListByMember (PageRequestDTO pageRequestDTO, @PathVariable("id") String id){
 
         log.info("GET | Return List By Member Controller Start");

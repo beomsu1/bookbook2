@@ -7,6 +7,8 @@ import org.bs.rental.service.Loan.LoanService;
 import org.bs.rental.util.page.PageRequestDTO;
 import org.bs.rental.util.page.PageResponseDTO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,12 +23,14 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/api/loan/")
+@EnableMethodSecurity
 public class LoanController {
 
     private final LoanService loanService;
 
     // Loan List
     @GetMapping("list")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     public void getLoanList(PageRequestDTO pageRequestDTO, Model model) {
 
         log.info("GET | Loan List Controller");
@@ -39,6 +43,7 @@ public class LoanController {
 
     // Book Borrow
     @PostMapping("borrow")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<String> postBookBorrow(@RequestBody BookBorrowDTO bookBorrowDTO) {
 
         log.info("POST | Book Borrow Controller");
@@ -54,6 +59,7 @@ public class LoanController {
 
     // Book Return
     @PostMapping("return")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public ResponseEntity<String> postBookReturn(@RequestBody BookReturnDTO bookReturnDTO) {
 
         log.info("POST | Book Return Cnntroller");
