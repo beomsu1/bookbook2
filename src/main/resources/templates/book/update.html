@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-    xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
+      xmlns="http://www.w3.org/1999/html" layout:decorate="~{layout/bookLayout.html}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,94 +10,93 @@
 
 <body>
 
-    <div layout:fragment="content">
+<div layout:fragment="content">
 
-        <div class="contact-page section">
-            <div class="container">
-                <div class="row">
-                    <div class="section-heading" style="margin-top: -100px;">
-                        <h4>| 도서 수정</h4>
+    <div class="contact-page section">
+        <div class="container">
+            <div class="row">
+                <div class="section-heading" style="margin-top: -100px;">
+                    <h4>| 도서 수정</h4>
+                </div>
+
+                <!-- 폼 추가 -->
+                <form id="contact-form" th:action="@{/book/update/{book_number}}" th:object="${book}" method="post">
+
+                    <div class="row">
+                        <!-- 입력 필드 섹션 -->
+                        <div class="input-section col-lg-6">
+                            <div class="col-lg-12">
+                                <label for="title">책 번호</label>
+                                <input type="text" name="bookNumber" id="bookNumber" th:value="${book.book_number}"
+                                       readonly>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="title">제목</label>
+                                <input type="text" name="title" id="title" th:value="${book.title}" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="author">작가</label>
+                                <input type="text" name="author" id="author" th:value="${book.author}" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="isbn">ISBN</label>
+                                <input type="text" name="isbn" id="isbn" th:value="${book.isbn}" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="publication_date">출간일</label>
+                                <input type="text" name="publicationDate" id="publicationDate"
+                                       th:value="${book.publication_date}" required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="publisher">출판사</label>
+                                <input type="text" name="publisher" id="publisher" th:value="${book.publisher}"
+                                       required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="language">언어</label>
+                                <input type="text" name="language" id="language" th:value="${book.language}"
+                                       required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="total_pages">총 페이지 수</label>
+                                <input type="text" name="totalPages" id="totalPages" th:value="${book.total_pages}"
+                                       required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label for="description">책 설명</label>
+                                <textarea name="description" id="description" required>[[${book.description}]]
+                                    </textarea>
+                            </div>
+                        </div>
+
+                        <!-- 이미지 업로드 섹션 -->
+                        <div class="image-upload-section col-lg-6">
+                            <div>
+                                <label for="upload">책 이미지 등록</label>
+                                <input class="uploadInput" type="file" name="upload" multiple
+                                       style="background: none;">
+                                <button class="uploadBtn">이미지 등록</button>
+                            </div>
+                            <!-- 파일 업로드 사진 출력 -->
+                            <ul class="uploadUL">
+
+                            </ul>
+                        </div>
                     </div>
 
-                    <!-- 폼 추가 -->
-                    <form id="contact-form" th:action="@{/book/update/{book_number}}" th:object="${book}" method="post">
+                    <div class="button_wrap">
+                        <button class="btn btn-primary updateBtn">수정</button>
+                        <button class="btn btn-danger deleteBtn">삭제</button>
+                        <a th:href="@{/board/read/{book_number}(tno=${book.book_number})}"
+                           class="btn btn-secondary returnBtn">취소</a>
+                    </div>
 
-                        <div class="row">
+                </form>
 
-                            <!-- 이미지 업로드 섹션 -->
-                            <div class="image-upload-section col-lg-6">
-                                <div>
-                                    <label for="upload">책 이미지 등록</label>
-                                    <input class="uploadInput" type="file" name="upload" multiple
-                                        style="background: none;">
-                                    <button class="uploadBtn">이미지 등록</button>
-                                </div>
-                                <!-- 파일 업로드 사진 출력 -->
-                                <ul class="uploadUL">
-
-                                </ul>
-                            </div>
-
-                            <!-- 입력 필드 섹션 -->
-                            <div class="input-section col-lg-6">
-                                <div class="col-lg-12">
-                                    <label for="title">책 번호</label>
-                                    <input type="text" name="bookNumber" id="bookNumber" th:value="${book.book_number}"
-                                        readonly>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="title">제목</label>
-                                    <input type="text" name="title" id="title" th:value="${book.title}" required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="author">작가</label>
-                                    <input type="text" name="author" id="author" th:value="${book.author}" required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="isbn">ISBN</label>
-                                    <input type="text" name="isbn" id="isbn" th:value="${book.isbn}" required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="publication_date">출간일</label>
-                                    <input type="text" name="publicationDate" id="publicationDate"
-                                        th:value="${book.publication_date}" required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="publisher">출판사</label>
-                                    <input type="text" name="publisher" id="publisher" th:value="${book.publisher}"
-                                        required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="language">언어</label>
-                                    <input type="text" name="language" id="language" th:value="${book.language}"
-                                        required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="total_pages">총 페이지 수</label>
-                                    <input type="text" name="totalPages" id="totalPages" th:value="${book.total_pages}"
-                                        required>
-                                </div>
-                                <div class="col-lg-12">
-                                    <label for="description">책 설명</label>
-                                    <textarea name="description" id="description" required>[[${book.description}]]
-                                    </textarea>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="button_wrap">
-                            <button class="btn btn-primary updateBtn">수정</button>
-                            <button class="btn btn-danger deleteBtn">삭제</button>
-                            <a th:href="@{/board/read/{book_number}(tno=${book.book_number})}" class="btn btn-secondary returnBtn">취소</a>
-                        </div>
-
-                    </form>
-
-                </div>
             </div>
         </div>
     </div>
+</div>
 
 </body>
 
@@ -111,12 +110,10 @@
     const actionForm = document.querySelector("#contact-form")
     const deleteBtn = document.querySelector(".deleteBtn")
 
-    const { book_number } = [[${ book }]]
-    const { fnames } = [[${ book }]]
+    const {book_number} = [[${ book }]]
+    const {fnames} = [[${ book }]]
 
     console.log(fnames)
-
-
 
 
     // UPLOAD 버튼 클릭 시
@@ -146,7 +143,7 @@
         console.dir(formData)
 
         // 헤더 생성- 헤더는 multipart/form-data 형식 (파일 업로드)
-        const header = { headers: { "Content-Type": "multipart/form-data" } }
+        const header = {headers: {"Content-Type": "multipart/form-data"}}
 
         // 비동기
         axios.post("http://localhost:8080/api/image/upload", formData, header).then(res => {
@@ -202,20 +199,20 @@
     // 기존 이미지 가져오기
     const showImages2 = () => {
 
-    let str = "";
+        let str = "";
 
-    // fnames를 직접 사용
-    for (const fname of fnames) {
-        // uuid 0~36까지 자르기
-        const uuid = fname.substring(0, 36);
+        // fnames를 직접 사용
+        for (const fname of fnames) {
+            // uuid 0~36까지 자르기
+            const uuid = fname.substring(0, 36);
 
-        // 파일명 가져오기 ~37 fname에 _가 있어서 37까지 잘라줘야 제대로 fname을 출력
-        const imgName = fname.substring(37);
+            // 파일명 가져오기 ~37 fname에 _가 있어서 37까지 잘라줘야 제대로 fname을 출력
+            const imgName = fname.substring(37);
 
-        console.log("uuid: ", uuid);
-        console.log("imgName: ", imgName);
+            console.log("uuid: ", uuid);
+            console.log("imgName: ", imgName);
 
-        str += `
+            str += `
             <br>
             <li data-uuid='${uuid}' data-fname='${imgName}'>
                 <div>
@@ -225,15 +222,13 @@
                     <p>${imgName} <button onclick="javascript:removeImage(event, '${uuid}', '${imgName}')">x</button></p>
                 </div>   
             </li>`;
-    }
+        }
 
-    // str을 uploadUL에 innerHTML
-    uploadUL.innerHTML += str;
-};
+        // str을 uploadUL에 innerHTML
+        uploadUL.innerHTML += str;
+    };
 
-showImages2();
-
-
+    showImages2();
 
 
     // remove upload Image
