@@ -32,7 +32,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
 
         // login, oauth2 필터 제외
-        if (uri.startsWith("/member/login") || uri.startsWith("/oauth2") || uri.startsWith("/css")) {
+        if (uri.startsWith("/member/") || uri.startsWith("/oauth2") || uri.startsWith("/css") || uri.startsWith("/mail/")) {
             return true;
         }
 

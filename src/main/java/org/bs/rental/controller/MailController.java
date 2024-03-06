@@ -30,6 +30,8 @@ public class MailController {
     @PreAuthorize("permitAll()")
     public ResponseEntity<String> getSendEmail(@PathVariable("email") String email) throws MessagingException {
 
+        log.info("GET | Send Email Controller ");
+
         emailService.sendEmail(email);
 
         return ResponseEntity.ok("이메일을 확인하세요.");

@@ -61,7 +61,7 @@ public class NoticeController {
 
         model.addAttribute("notice", info);
 
-        return "/notice/read";
+        return "notice/read";
 
     }
 
@@ -76,7 +76,7 @@ public class NoticeController {
 
         model.addAttribute("notice", info);
 
-        return "/notice/update";
+        return "notice/update";
 
     }
 

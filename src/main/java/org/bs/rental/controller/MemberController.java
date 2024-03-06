@@ -72,7 +72,7 @@ public class MemberController {
 
         model.addAttribute("member", userDetails);
 
-        return "/member/read";
+        return "member/read";
 
     }
 

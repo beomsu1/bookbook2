@@ -61,7 +61,7 @@ public class BoardController {
 
         model.addAttribute("board", info);
 
-        return "/board/read";
+        return "board/read";
 
     }
 
@@ -76,7 +76,7 @@ public class BoardController {
 
         model.addAttribute("board", info);
 
-        return "/board/update";
+        return "board/update";
 
     }
 

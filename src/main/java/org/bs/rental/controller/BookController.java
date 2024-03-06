@@ -67,7 +67,7 @@ public class BookController {
         model.addAttribute("book", list);
         model.addAttribute("loan", loan);
 
-        return "/book/read";
+        return "book/read";
     }
 
     // Get Book Update
@@ -81,7 +81,7 @@ public class BookController {
 
         model.addAttribute("book", list);
 
-        return "/book/update";
+        return "book/update";
 
     }
 
