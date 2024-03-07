@@ -12,8 +12,6 @@ services:
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/init:/docker-entrypoint-initdb.d
-    networks:
-      - book_rental_default  # 기본 네트워크에 컨테이너 추가
 
   redis:
     hostname: redis
@@ -24,7 +22,3 @@ services:
       - 6379:6379
     extra_hosts:
       - "host.docker.internal:host-gateway"
-
-networks:
-  book_rental_default: # 기본 네트워크 정의
-    external: true  # 외부 네트워크로 지정
