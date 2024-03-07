@@ -8,7 +8,7 @@ env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/github-actions-auto
   VERSION: ${{ github.sha }}
   NAME: go_cicd
-  MYSQL_HOST: 192.168.0.31
+  MYSQL_HOST: host.docker.internal
 
 jobs:
   # 빌드 Job
