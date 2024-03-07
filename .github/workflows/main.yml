@@ -24,6 +24,15 @@ jobs:
         with:
           java-version: '17'
 
+      # MySQL 설정 추가
+      - name: Set up MySQL
+        uses: samin/mysql-action@v1
+        with:
+          character set server: 'utf8'
+          mysql database: 'book_rental'
+          mysql user: 'book'
+          mysql password: ${{ secrets.MYSQL_PASSWORD }}
+
       - name: Change gradlew permissions
         run: chmod +x ./gradlew
 
