@@ -66,7 +66,7 @@ CREATE TABLE board (
     writer VARCHAR(255) not null,
     createDate timestamp default now(),
     updateDate timestamp default now(),
-    foreign key (writer) references member(id)
+    foreign key (writer) references member(id) ON DELETE CASCADE
 );
 
 -- board_img --
@@ -86,7 +86,7 @@ CREATE TABLE notice (
     content varchar(1000) not null,
     writer VARCHAR(255) not null,
     createDate timestamp default now(),
-    foreign key (writer) references member(id)
+    foreign key (writer) references member(id) ON DELETE CASCADE
 );
 
 -- notice_img --
