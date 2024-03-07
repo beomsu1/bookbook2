@@ -49,7 +49,7 @@ public class NoticeMapperTests {
     // Notice Create Mapper Test
     @Test
     @DisplayName("공지사항 생성 매퍼 테스트")
-    // @Transactional
+    @Transactional
     public void noticeCreateMapperTest() {
 
         // Given
@@ -79,7 +79,7 @@ public class NoticeMapperTests {
         // Given
         log.info("Notice Read Mapper Test Start");
 
-        Long nno = 3L;
+        Long nno = 1L;
 
         // When
         NoticeDTO info = noticeMapper.noticeRead(nno);
@@ -102,7 +102,7 @@ public class NoticeMapperTests {
         NoticeUpdateDTO noticeDTO = NoticeUpdateDTO.builder()
                 .title("Test Update Title")
                 .content("Test Update Content")
-                .nno(3L)
+                .nno(1L)
                 .build();
 
         // When
@@ -123,7 +123,7 @@ public class NoticeMapperTests {
         // Given
         log.info("Notice Delete Mapper Test Start");
 
-        Long nno = 3L;
+        Long nno = 1L;
 
         // When
         int result = noticeMapper.noticeDelete(nno);

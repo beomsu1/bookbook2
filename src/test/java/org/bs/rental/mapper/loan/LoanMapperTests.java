@@ -79,7 +79,7 @@ public class LoanMapperTests {
 
         BookBorrowDTO borrowDTO = BookBorrowDTO.builder()
         .bookNumber(1L)
-        .memberId("beomsu1221")
+        .memberId("beomsu")
         .build();
 
         borrowDTO.setDueDateFromSelectedPeriod(1);
@@ -104,7 +104,7 @@ public class LoanMapperTests {
 
         BookReturnDTO bookReturnDTO =  BookReturnDTO.builder()
         .bookNumber(1L)
-        .memberId("beomsu1221")
+        .memberId("beomsu")
         .build();
 
         // When

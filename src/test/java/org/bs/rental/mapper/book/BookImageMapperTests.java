@@ -95,7 +95,7 @@ public class BookImageMapperTests {
         // Given
         log.info("Delete Image Mapper Test Start");
         
-        Long bookNumber = 18L;
+        Long bookNumber = 1L;
 
         // When
         bookImageMapper.deleteImage(bookNumber);

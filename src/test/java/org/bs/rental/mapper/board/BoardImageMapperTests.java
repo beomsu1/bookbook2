@@ -36,7 +36,7 @@ public class BoardImageMapperTests {
 
         BoardCreateDTO boardCreateDTO = BoardCreateDTO.builder()
                 .title("Test Title2")
-                .writer("qjatn1221")
+                .writer("beomsu")
                 .content("Test Content2")
                 .fnames(List.of(UUID.randomUUID() + "_Image"))
                 .build();
@@ -89,7 +89,7 @@ public class BoardImageMapperTests {
         // Given
         log.info("Delete Image Mapper Test Start");
 
-        Long tno = 4L;
+        Long tno = 1L;
 
         // When
         boardImageMapper.deleteImage(tno);

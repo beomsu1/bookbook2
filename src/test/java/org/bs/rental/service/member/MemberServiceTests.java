@@ -55,7 +55,7 @@ public class MemberServiceTests {
         MemberCreateDTO memberCreateDTO = MemberCreateDTO.builder()
         .id("user1")
         .password("1234")
-        .email("9805121234@naver.com")
+        .email("user1@naver.com")
         .emailAuth(true)
         .phoneNumber("010-1234-1234")
         .nickname("master")
@@ -79,7 +79,7 @@ public class MemberServiceTests {
         // Given
         log.info("Member Read One Setvice Test Start");
 
-        String id = "user1";
+        String id = "beomsu";
 
         // When
         MemberDTO read = memberService.memberReadOne(id);
@@ -100,7 +100,7 @@ public class MemberServiceTests {
         log.info("Member Update Service Test Start");
 
         MemberUpdateDTO memberUpdateDTO = MemberUpdateDTO.builder()
-        .id("user1")
+        .id("beomsu")
         .password("qwe123")
         .email("user1@naver.com")
         .emailAuth(true)
@@ -125,7 +125,7 @@ public class MemberServiceTests {
         // Given
         log.info("Member Delete Service Test Start");
 
-        String id = "user1";
+        String id = "beomsu";
 
         // When
         memberService.memberDelete(id);

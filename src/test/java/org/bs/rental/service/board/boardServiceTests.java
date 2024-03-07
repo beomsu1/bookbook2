@@ -56,7 +56,7 @@ public class boardServiceTests {
         BoardCreateDTO boardCreateDTO = BoardCreateDTO.builder()
         .title("Test Title3")
         .content("Test Content3")
-        .writer("qjatn1221")
+        .writer("beomsu")
         .build();
 
         // When

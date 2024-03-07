@@ -74,7 +74,7 @@ public class NoticeServiceTests {
         // Given
         log.info("Notice Read Service Test Start");
 
-        Long nno = 3L;
+        Long nno = 1L;
 
         // When
         NoticeDTO info = noticeService.noticeRead(nno);
@@ -95,7 +95,7 @@ public class NoticeServiceTests {
         log.info("notice Update Service Test Start");
 
         NoticeUpdateDTO noticeUpdateDTO = NoticeUpdateDTO.builder()
-                .nno(3L)
+                .nno(1L)
                 .title("Test Update Title3")
                 .content("Test Update Content3")
                 .build();
@@ -116,7 +116,7 @@ public class NoticeServiceTests {
         // Given
         log.info("Notice Delete Service Test Strat");
 
-        Long nno = 3L;
+        Long nno = 1L;
 
         // When
         int result = noticeService.noticeDelete(nno);

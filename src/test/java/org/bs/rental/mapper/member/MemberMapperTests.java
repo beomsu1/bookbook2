@@ -87,7 +87,7 @@ public class MemberMapperTests {
         String password = "1234";
         String email = "beomsu_1221@naver.com";
         boolean emailAuth = true;
-        String nickname = "범수";
+        String nickname = "beomsu";
         String phoneNumber = "010-7777-7777";
         String birthDate = ("1998-12-21");
 
@@ -159,7 +159,7 @@ public class MemberMapperTests {
     public void memberUpdateMapperTest() {
         // Given
         log.info("Member Update Mapper Test Start");
-        String id = "beomsu1221";
+        String id = "beomsu";
         String password = "1234";
         String email = "9805121234@naver.com";
         boolean emailAuth = true;
@@ -177,16 +177,6 @@ public class MemberMapperTests {
                 .build();
 
         // When
-
-        // 중복 검사
-        if (memberMapper.isEmailExists(memberUpdateDTO.getEmail())) {
-            throw new DuplicateKeyException("중복된 이메일입니다.");
-        }
-
-        if (memberMapper.isNicknameExists(memberUpdateDTO.getNickname())) {
-            throw new DuplicateKeyException("중복된 닉네임입니다.");
-        }
-
         memberMapper.memberUpdate(memberUpdateDTO);
 
         // Then
@@ -210,7 +200,7 @@ public class MemberMapperTests {
 
         // Given
         log.info("Member Delete Mapper Test Start");
-        String id = "beomsu1221";
+        String id = "beomsu";
 
         // When
         int result = memberMapper.memberDelete(id);

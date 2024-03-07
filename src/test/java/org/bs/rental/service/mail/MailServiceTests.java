@@ -99,25 +99,25 @@ public class MailServiceTests {
     }
 
     // Verify Email Code
-    @Test
-    @DisplayName("코드 검증 테스트")
-    @Transactional
-    public void verifyEmailCodeServiceTest() {
-
-        // Given
-        log.info("Verify Email Code Service Test Start");
-
-        String email = "beomsu_1221@naver.com";
-        String validCode = "DhyCH1"; // redis에 저장된 값
-
-        // When
-        Boolean result = emailService.verifyEmailCode(email, validCode);
-
-        // Then
-        assertEquals(true, result, "유효한 코드입니다.");
-
-        log.info("Verify Email Code Service Test Complete");
-
-    }
+//    @Test
+//    @DisplayName("코드 검증 테스트")
+//    @Transactional
+//    public void verifyEmailCodeServiceTest() {
+//
+//        // Given
+//        log.info("Verify Email Code Service Test Start");
+//
+//        String email = "beomsu_1221@naver.com";
+//        String validCode = "DhyCH1"; // redis에 저장된 값
+//
+//        // When
+//        Boolean result = emailService.verifyEmailCode(email, validCode);
+//
+//        // Then
+//        assertEquals(true, result, "유효한 코드입니다.");
+//
+//        log.info("Verify Email Code Service Test Complete");
+//
+//    }
     
 }

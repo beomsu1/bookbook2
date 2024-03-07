@@ -58,7 +58,7 @@ public class BoardMapperTests {
         BoardCreateDTO boardCreateDTO = BoardCreateDTO.builder()
         .title("Test Title")
         .content("Test Content")
-        .writer("qjatn1221")
+        .writer("beomsu")
         .build();
 
         // When

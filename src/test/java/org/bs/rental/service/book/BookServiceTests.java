@@ -79,7 +79,7 @@ public class BookServiceTests {
         // Given
         log.info("Book Read Service Test Start");
 
-        Long bookNumber = 2L;
+        Long bookNumber = 1L;
 
         // When
         BookDTO info = bookService.bookRead(bookNumber);
@@ -101,7 +101,7 @@ public class BookServiceTests {
         log.info("Book Update Service Test Start");
 
         BookUpdateDTO bookUpdateDTO = BookUpdateDTO.builder()
-        .bookNumber(2L)
+        .bookNumber(1L)
         .title("maple")
         .author("범수")
         .isbn("AKKZLA-1")
@@ -129,7 +129,7 @@ public class BookServiceTests {
         // Given
         log.info("Book Delete Service Test Strat");
 
-        Long BookNumber = 2L;
+        Long BookNumber = 1L;
 
         // When
         int result = bookService.bookDelete(BookNumber);
@@ -189,7 +189,7 @@ public class BookServiceTests {
         // Given
         log.info("List Of Book Borrowed By Member Service Test Start");
 
-        String id = "beomsu1221";
+        String id = "beomsu";
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
@@ -211,7 +211,7 @@ public class BookServiceTests {
         // Given
         log.info("List Of Book Return By Member Service Test Start");
 
-        String id = "beomsu1221";
+        String id = "beomsu";
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When

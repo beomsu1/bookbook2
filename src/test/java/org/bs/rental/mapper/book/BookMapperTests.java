@@ -65,7 +65,7 @@ public class BookMapperTests {
     // Book Create Mapper Test
     @Test
     @DisplayName("책 등록 매퍼 테스트")
-    // @Transactional
+    @Transactional
     public void bookCreateMapperTest(){
 
         // Given
@@ -100,7 +100,7 @@ public class BookMapperTests {
         // Given
         log.info("Book Read Mapper Test Start");
 
-        Long bookNumber = 6L;
+        Long bookNumber = 1L;
 
         // When
         BookDTO info =  bookMapper.bookRead(bookNumber);
@@ -212,7 +212,7 @@ public class BookMapperTests {
 
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
-        String id = "beomsu1221";
+        String id = "beomsu";
 
         // When
         List<BookListByMemberDTO> list = bookMapper.listOfBookBorrowedByMember(pageRequestDTO,id);
@@ -234,7 +234,7 @@ public class BookMapperTests {
 
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
-        String id = "beomsu1221";
+        String id = "beomsu";
 
         // When
         List<BookListByMemberDTO> list = bookMapper.listOfBookReturnByMember(pageRequestDTO,id);

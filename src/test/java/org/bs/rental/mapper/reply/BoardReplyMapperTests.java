@@ -38,7 +38,7 @@ public class BoardReplyMapperTests {
         PageRequestDTO pageRequestDTO = PageRequestDTO.builder().build();
 
         // When
-        List<BoardReplyListDTO> list = boardReplyMapper.boardReplyList(6L, pageRequestDTO);
+        List<BoardReplyListDTO> list = boardReplyMapper.boardReplyList(1L, pageRequestDTO);
 
         // Then
         list.forEach(info -> log.info(info.toString()));
@@ -55,7 +55,7 @@ public class BoardReplyMapperTests {
         // Given
         log.info("Board Reply Total Mapper Test Start");
 
-        Long tno = 6L;
+        Long tno = 1L;
 
         // When
         int total = boardReplyMapper.boardReplyTotal(tno);
@@ -78,9 +78,9 @@ public class BoardReplyMapperTests {
         log.info("Board Reply Create Mapper Test Start");
 
         BoardReplyCreateDTO boardReplyCreateDTO = BoardReplyCreateDTO.builder()
-                .tno(6L)
+                .tno(1L)
                 .reply("책 찾아보니까 정말 좋네요~")
-                .replyer("범수")
+                .replyer("beomsu")
                 .build();
 
         // When
@@ -107,8 +107,8 @@ public class BoardReplyMapperTests {
         log.info("Board Reply Child Create Mapper Test Start");
 
         BoardReplyCreateDTO boardReplyCreateDTO = BoardReplyCreateDTO.builder()
-                .tno(6L)
-                .gno(3L)
+                .tno(1L)
+                .gno(1L)
                 .reply("동의합니다~")
                 .replyer("admin")
                 .build();
@@ -131,15 +131,15 @@ public class BoardReplyMapperTests {
         // Given
         log.info("Board Reply Read Mapper Test Start");
 
-        Long rno = 3L;
+        Long rno = 1L;
 
         // When
         BoardReplyDTO info = boardReplyMapper.boardReplyRead(rno);
 
         // Then
         Assertions.assertAll(
-                () -> assertEquals("책 찾아보니까 정말 좋네요~", info.getReply()),
-                () -> assertEquals("범수", info.getReplyer()));
+                () -> assertEquals("반갑습니다~", info.getReply()),
+                () -> assertEquals("admin", info.getReplyer()));
 
         log.info("Info: " + info.toString());
 
@@ -156,7 +156,7 @@ public class BoardReplyMapperTests {
         log.info("Board Reply Update Mapper Test Start");
 
         BoardReplyUpdateDTO boardReplyUpdateDTO = BoardReplyUpdateDTO.builder()
-        .rno(5L)
+        .rno(1L)
         .reply("좋네요~")
         .build();
 
@@ -179,7 +179,7 @@ public class BoardReplyMapperTests {
         // Given
         log.info("Board Reply Delete Mapper Test Start");
 
-        Long rno = 5L;
+        Long rno = 1L;
 
         // When
         int result =  boardReplyMapper.boardReplyDelete(rno);

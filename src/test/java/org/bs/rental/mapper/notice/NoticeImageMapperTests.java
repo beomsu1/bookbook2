@@ -89,7 +89,7 @@ public class NoticeImageMapperTests {
         // Given
         log.info("Delete Image Mapper Test Start");
 
-        Long nno = 4L;
+        Long nno = 1L;
 
         // When
         noticeImageMapper.deleteImage(nno);
