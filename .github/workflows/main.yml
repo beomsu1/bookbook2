@@ -8,7 +8,6 @@ env:
   DOCKER_IMAGE: ghcr.io/${{ github.actor }}/github-actions-auto
   VERSION: ${{ github.sha }}
   NAME: go_cicd
-  MYSQL_HOST: host.docker.internal
 
 jobs:
   # 빌드 Job
@@ -27,13 +26,16 @@ jobs:
 
       # MySQL 설정 추가
       - name: Set up MySQL
-        uses: samin/mysql-action@v1
+        uses: mirromutth/mysql-action@v1.1
         with:
+          host port: 3306
+          container port: 3307
           character set server: 'utf8'
-          mysql host: ${{ env.MYSQL_HOST }}
-          mysql database: 'book_rental'
+          mysql version: '8.0'
+          mysql database: 'bookbook2-db'
+          mysql root password: 'admin'
           mysql user: 'book'
-          mysql password: ${{ secrets.MYSQL_PASSWORD }}
+          mysql password: 'book'
 
       - name: Change gradlew permissions
         run: chmod +x ./gradlew
