@@ -1,11 +1,11 @@
 version: '3'
 services:
-  bookbook2-db:
+  mysql:
     image: library/mysql:8.0.33
-    container_name: bookbook2-db
+    container_name: mysql
     restart: always
     ports:
-      - "3307:3306"
+      - "3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: admin
       TZ: Asia/Seoul
