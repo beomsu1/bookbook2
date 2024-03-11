@@ -33,8 +33,7 @@ jobs:
           character set server: 'utf8'
           mysql version: '8.0.33'
           mysql database: 'book_rental'
-          mysql user: 'book'
-          mysql password: 'book'
+          mysql root password: 'admin'
 
       - name: Change gradlew permissions
         run: chmod +x ./gradlew
