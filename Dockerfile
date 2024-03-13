@@ -7,6 +7,9 @@ ARG JAR_FILE=build/libs/*.jar
 # jar 파일 복제
 COPY ${JAR_FILE} app.jar
 
+# static 폴더 복제
+COPY src/main/resources/static /app/static
+
 # IP 개방
 ENV HOST 0.0.0.0
 
