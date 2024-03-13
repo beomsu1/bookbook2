@@ -47,10 +47,10 @@ jobs:
 
       # Docker 이미지 Build
       - name: docker image build
-        run: docker build -t bookbook2-server .
+        run: docker build -t beomsu1221/bookbook2-server .
 
       # Docker Hub push
       - name: docker Hub push
-        run: docker push bookbook2-server
+        run: docker push beomsu1221/bookbook2-server
 
 
