@@ -10,6 +10,7 @@ import java.util.UUID;
 
 import javax.management.RuntimeErrorException;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -22,7 +23,10 @@ import jakarta.annotation.PostConstruct;
 import net.coobird.thumbnailator.Thumbnails;
 
 @Component
+@RequiredArgsConstructor
 public class ImageUtil {
+
+    private final S3Util s3Util;
 
     @Value("${org.bs.upload.path}")
     private String uploadPath;
@@ -80,6 +84,8 @@ public class ImageUtil {
                 }
 
                 fileNames.add(saveName);
+
+                s3Util.uploadFile(uploadFilePaths);
 
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
@@ -139,6 +145,8 @@ public class ImageUtil {
 
                 deleteFilePaths.add(filePath);
                 deleteFilePaths.add(thumbnailPath);
+
+                s3Util.deleteFile(deleteFilePaths);
 
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
