@@ -71,13 +71,18 @@ jobs:
         run: |
           aws ec2 authorize-security-group-ingress --group-id ${{ secrets.AWS_SG_ID }} --protocol tcp --port 22 --cidr ${{ steps.ip.outputs.ipv4 }}/32   
 
+      # Set up SSH Key
+      - name: Set up SSH Key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       # AWS EC2 Server Connect & Docker 명령어 실행
       - name: AWS EC2 Connection
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USERNAME }}
-          password: ${{ secrets.EC2_PASSWORD }}
           port: ${{ secrets.EC2_SSH_PORT }}
           timeout: 60s
           script: |
