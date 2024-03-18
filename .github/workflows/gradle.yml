@@ -90,11 +90,7 @@ jobs:
           script: |
             sudo docker stop bookbook2-server
             sudo docker rm bookbook2-server
-            sudo docker run -it -d -p 8080:8080 --name bookbook2-server \
-            -e SPRING_DATASOURCE_URL="jdbc:mysql://192.168.0.28:3306/book_rental" \
-            -e SPRING_DATASOURCE_USERNAME="book" \
-            -e SPRING_DATASOURCE_PASSWORD="book" \
-            beomsu1221/bookbook2-server
+            sudo docker run -it -d -p 8080:8080 --name bookbook2-server beomsu1221/bookbook2-server
 
       # REMOVE Github IP FROM security group
       - name: Remove IP FROM security group
