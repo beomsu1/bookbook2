@@ -103,7 +103,7 @@
             const header = { headers: { "Content-Type": "multipart/form-data" } }
 
             // 비동기
-            axios.post("http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/api/image/upload", formData, header).then(res => {
+            axios.post("http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/image/upload", formData, header).then(res => {
                 const result = res.data
 
                 console.log("-----------------")
@@ -204,7 +204,7 @@
             console.log(liObj)
 
             // 비동기
-            axios.delete(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/api/image/delete/${uuid}_${fname}`)
+            axios.delete(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/image/delete/${uuid}_${fname}`)
 
             // li태그 삭제
             liObj.remove()

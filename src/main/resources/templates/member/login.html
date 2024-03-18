@@ -38,7 +38,7 @@
         const formData = new FormData(document.getElementById("loginForm"))
 
         try {
-            const response = await axios.post('http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/member/login', formData)
+            const response = await axios.post('/member/login', formData)
             const accessToken = response.data.accessToken
 
             if (accessToken) {

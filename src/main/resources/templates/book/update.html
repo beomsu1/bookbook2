@@ -146,7 +146,7 @@
         const header = {headers: {"Content-Type": "multipart/form-data"}}
 
         // 비동기
-        axios.post("http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/api/image/upload", formData, header).then(res => {
+        axios.post("http://localhost/api/image/upload", formData, header).then(res => {
             const result = res.data
 
             console.log("-----------------")

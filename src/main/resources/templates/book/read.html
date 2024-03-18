@@ -90,7 +90,7 @@
             }
             const selectedPeriod = 1
 
-            const borrow = await axios.post('http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/api/loan/borrow', {
+            const borrow = await axios.post('http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/loan/borrow', {
                 bookNumber,
                 memberId,
                 selectedPeriod,
@@ -111,7 +111,7 @@
             console.log(memberId)
             console.log(bookNumber)
 
-            const bookReturn = await axios.post(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/api/loan/return`, {
+            const bookReturn = await axios.post(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/loan/return`, {
                 bookNumber,
                 memberId
             })
