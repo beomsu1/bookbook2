@@ -71,7 +71,7 @@
             e.preventDefault()
 
             // 이메일 인증 요청
-            const res = await axios.get(`/mail/${emailInput.value}/authcode`)
+            const res = await axios.get(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/mail/${emailInput.value}/authcode`)
 
             if (res.status === 200) {
 
@@ -96,7 +96,7 @@
             const enteredCode = document.getElementById("code").value
 
             // 인증 코드 확인
-            const res = await axios.post(`/mail/${emailInput.value}/authcode`, { code: enteredCode })
+            const res = await axios.post(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com/mail/${emailInput.value}/authcode`, { code: enteredCode })
 
             if (res.data === true) {
 
