@@ -16,6 +16,7 @@ services:
   redis:
     hostname: redis
     container_name: redis
+    restart: always
     image: redis:7.0.0
     command: redis-server --port 6379
     ports:
