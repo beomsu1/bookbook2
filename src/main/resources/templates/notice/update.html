@@ -103,7 +103,7 @@
             const header = { headers: { "Content-Type": "multipart/form-data" } }
 
             // 비동기
-            axios.post("http://localhost:8080/api/image/upload", formData, header).then(res => {
+            axios.post("http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/image/upload", formData, header).then(res => {
                 const result = res.data
 
                 console.log("-----------------")
@@ -141,8 +141,8 @@
                     <br>
                     <li data-uuid='${uuid}' data-fname='${fname}'>
                         <div>
-                            <a href='http://localhost/${uuid}_${fname}' target="_blank">
-                            <img src='http://localhost/s_${uploadFile}'/>
+                            <a href='http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/${uuid}_${fname}' target="_blank">
+                            <img src='http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/s_${uploadFile}'/>
                             </a>
                             <p>${fname} <button onclick="javascript:removeImage(event, '${uuid}', '${fname}')">x</button></p>
                         <div>   
@@ -173,8 +173,8 @@
             <br>
             <li data-uuid='${uuid}' data-fname='${imgName}'>
                 <div>
-                    <a href='http://localhost/${uuid}_${imgName}' target="_blank">
-                        <img src='http://localhost/s_${fname}'/>
+                    <a href='http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/${uuid}_${imgName}' target="_blank">
+                        <img src='http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/s_${fname}'/>
                     </a>
                     <p>${imgName} <button onclick="javascript:removeImage(event, '${uuid}', '${imgName}')">x</button></p>
                 </div>   
@@ -204,7 +204,7 @@
             console.log(liObj)
 
             // 비동기
-            axios.delete(`http://localhost:8080/api/image/delete/${uuid}_${fname}`)
+            axios.delete(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/image/delete/${uuid}_${fname}`)
 
             // li태그 삭제
             liObj.remove()

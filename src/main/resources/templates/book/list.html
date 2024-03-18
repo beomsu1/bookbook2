@@ -29,7 +29,7 @@
             <div class="item">
               <div class="image-container">
                 <div th:each="fname : ${book.fnames}">
-                  <img th:src="@{|http://localhost:/${fname}|}" height="500px" width="350px">
+                  <img th:src="@{|https://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/${fname}|}" height="500px" width="350px">
                 </div>
                 <div th:class="'status-label ' + (${book.status} == '대출 가능' ? 'available' : 'unavailable')"
                   th:text="${book.status}"></div>

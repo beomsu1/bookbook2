@@ -196,7 +196,7 @@
                     </div>
                     <div class="board-col-lg-6" style="width: 300px;">
                         <div th:each="fname : ${board.fnames}" class="board-image-container">
-                            <img th:src="@{|http://localhost/${fname}|}">
+                            <img th:src="@{|http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/${fname}|}">
                         </div>
                     </div>
                     <div class="mb-3 board-content">
@@ -255,7 +255,7 @@
             console.log("replyer: " + replyer)
             console.log("reply: " + reply)
 
-            await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`, { tno: tno, reply: reply, replyer: replyer })
+            await axios.post(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/board/reply/${tno}/create`, { tno: tno, reply: reply, replyer: replyer })
 
             alert("댓글이 등록되었습니다.")
 
@@ -268,7 +268,7 @@
         // 댓글 리스트
         const replyList = async () => {
 
-            const response = await axios.get(`http://localhost:8080/api/board/reply/${tno}/list`)
+            const response = await axios.get(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/board/reply/${tno}/list`)
 
             console.log(response.data)
 
@@ -418,7 +418,7 @@
                 console.log("replyer: " + replyer)
                 console.log("reply: " + reply)
 
-                await axios.post(`http://localhost:8080/api/board/reply/${tno}/create`, { tno: tno, rno: rno, gno: gno, reply: reply, replyer: replyer })
+                await axios.post(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/board/reply/${tno}/create`, { tno: tno, rno: rno, gno: gno, reply: reply, replyer: replyer })
 
                 alert("댓글이 등록되었습니다.")
 
@@ -511,7 +511,7 @@
                 const rno = parentLi.getAttribute("data-rno")
 
                 // 비동기 통신
-                await axios.put(`http://localhost:8080/api/board/reply/update/${rno}`, { rno: rno, reply: updatedContent });
+                await axios.put(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/board/reply/update/${rno}`, { rno: rno, reply: updatedContent });
 
                 // 수정 완료 후 UI 업데이트
                 replyText.textContent = updatedContent
@@ -538,7 +538,7 @@
 
                 const rno = parentLi.getAttribute("data-rno")
 
-                await axios.delete(`http://localhost:8080/api/board/reply/delete/${rno}`, { rno: rno })
+                await axios.delete(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/board/reply/delete/${rno}`, { rno: rno })
 
                 alert("댓글이 삭제되었습니다.")
 

@@ -272,7 +272,7 @@
         document.querySelector(".borrowInfo").classList.add("selected")
         document.querySelector(".returnInfo").classList.remove("selected")
 
-        const response = await axios.get(`http://localhost:8080/api/book/borrowList/${id}`)
+        const response = await axios.get(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/book/borrowList/${id}`)
 
         console.log(response)
 
@@ -316,7 +316,7 @@
         document.querySelector(".returnInfo").classList.add("selected")
         document.querySelector(".borrowInfo").classList.remove("selected")
 
-        const response = await axios.get(`http://localhost:8080/api/book/returnList/${id}`)
+        const response = await axios.get(`http://ec2-3-34-94-247.ap-northeast-2.compute.amazonaws.com:8080/api/book/returnList/${id}`)
 
         console.log(response)
 

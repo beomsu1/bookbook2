@@ -25,7 +25,7 @@
                     </div>
                         <div class="notice-col-lg-6" style="width: 300px;">
                             <div th:each="fname : ${notice.fnames}" class="notice-image-container">
-                                <img th:src="@{|http://localhost/${fname}|}">
+                                <img th:src="@{|http://bookbook2-s3.s3.ap-northeast-2.amazonaws.com/${fname}|}">
                             </div>
                         </div>
                         <div class="mb-3">
