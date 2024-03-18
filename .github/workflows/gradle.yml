@@ -85,6 +85,7 @@ jobs:
           username: ${{ secrets.EC2_USERNAME }}
           port: ${{ secrets.EC2_SSH_PORT }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          password: ${{ secrets.EC2_PASSWORD }}
           timeout: 60s
           script: |
             sudo docker stop bookbook2-server
