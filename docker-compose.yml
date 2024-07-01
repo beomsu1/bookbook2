@@ -1,8 +1,8 @@
 version: '3'
 services:
-  mysql:
+  mysql-master:
     image: library/mysql:8.0.33
-    container_name: mysql
+    container_name: mysql_master
     restart: always
     ports:
       - "3306:3306"
@@ -12,6 +12,33 @@ services:
     volumes:
       - ./db/mysql/data:/var/lib/mysql
       - ./db/mysql/init:/docker-entrypoint-initdb.d
+    command: >
+      --server-id=1
+      --log-bin=mysql-bin
+  # log-bin: MySQL 서버에 바이너리 로그를 활성화
+  # mysql-bin: 바이너리 로그 파일의 이름을 지정  예시) mysql-bin.000001, mysql-bin.000002
+
+
+  mysql-slave:
+    image: library/mysql:8.0.33
+    container_name: mysql_slave
+    restart: always
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      TZ: Asia/Seoul
+    volumes:
+      - ./db/mysql/slave/data:/var/lib/mysql
+      - ./db/mysql/slave/init:/docker-entrypoint-initdb.d
+    command: >
+      --server-id=2
+      --relay-log=relay-bin
+      --log-bin=mysql-bin
+      --read-only=1
+  #설정: --relay-log=relay-bin
+  #역할: 마스터 서버로부터 받은 바이너리 로그를 저장하고, 이를 슬레이브 서버의 데이터베이스에 적용하는 데 사용
+  #파일 이름: relay-bin으로 시작하여 순차적으로 생성
 
   redis:
     hostname: redis
